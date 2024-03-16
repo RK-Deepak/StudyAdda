@@ -8,6 +8,7 @@ const userRoutes=require("./routes/User.route.js");
 const profileRoutes=require("./routes/Profile.route.js");
 const paymentRoutes=require("./routes/Payment.route.js");
 const courseRoutes=require("./routes/Couse.route.js");
+const contactRoutes=require("./routes/Contact.route.js")
 
 const cookieParser=require("cookie-parser");
 const connectDB=require("./config/database.js");
@@ -23,7 +24,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors
     ({
-         origin:"https://localhost:3000",
+         origin:"*",
          credentials:true
     }))
 app.use(fileUpload({
@@ -42,6 +43,7 @@ app.use("/api/v1/auth",userRoutes);
 app.use("/api/v1/profile",profileRoutes);
 app.use("/api/v1/course",courseRoutes);
 app.use("/api/v1/payment",paymentRoutes)
+app.use("/api/v1/contact",contactRoutes)
 
 app.get("/",(req,res)=>
 {

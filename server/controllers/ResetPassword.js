@@ -46,7 +46,8 @@ const updatedDetails=await User.findOneAndUpdate({email},
     console.log("DETAILS", updatedDetails);
 
 //generate password reset url
-const url=`http://localhost:3000/update-password/${token}`
+const url=`http://192.168.29.99:3000/update-password/${token}`
+
 
 //send mail 
 const mailResponse=await mailSender(email,"Password Reset Email",`Your Link for Resetting Password is ${url}. Please click this url to reset your password.`)

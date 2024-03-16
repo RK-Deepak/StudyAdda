@@ -17,12 +17,13 @@ const otpSchema=new mongoose.Schema({
     createdAt:
     {
         type:Date,
-        default:Date.now(),
-        expires:300000
-    }
+        default:Date.now,
+        expires:60 * 5
+    },
+    
     
 
-},{timestamps:true})
+})
 
 async function sendEmailVerification(email,otp)
 {

@@ -4,26 +4,26 @@ import { TypeAnimation } from 'react-type-animation'
 
 const CodeBlocks = ({position,heading,subheading,codebtn1,codebtn2,codeblock,backgroundGradient,codeColor}) => {
   return (
-    <div className={`flex ${position} my-20 justify-between gap-12 `}>
+    <div className={`flex my-20 ${position}  justify-between gap-12 `}>
       {/* //left part */}
-      <div className='w-[50%] flex flex-col gap-8'>
+      <div className='w-full lg:w-[50%] flex flex-col gap-2 lg:gap-8 '>
         {heading}
         <div className='text-richblack-300 font-bold'>
             {subheading}
         </div>
-        <div className='flex gap-7 mt-7'>
-            <CodedButton active={codebtn1.active} linkto={codebtn1.linkto}>
-                {codebtn1.btnText}
+        <div className='flex gap-7 mt-7 flex-col items-center md:flex-row'>
+            <CodedButton active={codebtn1 && codebtn1.active} linkto={codebtn1 && codebtn1.linkto}>
+                {codebtn1 && codebtn1.btnText}
                 </CodedButton>
 
-                <CodedButton active={codebtn2.active} linkto={codebtn2.linkto}>
-                {codebtn2.btnText}
+                <CodedButton active={codebtn2 && codebtn2.active} linkto={codebtn2 &&  codebtn2.linkto}>
+                {codebtn2 && codebtn2.btnText}
                 </CodedButton>
 
         </div>
       </div>
       {/* //right part */}
-      <div className='h-fit flex flex-row text-[10px] w-[100%] py-4 lg:w-[500px] border border-s-richblack-100 relative p-4 shadow-lg shadow-red-800'>
+      {codeblock && <div className='h-fit flex flex-row text-[10px] w-[100%] py-4 lg:w-[500px] border border-s-richblack-100 relative p-4 shadow-lg shadow-red-800'>
         <div className='bg-yellow-300 opacity-15 w-full h-full absolute '></div>
         <div className='text-center flex flex-col w-[10%] text-richblack-400 font-inter font-bold'>
         <p>1</p>
@@ -60,7 +60,7 @@ const CodeBlocks = ({position,heading,subheading,codebtn1,codebtn2,codeblock,bac
             />
 
         </div>
-      </div>
+      </div>}
     </div>
   )
 }

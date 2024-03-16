@@ -70,7 +70,7 @@ console.log("this is",generatedOtp)
 //proceed further and send success status
 
 res.status(200).json({
-    status:"true",
+    success:"true",
     message:"OTP send successfully",
     otp
 
@@ -80,7 +80,7 @@ res.status(200).json({
     {
         console.log("Issue while sending otp",error)
         res.status(500).json({
-            status:"false",
+            success:"false",
             message:"fail to  send otp",
             data:error.message
         
@@ -101,10 +101,13 @@ exports.signUp=async(req,res)=>
             email,
             password,
             confirmPassword,
-            contactNumber,
-            accountType,
+             accountType,
+             contactNumber,
            otp
         }=req.body
+
+        console.log("data2",accountType,firstName,lastName,
+            email,password,confirmPassword,otp);
         //validation 
         if(!firstName || !lastName || !email || !password ||
             !confirmPassword || !otp)
@@ -115,6 +118,13 @@ exports.signUp=async(req,res)=>
     
                 })
             }
+            //validation that password should contain these things(regex code)
+            // if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]*$/.test(password)) {
+            //     return res.status(403).json({
+            //         success: false,
+            //         message: "Password must contain at least one lowercase letter, one uppercase letter, one digit, and no special characters"
+            //     });
+            // }
         //if password and confirm password does not match
          if(password!==confirmPassword)
          {
@@ -189,6 +199,7 @@ exports.signUp=async(req,res)=>
             accountType,
            
          })
+         console.log("yaha tak",user)
 
          //RESPONSE 
          return res.status(200).json({
@@ -268,7 +279,7 @@ exports.login=async(req,res)=>
        else 
        {
         res.status(403).json({
-            status:false,
+            success:false,
             message:"Password is incorrect"
         })
        }
@@ -278,7 +289,7 @@ exports.login=async(req,res)=>
     {
         console.log(error);
         res.status(500).json({
-            status:false,
+            success:false,
             message:"Some server issue is going on"
         })
     }
