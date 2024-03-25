@@ -7,7 +7,7 @@ import useOnClickOutside from '../../../hooks/useClickOutside';
 
 
 const ProfileDropDown = () => {
-    const user=useSelector((store)=>store.profile.user);
+  const user=localStorage.getItem("user")?JSON.parse(localStorage.getItem("user")):null;
     const [open,setOpen]=useState(false);
     const ref=useRef(null);
     const dispatch=useDispatch();
@@ -36,7 +36,7 @@ const ProfileDropDown = () => {
         <Link to="/dashboard/my-profile" onClick={()=>setOpen(false)}>
         <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700
              hover:text-richblack-25">
-              <VscDashboard className="text-lg text-white" />
+              <VscDashboard className="text-lg text-white"  />
               Dashboard
         </div> 
         

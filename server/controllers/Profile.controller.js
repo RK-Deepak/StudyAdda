@@ -104,8 +104,9 @@ exports.deleteAccount=async(req,res)=>
 
 //getAllUserDetails
 exports.getAllUserDetails = async (req, res) => {
-
+    console.log("reacjeddd")
     try {
+        
         //get id
         const id = req.user.id;
 

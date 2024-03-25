@@ -45,8 +45,11 @@ async function sendEmailVerification(email,otp)
 otpSchema.pre("save",async function(next)
 {
     console.log("New document saved to database");
-
-    await sendEmailVerification(this.email,this.otp)
+    if(this.isNew)
+    {
+        await sendEmailVerification(this.email,this.otp)
+    }
+   
     next();
 })
 

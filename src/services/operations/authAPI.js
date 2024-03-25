@@ -1,9 +1,10 @@
 import toast from "react-hot-toast"
 import { endpoints } from "../apis"
-import { setLoading, setToken } from "../../store/Slices/authSlice"
+import {  setToken } from "../../store/Slices/authSlice"
 import { apiConnector } from "../apiConnector"
 import { setUser } from "../../store/Slices/profleSlice"
 
+import { setLoading } from "../../store/Slices/profleSlice"
 
 const {SENDOTP_API,
 SIGNUP_API,
@@ -142,6 +143,7 @@ export const logout=(navigate)=>
         dispatch(setUser(null));
         dispatch(setToken(null));
         localStorage.removeItem("token");
+        localStorage.removeItem("user")
         toast.success("Logged Out");
         navigate("/")
     }
@@ -230,3 +232,4 @@ export const resetpassword=(password,confirmPassword,token,navigate)=>
       dispatch(setLoading(false))
    }
 }
+

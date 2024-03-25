@@ -22,8 +22,8 @@ const Header = () => {
   const refmenu=useRef(null);
   const refauth=useRef(null);
   
-  const token=useSelector((store)=>store.auth.token);
-  const user=useSelector((store)=>store.profile.user);
+  const user=localStorage.getItem("user")?JSON.parse(localStorage.getItem("user")):null;
+  const token=localStorage.getItem("token")?JSON.parse(localStorage.getItem("token")):null;
   const totalItems=useSelector((store)=>store.cart.totalItems);
 
   const [subLinks,setsublinks]=useState(null);
@@ -78,7 +78,7 @@ useOnClickOutside(refmenu,()=>setshowMenu(false))
    
 
   return (
-    <div className='w-11/12 h-14 border mx-auto flex items-center justify-between relative'>
+    <div className='w-11/12 h-14 border mx-auto flex items-center justify-between relative z-49'>
         {/* left one */}
         <div>
             <Link to={"/"} className='hidden md:block'>
@@ -101,7 +101,7 @@ useOnClickOutside(refmenu,()=>setshowMenu(false))
     NavbarLinks.map((option, index) => (
         <Link to={option?.path} key={index}>
             {option.title === "Catalog" ? (
-                <div className={`flex items-center gap-1 relative ${matchRoute(option?.path) ? "text-yellow-50" : "text-white"} group text-[13px] md:text-[16px] z-50`}>
+                <div className={`flex items-center gap-1 relative ${matchRoute(option?.path) ? "text-yellow-50" : "text-white"} group text-[13px] md:text-[16px] z-49`}>
                     <span>{option.title}</span>
                     <MdArrowDropDown className='text-[20px]' />
                     <div className='absolute z-50 invisible opacity-0 group-hover:visible group-hover:opacity-100 '>
@@ -132,7 +132,7 @@ useOnClickOutside(refmenu,()=>setshowMenu(false))
             setAuth(prev=>!prev)
 
         }} /></div>
-        <div className={`flex gap-3 items-center flex-col absolute top-[51px] right-[19px] md:relative md:top-0 md:right-0 md:flex-row z-50  ${auth?"flex":"hidden"} md:flex` } ref={refauth}>
+        <div className={`flex gap-3 items-center flex-col absolute top-[51px] right-[19px] md:relative md:top-0 md:right-0 md:flex-row z-49  ${auth?"flex":"hidden"} md:flex` } ref={refauth}>
            {
              token===null && (
                 <Link to={"/login"} onClick={()=>setAuth(false)}>
@@ -153,7 +153,7 @@ useOnClickOutside(refmenu,()=>setshowMenu(false))
            }
            {
             user && user.accountType!=="Instrcutor" && (
-                <Link to={"/dashboard/cart"} className='realtive text-white'>
+                <Link to={"/dashboard/wishlist"} className='realtive text-white'>
                     <FaCartPlus/>
                     {
                         totalItems>0 && 

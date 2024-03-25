@@ -12,9 +12,26 @@ import ForgetPass from './components/main/Auth/ForgetPass';
 import UpdatePassword from './components/main/Auth/UpdatePassword';
 import About from './page/About';
 import { Contactinfo } from './page/ContactInfo';
+import Dashboard from './page/Dashboard';
+import Myprofile from './components/main/Dashboard/Myprofile';
+import Settings from './components/main/Dashboard/Settings';
+import ProtectedRoute from './components/main/Auth/ProtectedRoute';
+
+import  { CourseCreationProcess } from './components/main/Dashboard/AddCourse';
+import Enrolled from './components/main/Dashboard/Enrolled';
+import Cart from './components/main/Dashboard/Cart';
+import Purchase from './components/main/Dashboard/Purchase';
+import ConfirmationModel from './components/main/Dashboard/ConfirmationModel';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { ACCOUNT_TYPE } from './utils/contants';
 
 function App() {
+  const [showConfirmationModel,setShowConfirmationModel]=useState(false);
+ 
   return (
+    <>
+    {showConfirmationModel &&  <ConfirmationModel setShowConfirmationModel={setShowConfirmationModel}/>}
     <div className="App w-screen min-h-screen flex flex-col font-inter bg-richblack-900 ">
       <Header/>
      <Routes>
@@ -61,13 +78,31 @@ function App() {
         </OpenRoute>
       }
         />
-   <Route>
+   <Route element={
+    <ProtectedRoute>
+   <Dashboard setShowConfirmationModel={setShowConfirmationModel}/>
+   </ProtectedRoute>
+   }
+
+   >
+   
+      <Route path="dashboard/my-profile" element={<Myprofile/>}/>
+      <Route path="dashboard/settings" element={<Settings/> }/>
+      <Route path="dashboard/enrolled-courses" element={<Enrolled/>}/>
+      <Route path="dashboard/wishlist" element={<Cart/>}/>
+      <Route path="dashboard/purchase-history" element={<Purchase/>}/>
+      <Route path="dashboard/instructor" element={ <Myprofile/>}/>
+
+      <Route path="dashboard/add-course" element={ <CourseCreationProcess/> }/>
+         
+      
     
    </Route>
       
      </Routes>
      <Footer/>
     </div>
+    </>
   );
 }
 

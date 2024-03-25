@@ -50,6 +50,7 @@ var otp= otpGenerator.generate(6,{
 console.log(otp)
 //check if otp is uniqure or not
 let result=await OTP.findOne({otp:otp})
+console.log("yaha paunch gaya")
 while(result)
 {
      otp= otpGenerator.generate(6,{
@@ -62,7 +63,9 @@ while(result)
      result=await OTP.findOne({otp:otp})
 }
 //store it in db 
+console.log("issue in creating db entyu")
 const generatedOtp=await OTP.create({email,otp});
+console.log("issue in otp databse")
 console.log("this is",generatedOtp)
 
 
