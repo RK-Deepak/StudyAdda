@@ -3,9 +3,11 @@ import RenderSteps from './RenderSteps'
 import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import CourseInformation from './CourseInformation'
+import CourseBuilderForm from '../CourseBuilder/CourseBuilderForm'
 
 const CourseCreation = () => {
 
+const {step}=useSelector((store)=>store.course);
 
   
   return (
@@ -13,7 +15,8 @@ const CourseCreation = () => {
       {/* //render steps */}
       <RenderSteps/>
       {/* //course creation form */}
-      <CourseInformation/>
+      {step===1 && <CourseInformation/>}
+      {step===2 && <CourseBuilderForm/>}
     </div>
   )
 }

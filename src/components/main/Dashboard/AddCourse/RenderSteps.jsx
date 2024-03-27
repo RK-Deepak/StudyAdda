@@ -21,11 +21,11 @@ const RenderSteps = () => {
   ]
   return (
     <div >
-    <div className='flex w-full justify-between items-center gap-2 '>
+    <div className='flex w-[80%] mx-auto justify-between items-center gap-2 '>
         {steps.map((item,index)=>
         {
           return  <>
-            <div className={`${item.id===step?"bg-yellow-900 border-yellow-50 text-yellow-50 ":"border-richblack-700 bg-richblack-800 text-richblack-300"} h-[70px] aspect-square rounded-full flex justify-center items-center font-inter font-bold text-xl ${step>item.id?"bg-yellow-700":""}`} key={item.id} >
+            <div className={`${item.id===step?"bg-yellow-900 border-yellow-50 text-yellow-50 ":"border-richblack-700 bg-richblack-800 text-richblack-300"} h-[60px] aspect-square rounded-full flex justify-center items-center font-inter font-bold text-xl ${step>item.id?"bg-yellow-700":""}`} key={item.id} >
                  {step>item.id ?<FaCheck />:item.id}
                  
             </div>

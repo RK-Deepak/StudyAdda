@@ -5,7 +5,7 @@ const router=express.Router();
 const 
 {getAllCourse,
     getCourseDetails,
-    createCourse
+    createCourse,editCourse
 }=require("../controllers/Course.controller.js");
 
 const {createSection,
@@ -27,6 +27,7 @@ const {auth,isStudent,
 
 //course routes
 router.post("/createCourse",auth,isInstructor,createCourse);
+router.post("/editCourse",auth,isInstructor,editCourse)
 router.post("/createSection",auth,isInstructor,createSection);
 router.post("/createSubSection",auth,isInstructor,createSubSection);
 router.post("/updateSection",auth,isInstructor,updateSection);

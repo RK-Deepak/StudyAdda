@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux';
-import { addCourseDetails, fetchCourseCategories } from '../../../../services/operations/courseAPI';
+import { addCourseDetails, editCourseDetails, fetchCourseCategories } from '../../../../services/operations/courseAPI';
 import { setCourse, setStep } from '../../../../store/Slices/courseSlice';
 import { COURSE_STATUS } from '../../../../utils/contants';
 import { FaRupeeSign } from "react-icons/fa";
 import ChipInput from './ChipInput';
 import Requiremnts from './Requiremnts';
+import Upload from './Upload';
+import IconBtn from "../../common/IconBtn"
+
+import toast from 'react-hot-toast';
 
 const CourseInformation = () => {
 
@@ -82,59 +86,72 @@ const CourseInformation = () => {
   //handle next button click
     const onSubmitForm=async (data)=>
     {
-        //this is for course editted not for new course
-        //if form is edited or not
-        //  if(editcourse)
-        //  {
-        //     //if form is updated or not
-        //     if(isFormUpdated())
-        //     {
-        //         const currentValues=getValues();
-        //         //create instance of formdata and append data in it
-        //         const formData=new FormData();
+      console.log(data)
+        // this is for course editted not for new course
+        // if form is edited or not
+         if(editcourse)
+         {
+            //if form is updated or not
+            if(isFormUpdated())
+            {
+                const currentValues=getValues();
+                //create instance of formdata and append data in it
+                const formData=new FormData();
 
-        //         formData.append("courseId",course._id);
-        //         if(currentValues.courseTitle!==course.courseName)
-        //         {
-        //             formData.append("courseName",data.courseTitle)
-        //         }
-        //         if(currentValues.courseShortDesc!==course.courseDescription)
-        //         {
-        //             formData.append("courseDescription",data.courseShortDesc)
-        //         }
-        //         if(currentValues.coursePrice!==course.price)
-        //         {
-        //             formData.append("price",data.coursePrice);
-        //         }
-        //         if(currentValues.courseBenefits!==course.whatYouwillLearn)
-        //         {
-        //             formData.append("whatYouwillLearn",data.courseBenefits);
-        //         }
-        //         if(currentValues.courseCategory._id!==course.category._id)
-        //         {
-        //             formData.append("category",data.courseCategory);
-        //         }
-        //         if(currentValues.courseRequirements.toString() !== course.instructions.toString()) {
-        //             formData.append("instructions", JSON.stringify(data.courseRequirements));
-        //         }
-        //         if(currentValues.language !== course.courseLanguage) {
-        //             formData.append("language",course.language);
-        //         }
+                formData.append("courseId",course._id);
+                if(currentValues.courseTitle!==course.courseName)
+                {
+                    formData.append("courseName",data.courseTitle)
+                }
+                if(currentValues.courseShortDesc!==course.courseDescription)
+                {
+                    formData.append("courseDescription",data.courseShortDesc)
+                }
+                if(currentValues.coursePrice!==course.price)
+                {
+                    formData.append("price",data.coursePrice);
+                }
+                if(currentValues.courseBenefits!==course.whatYouwillLearn)
+                {
+                    formData.append("whatYouwillLearn",data.courseBenefits);
+                }
+                if(currentValues.courseCategory._id!==course.category._id)
+                {
+                    formData.append("category",data.courseCategory);
+                }
+                if(currentValues.courseRequirements.toString() !== course.instructions.toString()) {
+                    formData.append("instructions", JSON.stringify(data.courseRequirements));
+                }
+                if(currentValues.language !== course.courseLanguage) {
+                    formData.append("language",course.language);
+                }
 
-        //         setlaoding(true);
+                setlaoding(true);
+                const result=await editCourseDetails(formData,token);
+                console.log(result);
+                setlaoding(false);
+                if(result)
+                {
+                    dispatch(setStep(2));
+                    dispatch(setCourse(result))
+                }
+                else
+                {
+                    toast.error("No Changes Made In Info")
+                }
 
                 
 
 
-        //     }
-        //  }
+            }
+         }
 
         //create a course 
         const formData=new FormData();
         formData.append("courseName", data.courseTitle);
         formData.append("courseDescription", data.courseShortDesc);
         formData.append("price", data.coursePrice);
-        formData.append("whatYouWillLearn", data.courseBenefits);
+        formData.append("whatYouwillLearn", data.courseBenefits);
         formData.append("category", data.courseCategory);
         formData.append("instructions", JSON.stringify(data.courseRequirements));
         formData.append("language",data.courseLanguage)
@@ -143,8 +160,8 @@ const CourseInformation = () => {
         formData.append("tag",JSON.stringify(data.courseTags))
 
         setlaoding(true);
-        console.log(formData);
-         
+        console.log("formdara",formData.get("courseName"));
+         console.log("token",token)
         const result=await addCourseDetails(formData,token);
         if(result)
         {
@@ -286,6 +303,16 @@ const CourseInformation = () => {
       getValues={getValues}
       errors={errors}
       />
+      <Upload
+      name="courseImage"
+      label="Course Thumbnail"
+      register={register}
+      setValue={setValue}
+      errors={errors}
+      getValues={getValues}
+      editData={editcourse?course?.thumbnail :null}
+
+      />
 
 <div className="flex flex-col space-y-2">
           <label className='text-sm text-richblack-5' htmlFor="courseLanguage">
@@ -300,6 +327,21 @@ const CourseInformation = () => {
           </span>
         )
           }
+      </div>
+      {/* Next button */}
+      <div className="flex justify-end gap-x-2">
+        {/* if editcourse is true it mean we have to may be edit in next and  */}
+        {/* we only show continue without saving when we are in edit mode */}
+        {editcourse && 
+        <button
+        onClick={()=>dispatch(setStep(2))}
+        disabled={loading}
+        className={`flex cursor-pointer items-center gap-x-2 rounded-md bg-richblack-300 py-[8px] px-[20px] font-semibold text-richblack-900`}
+        >
+            Continue Without Saving
+        </button> }
+        <IconBtn disabled={loading}
+        text={!editcourse ?"Next":"Save Changes"}/>
       </div>
 
     </form>

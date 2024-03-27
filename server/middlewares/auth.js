@@ -9,8 +9,8 @@ exports.auth=async(req,res,next)=>
     try 
     {
         //get token from request
-         const token=req.body.token || req.cookies.token ||
-                    req.header("Authorization").replace("Bearer ","");
+         const token=req.cookies.token || req.body.token || 
+                    req.header("Authorisation").replace("Bearer ","");
 
          //validating token aaya ya nhi
          if(!token)
