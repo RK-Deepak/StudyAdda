@@ -1,10 +1,12 @@
 const Section = require("../models/Section.model.js");
 const Course = require("../models/Course.model.js");
+const User=require("../models/User.model.js")
 // CREATE a new section
 exports.createSection = async (req, res) => {
 	try {
 		// Extract the required properties from the request body
 		const { sectionName, courseId } = req.body;
+		const userId=req.user.id;
 
 		// Validate the input
 		if (!sectionName || !courseId) {
@@ -13,6 +15,18 @@ exports.createSection = async (req, res) => {
 				message: "Missing required properties",
 			});
 		}
+
+		const InstructorDetails = await User.findById(userId, {
+			accountType: "Instructor",
+		  });
+		  console.log(InstructorDetails);
+	  
+		  if (!InstructorDetails) {
+			return res.status(404).json({
+			  success: false,
+			  message: "Instructor Details not found",
+			});
+		  }
 
 		// Create a new section with the given name
 		const newSection = await Section.create({ sectionName });
@@ -57,12 +71,13 @@ exports.updateSection = async (req, res) => {
 		const { sectionName, sectionId } = req.body;
 		const section = await Section.findByIdAndUpdate(
 			sectionId,
-			{ sectionName },
+			{ sectionName:sectionName },
 			{ new: true }
-		);
+		)
 		res.status(200).json({
 			success: true,
-			message: section,
+			message: "Updated",
+			data:section
 		});
 	} catch (error) {
 		console.error("Error updating section:", error);
@@ -79,12 +94,16 @@ exports.deleteSection = async (req, res) => {
 		
 		const { sectionId,courseId } = req.body;
 		await Section.findByIdAndDelete(sectionId);
-		
-		await Course.findByIdAndUpdate({_id:courseId},
-			{$pull:{courseContent:sectionId}})
+		const updatedData = await Course.findByIdAndUpdate(
+			courseId,
+			{ $pull: { courseContent: sectionId } },
+			{ new: true }
+		  ).populate("courseContent");
+        console.log(updatedData)
 		res.status(200).json({
 			success: true,
 			message: "Section deleted",
+			data:updatedData
 		});
 	} catch (error) {
 		console.error("Error deleting section:", error);

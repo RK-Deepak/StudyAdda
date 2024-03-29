@@ -1,5 +1,6 @@
 const Section=require("../models/Section.model.js");
 const SubSection=require("../models/SubSection.js");
+const Course=require("../models/Course.model.js")
 const {imageUplaodOnCloud}=require("../utils/imageUploader.js")
 require("dotenv").config();
 exports.createSubSection=async(req,res)=>
@@ -7,13 +8,13 @@ exports.createSubSection=async(req,res)=>
      try 
      {
           //get data 
-          const {title,description,sectionId,duration}=req.body;
+          const {title,description,sectionId,duration,courseId}=req.body;
 
           //get video from files
-          const video=req.files.videoFile;
-
+          const video=req.files && req?.files?.videoURL;
+         console.log("all info",title,description,sectionId,video)
           //validtion of data
-          if(!sectionId || !title || !duration || !description || !video) {
+          if(!sectionId || !title  || !description || !video || !courseId) {
             return res.status(400).json({
                 success:false,
                 message:'All fields are required',
@@ -22,15 +23,16 @@ exports.createSubSection=async(req,res)=>
 
         //upload videotocloudinary
         const videoUpdateDetails=await imageUplaodOnCloud(video,process.env.FOLDER_NAME);
-
+       console.log(videoUpdateDetails)
         //create entry in db 
         const subSectionDetails=await SubSection.create({
             title,
             description,
             duration:`${videoUpdateDetails.duration}`,
-            videoURL:videoUpdateDetails.secure_url
+            videoURL:videoUpdateDetails?.secure_url
         })
         //update this subsection in section
+        console.log("")
 
         const updatedSection=await Section.findByIdAndUpdate(sectionId,
             {
@@ -38,11 +40,34 @@ exports.createSubSection=async(req,res)=>
                 {new:true}
             ).populate("subSection").exec();
 
+            const updatedCourse=await Course.findByIdAndUpdate(courseId)
+            .populate({
+              path:"instructor",
+              populate:{
+                path:"additionalData"
+              }
+            }).populate("category")
+            .populate({
+              path:"courseContent",
+              populate:{
+                path:"subSection"
+              }
+            }).exec()
+
+            if (!updatedCourse) {
+              return res.status(400).json({
+                success: false,
+                message: `Could not find the course with ${courseId}`,
+              });
+            }
+        
+
             return res.status(200).json({
-                succcess:true,
+                success:true,
                 message:'Sub Section Created Successfully',
-                updatedSection,
+                data:updatedCourse,
             });
+        cons
      }
      catch(error)
      {
@@ -98,11 +123,12 @@ exports.updateSubSection=async(req,res)=>
         subSectionexisted.videoURL = uploadDetails.secure_url
         subSectionexisted.duration = `${uploadDetails.duration}`
       }
-    await subSectionexisted.save();
+    const response=await subSectionexisted.save();
 
         return res.status(200).json({
             success:true,
             message:'SubSection Updated Successfully',
+            data:response
         });
 
     }
@@ -125,16 +151,40 @@ exports.deletesubSection=async(req,res)=>
     {
     //we want to delete so first we have to delete it from Section as well
     // as subSection
-      const {subSectionId,sectionId}=req.body;
+      const {subSectionId,sectionId,courseId}=req.body;
 
-      await Section.findByIdAndDelete(sectionId,{
+      await Section.findByIdAndUpdate(sectionId,{
         $pull:{
-              SubSection:subSectionId
+              subSection:subSectionId
         }
       });
 
       const subSection = await SubSection.findByIdAndDelete({ _id: subSectionId })
   
+      
+      const updatedCourse=await Course.findByIdAndUpdate(courseId)
+      .populate({
+        path:"instructor",
+        populate:{
+          path:"additionalData"
+        }
+      }).populate("category")
+      .populate({
+        path:"courseContent",
+        populate:{
+          path:"subSection"
+        }
+      }).exec()
+      
+
+      if (!updatedCourse) {
+        return res.status(400).json({
+          success: false,
+          message: `Could not find the course with ${courseId}`,
+        });
+      }
+      console.log(updatedCourse);
+
       if (!subSection) {
         return res
           .status(404)
@@ -143,13 +193,14 @@ exports.deletesubSection=async(req,res)=>
       return res.status(200).json({
         success:true,
         message:"SubSection Deleted Successfully",
+        data:updatedCourse
     })
 
     }
     catch(error) {
         return res.status(500).json({
             success:false,
-            message:"Unable to delete Section, please try again",
+            message:"Unable to delete Sub Section, please try again",
             error:error.message,
         });
     }

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import CourseInformation from './CourseInformation'
 import CourseBuilderForm from '../CourseBuilder/CourseBuilderForm'
+import CoursePublish from '../CoursePublish/CoursePublish'
 
 const CourseCreation = () => {
 
@@ -17,6 +18,7 @@ const {step}=useSelector((store)=>store.course);
       {/* //course creation form */}
       {step===1 && <CourseInformation/>}
       {step===2 && <CourseBuilderForm/>}
+      {step===3 && <CoursePublish/>}
     </div>
   )
 }

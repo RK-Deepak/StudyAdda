@@ -21,6 +21,7 @@ const CourseBuilderForm = () => {
     useEffect(()=>
     {
       console.log("updated")
+      
     },[course])
 
    
@@ -50,9 +51,13 @@ const CourseBuilderForm = () => {
 
          if(result)
          {
-            dispatch(setCourse(result));
+            dispatch(setCourse({...course,...result}));
+
+            
             setEditSectionName(null)
             setValue("sectionName","")
+         
+            console.log(result)
          }
          setloading(false)
     }
@@ -62,8 +67,9 @@ const CourseBuilderForm = () => {
       setValue("sectionName","")
     }
 
-    const handleChangeEditSectionName=(sectionId,sectionName)=>
+    const handleChangeEditSectionName=async(sectionId,sectionName)=>
     {
+        console.log("handling change",sectionId,sectionName)
         //when we again click on pencil
        if(editSectionName===sectionId)
        {
@@ -71,6 +77,7 @@ const CourseBuilderForm = () => {
         return;
        }
        //when we first click on pencil
+       
        setEditSectionName(sectionId);
        setValue("sectionName",sectionName)
     }
@@ -124,7 +131,7 @@ const CourseBuilderForm = () => {
             <IconBtn
             type="Submit" 
             text={editSectionName?"Edit Section Name":"Create Section"}
-            outlin={true}
+            outlien={true}
             customClasses={"text-white"}
             />
             {
@@ -142,6 +149,7 @@ const CourseBuilderForm = () => {
       </form>
      {/* if i add a section name a section name and option should get created} */}
       {
+        
           course?.courseContent?.length>0 && (
             <NestedCourseView handleChangeEditSectionName={handleChangeEditSectionName}/>
           )

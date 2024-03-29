@@ -37,12 +37,16 @@ const courseSchema=new mongoose.Schema({
         required:true,
         trim:true
     },
-    //section of videos ,course content
+    // section of videos ,course content
     courseContent:
-    {
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Section"
-    },
+    [
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Section",
+            required:true
+        }
+       
+    ],
     thumbnail:
     {
         type:String, //which we get from cloudinary

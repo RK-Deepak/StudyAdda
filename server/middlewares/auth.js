@@ -10,7 +10,7 @@ exports.auth=async(req,res,next)=>
     {
         //get token from request
          const token=req.cookies.token || req.body.token || 
-                    req.header("Authorisation").replace("Bearer ","");
+                    req.header("Authorisation").replace("Bearer ", "");
 
          //validating token aaya ya nhi
          if(!token)
@@ -22,6 +22,7 @@ exports.auth=async(req,res,next)=>
          }
 
          //token is valid or not and put it in req
+         console.log("auth",token)
          try
          {
              const decode=jwt.verify(token,process.env.JWT_SECRET)
