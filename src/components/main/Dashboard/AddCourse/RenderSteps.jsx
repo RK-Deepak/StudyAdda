@@ -39,7 +39,7 @@ const RenderSteps = () => {
         {steps.map((item,index)=>
         {
           return  <>
-            <div className="text-white w-full flex justify-center my-7 text-lg underline underline-offset-2" >
+            <div className="text-white w-full flex justify-center my-7 text-lg underline underline-offset-2" key={item.id}>
                  {step===item.id && <p>{item.title}</p>}
                  
             </div>

@@ -6,8 +6,9 @@ import { BiDownArrow } from 'react-icons/bi';
 import ConfirmationModal from '../../common/ConfirmationModal2';
 import { deleteSection, deleteSubSectionData } from '../../../../services/operations/courseAPI';
 import { setCourse } from '../../../../store/Slices/courseSlice';
-import { FaDAndD } from 'react-icons/fa';
+
 import SubSectionModal from './SubSectionModal';
+import { MdOutlineAddReaction } from "react-icons/md";
 
 const NestedCourseView = ({handleChangeEditSectionName}) => {
     const {course}=useSelector((store)=>store.course);
@@ -39,24 +40,23 @@ const NestedCourseView = ({handleChangeEditSectionName}) => {
             dispatch(setCourse(response));
           }
           setShowConfirmationModal(null)
-          setViewSubSection(null);
-          setEditSubSection(null);
-          setAddSubSection(null)
+     
     }
     
 
   return (
     <div>
-        <div className='rounded-lg bg-richblack-700 p-6 px-8' >
+        <div      className="rounded-lg bg-richblack-700 p-6 px-8"
+        id="nestedViewContainer" >
            {
             course?.courseContent.map((section)=>
             {
                 //i choose details because of dropdown effect
                 return <details key={section._id} open>
-                    <summary className='flex items-center justify-between gap-x-3 border-b-2'>
+                    <summary className="flex cursor-pointer items-center justify-between border-b-2 border-b-richblack-600 py-2">
                       <div className='flex items-center gap-x-3'>
-                        <RxDropdownMenu/>
-                        <p>{section.sectionName}</p>
+                        <RxDropdownMenu className="text-2xl text-richblack-50"/>
+                        <p className="font-semibold text-richblack-50">{section.sectionName}</p>
                       </div>
                       <div className=' flex items-center gap-x-3'>
                         <button onClick={()=>
@@ -66,7 +66,7 @@ const NestedCourseView = ({handleChangeEditSectionName}) => {
                                 console.log("i m ckick1")
                             }
                             }>
-                            <MdEdit />
+                            <MdEdit className="text-xl text-richblack-300"/>
                         </button>
                         <button
                         onClick={()=>setShowConfirmationModal({
@@ -78,27 +78,28 @@ const NestedCourseView = ({handleChangeEditSectionName}) => {
                              btn2Handler:()=>setShowConfirmationModal(null)
                         })} 
                         >
-                            <MdDelete/>
+                            <MdDelete className="text-xl text-richblack-300"/>
                         </button>
-                        <span>|</span>
+                        <span className="font-medium text-richblack-300">|</span>
                         <BiDownArrow className={`text-xl text-richblack-300`}/>
 
                       </div>
                     </summary>
                     
                     {/* //for subsections */}
-                    <div>
+                    <div className="px-6 pb-4">
                       {section?.subSection?.map((item)=>(
                         <div key={item._id} onClick={()=>setViewSubSection(item)}
-                        className='flex items-center justify-between gap-x-3 border-b-2'>
-                          <div className='flex items-center gap-x-3'>
-                                    <RxDropdownMenu />
-                                    <p>{item.title}</p>
+                        className="flex cursor-pointer items-center justify-between gap-x-3 border-b-2 border-b-richblack-600 py-2">
+                          <div className='flex items-center gap-x-3 py-2'>
+                                    <RxDropdownMenu className="text-2xl text-richblack-50"  />
+                                    <p className="font-semibold text-richblack-50">{item.title}</p>
                                 </div>
                                 <div className='flex items-center gap-x-3'
+                                onClick={(e)=>e.stopPropagation()}
                                 >
                                   <button onClick={()=>setEditSubSection({...item,sectionId:section._id})}>
-                                    <MdEdit/>
+                                    <MdEdit className="text-xl text-richblack-300"/>
                                   </button>
                                   <button
                                    onClick={()=>
@@ -113,7 +114,7 @@ const NestedCourseView = ({handleChangeEditSectionName}) => {
 
                                     })
                                    }}>
-                                    <MdDelete/>
+                                    <MdDelete className="text-xl text-richblack-300"/>
                                   </button>
                                 </div>
                         </div>
@@ -121,7 +122,7 @@ const NestedCourseView = ({handleChangeEditSectionName}) => {
                       <button
                       className='mt-4 flex items-center gap-x-2 text-yellow-50'
                       onClick={()=>setAddSubSection(section._id)} >
-                        <FaDAndD/>
+                        <MdOutlineAddReaction size={20} className="text-yellow-50"/>
                         <p>Add Lecture</p>
                       </button>
 
@@ -148,7 +149,7 @@ const NestedCourseView = ({handleChangeEditSectionName}) => {
         <SubSectionModal 
         modalData={editSubSection}
         setModalData={setEditSubSection}
-        add={true}/>:
+        edit={true}/>:
         <div></div>
 
         }

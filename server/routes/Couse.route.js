@@ -5,7 +5,7 @@ const router=express.Router();
 const 
 {getAllCourse,
     getCourseDetails,
-    createCourse,editCourse
+    createCourse,editCourse,getCoursesOfInstructor,deleteCourse
 }=require("../controllers/Course.controller.js");
 
 const {createSection,
@@ -34,9 +34,11 @@ router.post("/updateSection",auth,isInstructor,updateSection);
 router.post("/deleteSection",auth,isInstructor,deleteSection);
 router.post("/updateSubSection",auth,isInstructor,updateSubSection);
 router.post("/deleteSubSection",auth,isInstructor,deletesubSection);
-
-router.get("/getAllCourses",getAllCourse);
+router.post("/deleteCourse",auth,isInstructor,deleteCourse)
+router.post("/getInstructorCourses",auth,isInstructor,getCoursesOfInstructor)
 router.post("/getCourseDetails",getCourseDetails)
+router.get("/getAllCourses",getAllCourse);
+
 
 //category routes
 

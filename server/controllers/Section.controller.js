@@ -73,7 +73,9 @@ exports.updateSection = async (req, res) => {
 			sectionId,
 			{ sectionName:sectionName },
 			{ new: true }
-		)
+		).populate("subSection").exec();
+
+
 		res.status(200).json({
 			success: true,
 			message: "Updated",
@@ -98,7 +100,13 @@ exports.deleteSection = async (req, res) => {
 			courseId,
 			{ $pull: { courseContent: sectionId } },
 			{ new: true }
-		  ).populate("courseContent");
+		  ).populate({
+			path:"courseContent",
+			populate:{
+				path:"subSection"
+			}
+		  }).exec();
+
         console.log(updatedData)
 		res.status(200).json({
 			success: true,

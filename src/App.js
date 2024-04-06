@@ -16,7 +16,7 @@ import Dashboard from './page/Dashboard';
 import Myprofile from './components/main/Dashboard/Myprofile';
 import Settings from './components/main/Dashboard/Settings';
 import ProtectedRoute from './components/main/Auth/ProtectedRoute';
-
+import MyCourse from "./components/main/Dashboard/MyCourses/MyCourse.jsx"
 import  { CourseCreationProcess } from './components/main/Dashboard/AddCourse';
 import Enrolled from './components/main/Dashboard/Enrolled';
 import Cart from './components/main/Dashboard/Cart';
@@ -25,9 +25,15 @@ import ConfirmationModel from './components/main/Dashboard/ConfirmationModel';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ACCOUNT_TYPE } from './utils/contants';
+import EditCourse from './components/main/Dashboard/EditCourse/EditCourse.jsx';
+import CatCourse from './components/CategoryCourses/CatCourse.jsx';
+import Catlog from './page/Catlog.jsx';
+import CourseDetails from './page/CourseDetails.jsx';
+import VideoDetails from './page/VideoDetails.jsx';
 
 function App() {
   const [showConfirmationModel,setShowConfirmationModel]=useState(false);
+  const {user}=useSelector((store)=>store.profile)
  
   return (
     <>
@@ -94,10 +100,16 @@ function App() {
       <Route path="dashboard/instructor" element={ <Myprofile/>}/>
 
       <Route path="dashboard/add-course" element={ <CourseCreationProcess/> }/>
+      <Route path="dashboard/my-courses" element={<MyCourse/>}/>
+      <Route path='dashboard/edit-course/:courseId' element={<EditCourse/>}/>
          
       
     
    </Route>
+   <Route path="catlog/:catlogName" element={<Catlog/>}/>
+   <Route path="/courses/:courseId" element={<CourseDetails/>}/>
+
+
       
      </Routes>
      <Footer/>

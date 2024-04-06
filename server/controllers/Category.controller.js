@@ -1,5 +1,8 @@
 const Category=require("../models/Category.model.js");
 require("dotenv").config();
+function getRandomInt(max){
+    return Math.floor(Math.random()*max)
+}
 exports.createCategory=async (req,res)=>
 {
     try 
@@ -45,7 +48,7 @@ exports.getAllCategories=async(req,res)=>
        res.status(200).json({
         success:true,
         message:"Got all categories",
-        allTags
+        data:allTags
        })
    }
    catch(error)
@@ -58,14 +61,22 @@ exports.getAllCategories=async(req,res)=>
 }
 exports.categoryPageDetails=async(req,res)=>
 {
+    
     try 
     {
        const {categoryId}=req.body;
+       console.log(categoryId)
 
        //get courses for the specified category 
        const selectedCategory = await Category.findById(categoryId)
-			.populate("courses")
-			.exec();
+			.populate({
+                
+                path:"courses",
+                match: { status: "Published" },
+                populate: "ratingAndReviews",
+
+    }).exec();
+    
             console.log(selectedCategory);
             
       //if no such category exist
@@ -88,18 +99,25 @@ exports.categoryPageDetails=async(req,res)=>
     const selectedCourses=selectedCategory.courses;
 
     //get all the categories which is not related to this category 
-    const categoriesExceptSelected=await Category.findById({
+    const categoriesExceptSelected=await Category.find({
         _id:{$ne:categoryId}
-    }).populate("courses").exec();
+    })
 
-    //get all courses not related to selectedcategory
-    let differentcourses=[];
-      for(const category of categoriesExceptSelected)
-      {
-        differentcourses.push(...category.courses);
-      }
+   //get one diferent random  category
+    let differentCategory=await Category.findOne(
+        categoriesExceptSelected[getRandomInt(categoriesExceptSelected.length)]._id
+    ).populate({
+        path:"courses",
+        match:{status:"Published"}
+    }).exec();
         
-    const allCategories = await Category.find({}).populate("courses");
+    const allCategories = await Category.find({}).populate({
+        path:"courses",
+        match:{status:"Published"},
+        populate:{
+            path:"instructor"
+        }
+    });
     //get all coursces 
     //const allCategories = [
 //   { name: 'Math', courses: ['Algebra', 'Calculus', 'Geometry'] },
@@ -114,8 +132,12 @@ exports.categoryPageDetails=async(req,res)=>
     const mostSellingCourses=allCourses.sort((a,b)=>b.sold-a.sold).slice(0,10);
 
     res.status(200).json({
+        success:true,
+
+        allCourses:allCourses,
+        selectedCategory:selectedCategory,
         selectedCourses: selectedCourses,
-        differentCourses: differentcourses,
+        differentCategory: differentCategory,
         mostSellingCourses: mostSellingCourses,
     });
 

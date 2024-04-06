@@ -85,7 +85,7 @@ exports.updateSubSection=async(req,res)=>
     try
     {
        //get subsectionid
-       const {subSectionId,title,description}=req.body;
+       const {subSectionId,title,description,courseId}=req.body;
        //validate
        if(!subSectionId)
       {
@@ -113,22 +113,46 @@ exports.updateSubSection=async(req,res)=>
         subSectionexisted.description = description
       }
       //checking for videoFile
-      if (req.files && req.files.video !== undefined) {
-        const video = req.files.video
+      if (req.files && req.files.videoURL !== undefined) {
+        const video = req.files.videoURL
         //upload on cloudinary
-        const uploadDetails = await uploadImageToCloudinary(
+        const uploadDetails = await imageUplaodOnCloud(
           video,
           process.env.FOLDER_NAME
         )
+        console.log(uploadDetails);
         subSectionexisted.videoURL = uploadDetails.secure_url
         subSectionexisted.duration = `${uploadDetails.duration}`
       }
     const response=await subSectionexisted.save();
+     
+   
 
+      const updatedCourse=await Course.findByIdAndUpdate(courseId)
+      .populate({
+        path:"instructor",
+        populate:{
+          path:"additionalData"
+        }
+      }).populate("category")
+      .populate({
+        path:"courseContent",
+        populate:{
+          path:"subSection"
+        }
+      }).exec()
+
+      if (!updatedCourse) {
+        return res.status(400).json({
+          success: false,
+          message: `Could not find the course with ${courseId}`,
+        });
+      }
+  
         return res.status(200).json({
             success:true,
             message:'SubSection Updated Successfully',
-            data:response
+            data:updatedCourse
         });
 
     }

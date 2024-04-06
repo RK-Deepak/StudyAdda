@@ -1,5 +1,5 @@
 import React from 'react'
-import logoimage from "../../../assets/Logo/Logo-Full-Light.png"
+import logoimage from "../../../assets/Logo/studyadda-high-resolution-logo-transparent.png"
 import { FaFacebook, FaGoogle, FaXbox, FaYoutube } from 'react-icons/fa'
 import {FooterLink2}  from "../../../data/footer-links.js"
 import { Link } from 'react-router-dom'
@@ -13,7 +13,7 @@ const Footer = () => {
           <div className='flex flex-row gap-7 flex-wrap '>
           {/* section-1 */}
            <div className='flex flex-col gap-4 w-fit h-fit  '>
-            <img src={logoimage} alt="logo/png" width={160} height={32}/>
+            <img src={logoimage} alt="logo/png" className='w-[100px]'/>
             <p className=' font-inter text-sm font-semibold text-[16px] text-richblack-200'>Company</p>
             <div className='flex flex-col gap-1'>
                 <p className=' font-inter text-sm font-normal text-[14px] text-richblack-400'>About</p>

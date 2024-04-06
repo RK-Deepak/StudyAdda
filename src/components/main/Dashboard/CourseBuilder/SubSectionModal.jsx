@@ -8,6 +8,7 @@ import Upload from '../AddCourse/Upload';
 import IconBtn from '../../common/IconBtn';
 import { createSubSectionData,updateSubSectionData} from '../../../../services/operations/courseAPI';
 import toast from 'react-hot-toast';
+import { RxCross2 } from 'react-icons/rx';
 
 
 const SubSectionModal = ({modalData,setModalData,add=false,view=false,edit=false}) => {
@@ -50,6 +51,7 @@ const SubSectionModal = ({modalData,setModalData,add=false,view=false,edit=false
 
         formData.append("sectionId",modalData.sectionId);
         formData.append("subSectionId",modalData._id);
+        formData.append("courseId",course._id)
 
         if(currentValues.lectureTitle!==modalData.title)
         {
@@ -67,9 +69,13 @@ const SubSectionModal = ({modalData,setModalData,add=false,view=false,edit=false
         //NOW ITS TIME TO UPDATE THE SECTION
         setloading(true);
         const result=await updateSubSectionData(formData,token);
+         
+       
+        
+      
         if(result)
         {
-          dispatch(setCourse({...course,result}));
+          dispatch(setCourse(result));
         }
         setModalData(null)
         setloading(false)
@@ -113,15 +119,15 @@ const SubSectionModal = ({modalData,setModalData,add=false,view=false,edit=false
        setloading(false)
     }
   return (
-    <div>
-        <div>
-        <div>
-        <p>{view && "Viewing"} {add && "Adding"} {edit && "Editing"} Lecture</p>
-        <button onClick={()=>setModalData(null)}>
-            <FaCross/>
+    <div className="fixed inset-0 z-[1000] !mt-0 grid h-screen w-screen place-items-center overflow-auto bg-white bg-opacity-10 backdrop-blur-sm">
+        <div className="my-10 w-11/12 max-w-[700px] rounded-lg border border-richblack-400 bg-richblack-800">
+        <div className="flex items-center justify-between rounded-t-lg bg-richblack-700 p-5">
+        <p className="text-xl font-semibold text-richblack-5">{view && "Viewing"} {add && "Adding"} {edit && "Editing"} Lecture</p>
+        <button onClick={()=>!loading?setModalData(null):{}}>
+            <RxCross2 className="text-2xl text-richblack-5"/>
             </button> 
         </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 px-8 py-10">
           <Upload
           name="lectureVideo"
           label="Lecture Video"
@@ -133,28 +139,28 @@ const SubSectionModal = ({modalData,setModalData,add=false,view=false,edit=false
           viewData={view?modalData.videoURL:null}
           editData={edit?modalData.videoURL:null}
          />
-           <div>
-                    <label>Lecture Title</label>
+           <div className="flex flex-col space-y-2">
+                    <label className="text-sm text-richblack-5" htmlFor="lectureTitle">Lecture Title{!view && <sup className="text-pink-200">*</sup>}</label>
                     <input 
                         id='lectureTitle'
                         placeholder='Enter Lecture Title'
                         {...register("lectureTitle", {required:true})}
-                        className='w-full text-green-600'
+                        className='w-full form-style'
                     />
-                    {errors.lectureTitle && (<span>
+                    {errors.lectureTitle && (<span className="ml-2 text-xs tracking-wide text-pink-200">
                         Lecture Title is required
                     </span>)}
                 </div>
-                <div>
-                    <label>Lecture Description</label>
+                <div className="flex flex-col space-y-2">
+                    <label className="text-sm text-richblack-5" htmlFor="lectureDesc">Lecture Description{!view && <sup className="text-pink-200">*</sup>}</label>
                     <textarea 
                         id='lectureDesc'
                         placeholder='Enter Lecture Description'
                         {...register("lectureDesc", {required:true})}
-                        className='w-full min-h-[130px] text-green-600'
+                        className="form-style resize-x-none min-h-[130px] w-full"
                     />
                     {
-                        errors.lectureDesc && (<span>
+                        errors.lectureDesc && (<span className="ml-2 text-xs tracking-wide text-pink-200">
                             Lecture Description is required
                         </span>)
                     }
@@ -162,7 +168,7 @@ const SubSectionModal = ({modalData,setModalData,add=false,view=false,edit=false
                 {/* //if view is false it mean we are in edit or  create phase and according to that we will change button */}
                 {
                  !view && (
-                    <div>
+                    <div className="flex justify-end">
                         <IconBtn text={loading?"Loading...":edit?"Save Changes":"Save"}/>
                     </div>
                  )

@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux';
-import { addCourseDetails, editCourseDetails, fetchCourseCategories } from '../../../../services/operations/courseAPI';
-import { setCourse, setStep } from '../../../../store/Slices/courseSlice';
-import { COURSE_STATUS } from '../../../../utils/contants';
+import { addCourseDetails, editCourseDetails, fetchCourseCategories } from '../../../../../services/operations/courseAPI';
+import { resetCourseState, setCourse, setEditCourse, setStep } from '../../../../../store/Slices/courseSlice';
+import { COURSE_STATUS } from '../../../../../utils/contants';
 import { FaRupeeSign } from "react-icons/fa";
-import ChipInput from './ChipInput';
-import Requiremnts from './Requiremnts';
-import Upload from './Upload';
-import IconBtn from "../../common/IconBtn"
 
+import Requiremnts from '../Requiremnts';
+import Upload from '../Upload';
+import IconBtn from '../../../common/IconBtn';
+import ChipInput from "../../../Dashboard/AddCourse/CourseInformation/ChipInput.jsx"
 import toast from 'react-hot-toast';
+import { useLocation, useParams } from 'react-router-dom';
+import { getAllCategories } from '../../../../../services/operations/categoriesAPI.js';
+
 
 const CourseInformation = () => {
 
@@ -20,13 +23,15 @@ const CourseInformation = () => {
     const {token}=useSelector((store)=>store.auth);
     const {course,editcourse}=useSelector((store)=>store.course);
     const [loading,setlaoding]=useState(false);
-    const [courseCategories,setCourseCategories]=useState([])
+    const [courseCategories,setCourseCategories]=useState([]);
+    const {courseId}=useParams();
+    const location=useLocation();
 
     //fetching categories initially while loading page
      const getCourseCategories=async ()=>
      {
         setlaoding(true);
-        const allcategories=await fetchCourseCategories();
+        const allcategories=await getAllCategories();
         console.log(allcategories)
         if(allcategories.length>0)
         {
@@ -34,26 +39,27 @@ const CourseInformation = () => {
         }
         setlaoding(false)
      }
-
+   
 
      useEffect(()=>
      {
         //if editCourse iS true it means data is already present so
         //we need to pre-set it 
-        if(editcourse)
+        if(editcourse && course)
         {
-            setValue("courseTitle",course.courseName);
-            setValue("courseShortDesc",course.courseDescription);
-            setValue("coursePrice",course.price);
-            setValue("courseTags",course.tag);
-            setValue("courseBenefits",course.whatYouwillLearn);
-            setValue("courseCategory",course.category);
-            setValue("courseRequirements",course.instructions);
-            setValue("courseImage",course.thumbnail);
-            setValue("courseLanguage",course.language)
+
+            setValue("courseTitle",course?.courseName);
+            setValue("courseShortDesc",course?.courseDescription);
+            setValue("coursePrice",course?.price);
+            setValue("courseTags",course?.tag);
+            setValue("courseBenefits",course?.whatYouwillLearn);
+            setValue("courseCategory",course?.category);
+            setValue("courseRequirements",course?.instructions);
+            setValue("courseImage",course?.thumbnail);
+            setValue("courseLanguage",course?.language)
         }
         getCourseCategories();
-     },[])
+     },[course,editcourse])
 
 
      //form updation hua hai ya nhi 
@@ -123,7 +129,16 @@ const CourseInformation = () => {
                     formData.append("instructions", JSON.stringify(data.courseRequirements));
                 }
                 if(currentValues.language !== course.courseLanguage) {
-                    formData.append("language",course.language);
+                    formData.append("language",data.language);
+                }
+
+                if (currentValues.courseImage !== course.thumbnail) {
+                  formData.append("thumbnail", data.courseImage)
+                }
+
+                
+                if (currentValues.courseTags.toString() !== course.tag.toString()) {
+                  formData.append("tag", JSON.stringify(data.courseTags))
                 }
 
                 setlaoding(true);
@@ -142,7 +157,7 @@ const CourseInformation = () => {
 
                 
 
-
+return;
             }
          }
 
@@ -174,6 +189,7 @@ const CourseInformation = () => {
         console.log("PRINTING result", result);
 
     }
+    
 
 
   return (
@@ -189,7 +205,9 @@ const CourseInformation = () => {
         errors.courseTitle && (
             <span className="ml-2 text-xs tracking-wide text-pink-200">
             Course title is required
+            
           </span>
+         
         )
           }
       </div>
@@ -252,7 +270,7 @@ const CourseInformation = () => {
             Choose a Category
         </option>
         {
-            !loading && courseCategories.map((category,index)=>
+            !loading && courseCategories?.map((category,index)=>
             {
                 return <option value={category?._id} key={index}>{category?.name}</option>
             })

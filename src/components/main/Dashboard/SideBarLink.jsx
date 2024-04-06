@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Icons from "react-icons/vsc";
 import * as Icons1 from "react-icons/md";
 import { NavLink, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 const SideBarLink = ({ linkdata,setShowConfirmationModel }) => {
    const location = useLocation();
@@ -9,8 +10,9 @@ const SideBarLink = ({ linkdata,setShowConfirmationModel }) => {
    const Icon = Icons[icon] || Icons1[icon];
    const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
    const accountType = user ? user.accountType : null;
+   const dispatch=useDispatch();
 
-
+ 
    const matchRoute = (route) => {
       return location.pathname === route;
    };

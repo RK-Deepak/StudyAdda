@@ -1,20 +1,36 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
 
 import ProgressBar from '@ramonak/react-progress-bar';
 import { getUserEnrolledCourses } from '../../../services/operations/profileAPI';
+import { setUser } from '../../../store/Slices/profleSlice';
 
 const Enrolled = () => {
 
   const {token}=useSelector((store)=>store.auth);
   const [enrolledCourses,setEnrolledCourses]=useState(null);
-
+  const {user}=useSelector((store)=>store.profile)
+const navigate=useNavigate();
+const dispatch=useDispatch();
+let addcourses=[];
   const getEnrolledCourses=async()=>
   {
     try 
     {
          const response=await getUserEnrolledCourses(token);
-         setEnrolledCourses(response)
+         console.log(response);
+
+        
+         setEnrolledCourses(response);
+         for(let course of response)
+         {
+             addcourses.push(course._id);
+         }
+         console.log(addcourses);
+         dispatch(setUser({...user,courses:addcourses}))
+       
+         
     }
     catch(error)
     {
@@ -25,101 +41,74 @@ const Enrolled = () => {
   useEffect(()=>
   {
     getEnrolledCourses();
-  },[token])
+  },[])
 
-  const dummycousrses=[
-    {
-        courseName:"Webdev",
-        thumbnail:"img",
-        courseDescription:"sdasmdaskdmasd",
-        totalDuration:"2h 30mins",
-        progressPercentage:"65%"
-    },
-    {
-        courseName:"Webdev",
-        thumbnail:"img",
-        courseDescription:"sdasmdaskdmasd",
-        totalDuration:"2h 30mins",
-        progressPercentage:"65%"
-    },
-]
 
-const tabs=[
-  "All","Completed","Pending"
-]
-  return (
-    <div className='flex flex-col gap-4 w-full max-w-[900px] mx-auto p-5'>
-      
-      <div className='flex gap-2 flex-col'>
-                <p className='text-white text-sm'>Home/Dashboard/Profile</p>
-                <h1 className='text-white  text-2xl '>Enrolled Courses</h1>
-            </div>
-    {
-        !dummycousrses? (<div className='loader left-[50%]'>
-          
-        </div>)
-        : !dummycousrses.length ? (<p>You have not enrolled in any course yet</p>)
-        : (
-            <div>
-            {/* buttons */}
-                <div className='mt-5 -mb-[3.5rem] sm:my-5 flex sm:flex-row rounded-full bg-richblack-800  border-richblack-100
-      sm:px-1 sm:py-1 flex-wrap flex-col p-[23px] sm:p-[40px]  justify-between relative underline md:no-underline items-center sm:items-stretch  w-fit'>
-        {
-          tabs.map((element,index)=>
-          {
-            return <div key={index}  className={`text-[16px] flex flex-row items-center gap-2 
-           
-            ? "bg-richblack-900 text-richblack-5 font-medium"
-            : "text-richblack-200" } rounded-full transition-all duration-200 cursor-pointer
-            hover:bg-richblack-900 hover:text-richblack-5 px-7 py-2`} >
-            
-              {element}
-          
-            </div>
-          })
-        }
-     
 
+  return(
+    <div className="w-[80%] mx-auto">
+      <div className="text-3xl text-richblack-50 ">Enrolled Courses</div>
+      {!enrolledCourses ? (
+        <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
+          <div className="spinner"></div>
         </div>
-                {/* Cards shure hote h ab */}
-                <div className='flex justify-between bg-richblack-50 min-h-[30px] p-4 items-center my-2'>
-                        <p>Course Name</p>
-                        <p>Durations</p>
-                        <p>Progress</p>
-                    </div>
-                <div className='flex flex-col gap-2'>
-                {
-                    dummycousrses.map((course,index)=> (
-                        <div className='flex justify-between bg-richblack-50 min-h-[150px] p-4 items-center'>
-                            <div className="flex gap-2 items-center">
-                                <img  src={course.thumbnail}/>
-                                <div className='flex flex-col gap[2px]'>
-                                    <p>{course.courseName}</p>
-                                    <p>{course.courseDescription}</p>
-                                </div>
-                            </div>
-
-                            <div>
-                                {course?.totalDuration}
-                            </div>
-
-                            <div>
-                                <p>Progress: {course.progressPercentage || 0}%</p>
-                                <ProgressBar
-                                    completed={course.progressPercentage || 0}
-                                    height='8px'
-                                    isLabelVisible={false}
-                                    />
-                            </div>
-                        </div>
-                    ))
-                }
+      ) : !enrolledCourses.length ? (
+        <p className="grid h-[10vh] w-full place-content-center text-richblack-5">
+          You have not enrolled in any course yet.
+          {/* TODO: Modify this Empty State */}
+        </p>
+      ) : (
+        <div className="my-8 text-richblack-5">
+          {/* Headings */}
+          <div className="flex rounded-t-lg bg-richblack-500 ">
+            <p className="w-[45%] px-5 py-3">Course Name</p>
+            <p className="w-1/4 px-2 py-3">Duration</p>
+            <p className="flex-1 px-2 py-3">Progress</p>
+          </div>
+          {/* Course Names */}
+          {enrolledCourses.map((course, i, arr) => (
+            <div
+              className={`flex items-center border border-richblack-700 ${
+                i === arr.length - 1 ? "rounded-b-lg" : "rounded-none"
+              }`}
+              key={i}
+            >
+              <div
+                className="flex w-[45%] cursor-pointer items-center gap-4 px-5 py-3"
+                onClick={() => {
+                  navigate(
+                    `/view-course/${course?._id}/section/${course.courseContent?.[0]?._id}/sub-section/${course.courseContent?.[0]?.subSection?.[0]?._id}`
+                  )
+                }}
+              >
+                <img
+                  src={course.thumbnail}
+                  alt="course_img"
+                  className="h-14 w-14 rounded-lg object-cover"
+                />
+                <div className="flex max-w-xs flex-col gap-2">
+                  <p className="font-semibold">{course.courseName}</p>
+                  <p className="text-xs text-richblack-300">
+                    {course.courseDescription.length > 50
+                      ? `${course.courseDescription.slice(0, 50)}...`
+                      : course.courseDescription}
+                  </p>
                 </div>
+              </div>
+              <div className="w-1/4 px-2 py-3">{course?.totalDuration}</div>
+              <div className="flex w-1/5 flex-col gap-2 px-2 py-3">
+                <p>Progress: {course.progressPercentage || 0}%</p>
+                <ProgressBar
+                  completed={course.progressPercentage || 0}
+                  height="8px"
+                  isLabelVisible={false}
+                />
+              </div>
             </div>
-        )
-    }
-  
-</div>
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
 

@@ -75,7 +75,7 @@ const ChipInput = ({label,name,placeholder,register,errors,setValue,getValues}) 
          />
          {/* mapp over chips */}
         {
-            chips.map((chip,index)=>
+            chips?.map((chip,index)=>
             {
                 return <div  key={index}
                 className="m-1 flex items-center rounded-full bg-green-400 px-2 py-1 text-sm text-richblack-800">

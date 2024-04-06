@@ -74,9 +74,9 @@ const Requiremnts = ({name,label,placeholder,register,setValue,getValues,errors}
           + Add
         </button>
         {
-            requirementList.length>0 && (
+            requirementList && requirementList.length>0 && (
                 <ul className="mt-2 list-inside list-disc">
-                    {requirementList.map((requirement,index)=>
+                    {requirementList?.map((requirement,index)=>
                     {
                        return <li key={index} className="flex items-center text-richblack-5">
                             <span>{requirement}</span>

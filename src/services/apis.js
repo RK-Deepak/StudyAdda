@@ -19,7 +19,9 @@ export const profileEndpoints={
 //CATEGORIES ENDPOINTS
 export const categories=
 {
-    CATEGORIES_API:BASE_URL+"/course/getAllCategories"
+    CATEGORIES_API:BASE_URL+"/course/getAllCategories",
+    CATEGORIES_DETAILS_API:BASE_URL+"/course/categoryPageDetails",
+    GET_ALL_CATEGORIES_DETAILS_API:BASE_URL+"/course/categoryPageDetails"
 }
 //CONTACT FORM ENDPOINTS
 export const contactAPI={
@@ -44,5 +46,14 @@ export const courseEndPoints={
     DELETE_SECTION_API:BASE_URL +"/course/deleteSection",
     CREATE_SUBSECTION_API:BASE_URL+"/course/createSubSection",
     UPDATE_SUBSECTION_API:BASE_URL+"/course/updateSubSection",
-    DELETE_SUBSECTION_API:BASE_URL+"/course/deleteSubSection"
+    DELETE_SUBSECTION_API:BASE_URL+"/course/deleteSubSection",
+    GET_ALL_COURSE_INSTRUCTOR_API:BASE_URL+"/course/getInstructorCourses",
+    DELETE_SELECTED_COURSE_API:BASE_URL+"/course/deleteCourse",
+    GET_COURSE_DETAILS_API:BASE_URL+"/course/getCourseDetails"
+    
+}
+export const studentCourseBuyEndpoints={
+    COURSE_PAYMENT_API: BASE_URL + "/payment/capturePayment",
+    COURSE_VERIFY_API: BASE_URL + "/payment/verifyPayment",
+    SEND_PAYMENT_SUCCESS_EMAIL_API: BASE_URL + "/payment/sendPaymentSuccessEmail",
 }
