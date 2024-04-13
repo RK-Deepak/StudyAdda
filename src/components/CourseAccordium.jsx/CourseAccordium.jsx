@@ -81,7 +81,7 @@ const CourseAccordium = ({courseDetails}) => {
                courseDetails?.courseContent?.map((course,index)=>
                {
                 return <div key={course._id} className='w-full    '>
-                <div className='  min-h-[30px] bg-richblack-200 justify-between p-3 rounded-md border border-richblack-25' >
+                <div className='  min-h-[30px] bg-richblack-500 justify-between p-3 rounded-md border border-richblack-25' >
                     <div className='flex items-center gap-1 justify-between w-full ' onClick={()=>hadnleSubSectionExplore(index)}>
                         <div className='flex items-center gap-1 '>
                         {showSubSection?<FaCaretUp/>:<FaCaretDown/>}

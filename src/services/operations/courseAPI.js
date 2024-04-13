@@ -4,7 +4,7 @@ import { categories, courseEndPoints } from "../apis";
 import { useDispatch } from "react-redux";
 
 const {CATEGORIES_API}=categories;
-const {CREATE_COURSE_API,EDIT_COURSE_API,CREATE_SECTION_API,DELETE_SECTION_API,EDIT_SECTION_API,CREATE_SUBSECTION_API,UPDATE_SUBSECTION_API,DELETE_SUBSECTION_API,GET_ALL_COURSE_API,GET_ALL_COURSE_INSTRUCTOR_API,DELETE_SELECTED_COURSE_API,GET_COURSE_DETAILS_API}=courseEndPoints
+const {CREATE_COURSE_API,EDIT_COURSE_API,CREATE_SECTION_API,DELETE_SECTION_API,EDIT_SECTION_API,CREATE_SUBSECTION_API,UPDATE_SUBSECTION_API,DELETE_SUBSECTION_API,GET_ALL_COURSE_API,GET_ALL_COURSE_INSTRUCTOR_API,DELETE_SELECTED_COURSE_API,GET_COURSE_DETAILS_API,CREATE_RATING_API,LECTURE_COMPLETION_API}=courseEndPoints
 export const fetchCourseCategories=async ()=>
 {
       let result=[];
@@ -18,7 +18,7 @@ export const fetchCourseCategories=async ()=>
             throw new Error("Could not Fetch Course Categories")
          }
 
-         result=response?.data?.allTags
+         result=response?.data?.data
       }
       catch(error)
       {
@@ -342,9 +342,9 @@ export const getCourseDetails=async(data,token)=>
 {
     let result=null
     console.log(token);
-   
+   console.log("hello0000000000000000",data)
     const toastId=toast.loading("Loading...")
-    console.log(CREATE_COURSE_API)
+   
     try 
     {
          const response=await apiConnector("POST",GET_COURSE_DETAILS_API,data,
@@ -367,4 +367,60 @@ export const getCourseDetails=async(data,token)=>
       }
       toast.dismiss(toastId)
   return result
+}
+
+export const createRating=async(data,token)=>
+{
+  const toastId=toast.loading("Loading...");
+  let success=false;
+  try 
+  {
+    const response=await apiConnector("POST",CREATE_RATING_API,data,{
+      Authorisation:`Bearer ${token}`
+     
+    })
+    console.log("CREATE RATING API RESPONSE............", response)
+    if (!response?.data?.success) {
+      throw new Error("Could Not Create Rating")
+  }
+}
+  catch(error)
+  {
+    success = false
+    console.log("CREATE RATING API ERROR............", error)
+    toast.error(error.message)
+  }
+  toast.dismiss(toastId);
+  return success;
+
+}
+
+export const markLectureAsComplete=async(data,token)=>
+{
+  let result=null;
+  console.log("mark completed data",data);
+  const toastId=toast.loading("Loading...");
+  try 
+  {
+    const response = await apiConnector("POST", LECTURE_COMPLETION_API, data, {
+      Authorization: `Bearer ${token}`,
+  })
+  console.log( "MARK_LECTURE_AS_COMPLETE_API API RESPONSE............",response
+  )
+
+  if (!response.data.message) {
+    throw new Error(response.data.error)
+  }
+  toast.success("Lecture Completed");
+  result=true;
+}
+  catch(error)
+  {
+    console.log("MARK_LECTURE_AS_COMPLETE_API API ERROR............", error)
+    toast.error(error.message)
+    result = false
+  }
+  toast.dismiss(toastId);
+  return result;
+
 }

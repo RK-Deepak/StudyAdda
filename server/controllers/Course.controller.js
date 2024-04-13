@@ -1,8 +1,10 @@
 const User = require("../models/User.model.js");
 const Category = require("../models/Category.model.js");
 const Course = require("../models/Course.model.js");
+const CourseProgress=require("../models/CourseProgress.model.js")
 
 const {imageUplaodOnCloud} = require("../utils/imageUploader.js");
+const { convertSecondsToDuration } = require("../utils/secToDuration.js");
 require("dotenv").config();
 exports.createCourse = async (req, res) => {
   try {
@@ -169,10 +171,14 @@ exports.getAllCourse = async (req, res) => {
 };
 //get courseDetails
 exports.getCourseDetails = async (req, res) => {
+  console.log("hiiiiiiiiiiii")
   try {
     //get coursid
-    const { courseId } = req.body;
+    console.log("hiiiiiiiiiiii")
+    const  {courseId}  = req.body;
+    const userId = req?.user?.id
     //find course details
+    console.log("this is ide",courseId)
     const courseDetails = await Course.findOne({ _id: courseId })
       .populate({
         path: "instructor",
@@ -190,6 +196,14 @@ exports.getCourseDetails = async (req, res) => {
       })
       .exec();
 
+      let courseProgressCount=await  CourseProgress.findOne({
+        courseId:courseId,
+        userId:userId
+        
+      })
+
+      console.log("courseProgressCount : ", courseProgressCount)
+
     if (!courseDetails) {
       return res.status(400).json({
         success: false,
@@ -197,10 +211,27 @@ exports.getCourseDetails = async (req, res) => {
       });
     }
 
+    let totalDurationInSeconds=0
+    courseDetails.courseContent.forEach((content)=>
+    {
+      content.subSection.forEach((subSection)=>
+      {
+        const timeDurationInSeconds=parseInt(subSection.duration);
+        totalDurationInSeconds+=timeDurationInSeconds
+      })
+    })
+    const totalDuration=convertSecondsToDuration(totalDurationInSeconds)
+
     return res.status(200).json({
       success: true,
       message: "Course Details fetched successfully",
-      data: courseDetails,
+      data:{
+        courseDetails,
+        totalDuration,
+        completedVideos:courseProgressCount?.completeVideos
+        ?courseProgressCount?.completeVideos
+        :[],
+      }
     });
   } catch (error) {
     console.log(error);

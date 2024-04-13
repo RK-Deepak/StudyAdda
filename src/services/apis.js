@@ -49,7 +49,10 @@ export const courseEndPoints={
     DELETE_SUBSECTION_API:BASE_URL+"/course/deleteSubSection",
     GET_ALL_COURSE_INSTRUCTOR_API:BASE_URL+"/course/getInstructorCourses",
     DELETE_SELECTED_COURSE_API:BASE_URL+"/course/deleteCourse",
-    GET_COURSE_DETAILS_API:BASE_URL+"/course/getCourseDetails"
+    GET_COURSE_DETAILS_API:BASE_URL+"/course/getCourseDetails",
+    CREATE_RATING_API:BASE_URL+"/course/createRating",
+    LECTURE_COMPLETION_API:BASE_URL+"/course/updateCourseProgress"
+
     
 }
 export const studentCourseBuyEndpoints={

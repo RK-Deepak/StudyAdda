@@ -95,7 +95,7 @@ const handleAddToCart=()=>
       setcourseDetails(response);
       console.log(response);
 
-      const avg_rating_value=GetAvgRating(response.ratingAndReviews);
+      const avg_rating_value=GetAvgRating(response?.courseDetails?.ratingAndReviews);
          setavgRating(avg_rating_value)
     }
       fetchCourseDetails();
@@ -119,12 +119,12 @@ const handleAddToCart=()=>
       <div className=' gap-4  bg-richblack-700 w-full pt-[32px] pr-[120px] pb-[32px] pl-[120px] flex  justify-between' >
         <div className="flex flex-col gap-6   ">
         <p className='font-inter text-sm text-richblack-400'>Home / Learning /
-          <span className='text-[#FFD60A]'>{" "}{courseDetails?.category?.name}</span>
+          <span className='text-[#FFD60A]'>{" "}{courseDetails?.courseDetails?.category?.name}</span>
         </p>
 
         <div> 
-        <p className='font-inter text-[32px] text-richblack-5 font-semibold'>{courseDetails?.courseName}</p>
-        <p className=' font-inter font-normal text-richblack-400 text-sm'>{courseDetails?.courseDescription}</p>
+        <p className='font-inter text-[32px] text-richblack-5 font-semibold'>{courseDetails?.courseDetails?.courseName}</p>
+        <p className=' font-inter font-normal text-richblack-400 text-sm'>{courseDetails?.courseDetails?.courseDescription}</p>
         </div>
 
         <div className='flex gap-2 items-baseline  '>
@@ -132,25 +132,25 @@ const handleAddToCart=()=>
         <span className='font-inter text-yellow-50 font-semibold text-[16px] '>{avgRating || 0}</span>
         <RatingStars AVG_REVIEW_COUNT={avgRating} STAR_SIZE={25}/>
         </div>
-        <span className='font-inter font-normal text-[16px] text-richblack-300'>({courseDetails?.ratingAndReviews.length}{" "}Ratings)</span>
-        <span className='font-inter font-normal text-[16px] text-richblack-300'>{courseDetails?.studentEnrolled.length}{" "} Students</span>
+        <span className='font-inter font-normal text-[16px] text-richblack-300'>({courseDetails?.courseDetails?.ratingAndReviews?.length}{" "}Ratings)</span>
+        <span className='font-inter font-normal text-[16px] text-richblack-300'>{courseDetails?.courseDetails?.studentEnrolled?.length}{" "} Students</span>
         </div>
 
         <div className='flex flex-col gap-2 justify-center text-richblack-50'>
-         <p className='font-inter font-normal text-[18px]'>Created by {courseDetails?.instructor?.firstName} {courseDetails?.instructor?.lastName}</p> 
+         <p className='font-inter font-normal text-[18px]'>Created by {courseDetails?.courseDetails?.instructor?.firstName} {courseDetails?.courseDetails?.instructor?.lastName}</p> 
          <div className='flex gap-2 items-baseline '>
-         <p className='flex gap-2 items-center text-[16px]'><FiClock className='text-[18px]'/> Published at {formatDate(courseDetails?.createdAt)}</p>
-         <p className='flex gap-2 items-center text-[16px] capitalize'><FiGlobe className='text-[18px]'/>{courseDetails.language}</p>
+         <p className='flex gap-2 items-center text-[16px]'><FiClock className='text-[18px]'/> Published at {formatDate(courseDetails?.courseDetails?.createdAt)}</p>
+         <p className='flex gap-2 items-center text-[16px] capitalize'><FiGlobe className='text-[18px]'/>{courseDetails?.courseDetails?.language}</p>
          </div>
 
         </div>
         </div>
         <div className='flex items-center border border-richblack-500 rounded-md p-4 gap-4 bg-richblack-500 '>
           <div className='flex flex-col gap-2'>
-          <img src={courseDetails?.thumbnail} alt='course thubmial' className='w-[250px] rounded-md h-[210px]'/>
+          <img src={courseDetails?.courseDetails?.thumbnail} alt='course thubmial' className='w-[250px] rounded-md h-[210px]'/>
           <div className='flex items-center gap-2 justify-between px-7'>
-          <p className="font-inter text-[20px] text-richblack-50 font-bold">Rs. {courseDetails.price}</p>
-          <div className='flex gap-2 items-center font-inter text-[20px] text-yellow-50 font-bold  ' onCLick={handleShare}>
+          <p className="font-inter text-[20px] text-richblack-50 font-bold">Rs. {courseDetails?.courseDetails?.price}</p>
+          <div className='flex gap-2 items-center font-inter text-[20px] text-yellow-50 font-bold  ' onClick={handleShare}>
           <FiShare2/><span>Share</span>
           </div>
         </div>
@@ -203,21 +203,21 @@ const handleAddToCart=()=>
       <div className='relative h-[200px] w-[100%] left-[120px]  max-w-[900px] border border-richblack-500 rounded-sm  p-[32px] text-white flex flex-col gap-2'>
           
           <p className=' text-lg font-inter font-semibold text-[30px] text-richblack-5'>What you'll learn</p>
-         <p className="text-[14px] text-sm font-inter font-normal text-richblack-100">{courseDetails?.whatYouwillLearn}</p>
+         <p className="text-[14px] text-sm font-inter font-normal text-richblack-100">{courseDetails?.courseDetails?.whatYouwillLearn}</p>
         </div>
         {/* Section-3 */}
         <div className='flex gap-2 flex-col items-start relative left-[120px]  max-w-[900px] border border-richblack-500 rounded-sm w-full p-[32px]'>
           <p className='font-bold text-2xl font-inter'>Course Content</p>
           
-          <CourseAccordium courseDetails={courseDetails}/>
+          <CourseAccordium courseDetails={courseDetails?.courseDetails}/>
         </div>
         {/* Section-4 */}
         <div className='flex gap-3 border border-richblack-500 rounded-sm flex-col items-start relative left-[120px]  w-[100%] max-w-[900px] p-[32px] mb-4'>
           <p className='font-bold text-2xl font-inter'>Author</p>
           <div className='flex gap-2'>
 
-            <img src={courseDetails?.thumbnail} alt='thumbnail' className='w-[50px] aspect-square rounded-full '/>
-            <p className='flex gap-2 items-center font-inter font-semibold text-[16px]'>{courseDetails?.instructor.firstName} {courseDetails?.instructor.lastName}</p>
+            <img src={courseDetails?.courseDetails?.thumbnail} alt='thumbnail' className='w-[50px] aspect-square rounded-full '/>
+            <p className='flex gap-2 items-center font-inter font-semibold text-[16px]'>{courseDetails?.courseDetails?.instructor.firstName} {courseDetails?.courseDetails?.instructor.lastName}</p>
             </div>
             <p className='font-inter text-sm text-richblack-500 '>I will be your lead trainer in this course. Within no time, I will help you to understand the subject in an easy manner. I have a huge experience in online training and recording videos. Let's get started!</p>
           

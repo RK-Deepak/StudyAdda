@@ -174,10 +174,13 @@ exports.getenrolledCourses=async(req,res)=>
         //get user id
         const userId=req.user.id;
         //get user details with enrolled courses
-        const userDetails=await User.findOne({
-            _id:userId
+        const userDetails = await User.findOne({ _id: userId })
+        .populate({
+            path: 'courses',
+            populate: { path: 'courseContent',
+                   populate:"subSection" }
         })
-        .populate("courses").exec()
+        .exec();
         if (!userDetails) {
             return res.status(400).json({
               success: false,

@@ -74,7 +74,7 @@ export async function buyCourse(token,courses,userDetails,navigate,dispatch)
                 //verify payment
                 verifyPayment({...response,courses},token,navigate,dispatch)
 
-                updateCoursesInRedux(courses,dispatch)
+                
             }
 
         }
@@ -95,10 +95,6 @@ export async function buyCourse(token,courses,userDetails,navigate,dispatch)
     toast.dismiss(toastId);
 }
 
-async function updateCoursesInRedux(courses,dispatch)
-{
-   
-}
 
 async function sendPaymentSuccessEmail(response,amount,token)
 {
