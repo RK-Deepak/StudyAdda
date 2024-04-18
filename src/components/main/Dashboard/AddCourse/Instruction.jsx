@@ -13,7 +13,7 @@ const Instruction = () => {
         "Standard size for the course thumbnail is 1024x576."
     ];
   return (
-    <div className='min-h-[370px] border-[1px] border-[#2C333F] p-[30px] flex flex-col gap-2 rounded-md w-fit '>
+    <div className='min-h-[370px] border-[1px] border-[#2C333F] p-[30px] flex flex-col gap-2 rounded-md w-full   md:w-fit '>
         <p className=' font-inter font-semibold text-[20px] text-richblack-25'>⚡Course Upload Tips</p>
         <ul className='flex gap-2 flex-col '>
             {items.map((item,index)=>

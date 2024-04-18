@@ -31,6 +31,7 @@ import Catlog from './page/Catlog.jsx';
 import CourseDetails from './page/CourseDetails.jsx';
 import ViewCourse from './page/ViewCourse.jsx';
 import VideoDetails from './components/main/VideoCourse/VideoDetails.jsx';
+import InstructorDashboard from './components/main/Dashboard/InstructorDashboard/InstructorDashboard.jsx';
 
 
 function App() {
@@ -99,7 +100,8 @@ function App() {
       <Route path="dashboard/enrolled-courses" element={<Enrolled/>}/>
       <Route path="dashboard/wishlist" element={<Cart/>}/>
       <Route path="dashboard/purchase-history" element={<Purchase/>}/>
-      <Route path="dashboard/instructor" element={ <Myprofile/>}/>
+      <Route path="dashboard/instructor" element={ <InstructorDashboard/>}/>
+  
 
       <Route path="dashboard/add-course" element={ <CourseCreationProcess/> }/>
       <Route path="dashboard/my-courses" element={<MyCourse/>}/>

@@ -23,7 +23,7 @@ export const deleteAccount=(token,navigate)=>
         {
            const response=await apiConnector("DELETE",`${DELETE_PROFILE_API}`,null,
            {
-            Authorization:`Bearer ${token}`
+            Authorisation:`Bearer ${token}`
            }
            )
            console.log("DELETE_PROFILE_API API RESPONSE............", response)

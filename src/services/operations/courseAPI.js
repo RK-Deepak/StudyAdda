@@ -372,6 +372,7 @@ export const getCourseDetails=async(data,token)=>
 export const createRating=async(data,token)=>
 {
   const toastId=toast.loading("Loading...");
+  console.log("hi im  data" ,data)
   let success=false;
   try 
   {
@@ -381,13 +382,17 @@ export const createRating=async(data,token)=>
     })
     console.log("CREATE RATING API RESPONSE............", response)
     if (!response?.data?.success) {
+      toast.error(response?.data?.message)
       throw new Error("Could Not Create Rating")
+    
   }
+  toast.success("Rating Created")
 }
   catch(error)
   {
     success = false
     console.log("CREATE RATING API ERROR............", error)
+   
     toast.error(error.message)
   }
   toast.dismiss(toastId);
@@ -403,7 +408,7 @@ export const markLectureAsComplete=async(data,token)=>
   try 
   {
     const response = await apiConnector("POST", LECTURE_COMPLETION_API, data, {
-      Authorization: `Bearer ${token}`,
+      Authorisation: `Bearer ${token}`,
   })
   console.log( "MARK_LECTURE_AS_COMPLETE_API API RESPONSE............",response
   )
@@ -417,7 +422,7 @@ export const markLectureAsComplete=async(data,token)=>
   catch(error)
   {
     console.log("MARK_LECTURE_AS_COMPLETE_API API ERROR............", error)
-    toast.error(error.message)
+    toast.error(error?.response?.data?.error)
     result = false
   }
   toast.dismiss(toastId);

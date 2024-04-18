@@ -25,17 +25,17 @@ const Myprofile = () => {
             
             {/* section-1 */}
             <div className='flex gap-2 flex-col'>
-                <p className='text-white text-sm'>Home/Dashboard/Profile</p>
+            <p className='text-white text-md font-semibold'>Home{" "}/{" "}Dashboard{" "}/{" "}<span className=' text-red-300'>My Profile</span></p>
                 <h1 className='text-white  text-2xl '>My Profile</h1>
             </div>
-            <div className='bg-richblack-700 min-h-[100px] w-full p-3 flex justify-between items-center rounded-md gap-2'>
+            <div className='bg-richblack-700 min-h-[100px] w-full p-3 flex flex-col sm:flex-row justify-center sm:justify-between  items-center rounded-md gap-2 '>
                 {/* left*/}
-                 <div className='w-full'>
-                    <div className='flex gap-2 items-center'>
-                        <img src={profileImage} alt='profile/png' className='w-[80px] rounded-full' />
+                 <div className='w-full '>
+                    <div className='flex gap-2 items-center '>
+                        <img src={profileImage} alt='profile/png' className=' w-[50px] sm:w-[80px] rounded-full' />
                         <div>
-                            <p className='text-white text-xl font-bold font-inter'>{firstName + " " + lastName}</p>
-                            <p className='text-white text-sm font-semibold font-inter'>{email}</p>
+                            <p className='text-white text-sm sm:text-xl font-bold font-inter'>{firstName + " " + lastName}</p>
+                            <p className='text-white text-xs  sm:text-sm font-semibold font-inter'>{email}</p>
                         </div>
                     </div>
                 </div>
@@ -46,9 +46,9 @@ const Myprofile = () => {
                 </div>
             </div>
             {/* Section-2 */}
-            <div className='bg-richblack-700 min-h-[200px] w-full p-3  rounded-md'>
-                <h1 className="text-richblack-100 text-lg font-semibold font-inter underline underline-offset-1 my-2">About Me</h1>
-                <div className='w-full flex justify-between items-center flex-wrap gap-3'>
+            <div className='bg-richblack-700 min-h-[200px] w-full p-3  rounded-md  flex-col sm:flex-row justify-center sm:justify-between'>
+                <h1 className="text-richblack-100 text-lg font-semibold font-inter underline underline-offset-1 my-2 text-center sm:text-start">About Me</h1>
+                <div className='w-full flex justify-between items-center flex-wrap gap-3 flex-col sm:flex-row '>
                     {additionalData.about !== null ? (
                         <p className='text-white text-sm font-normal font-inter'>{additionalData.about}</p>
                     ) : (
@@ -69,7 +69,7 @@ const Myprofile = () => {
                         <span>Edit</span>
                     </div>
                 </div>
-                <div className='grid grid-cols-2 gap-3'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
                     <div>
                         <p className='font-semibold text-richblack-900 text-[12px] font-inter underline'>Date Of Birth:</p>
                         <p className='text-sm font-inter font-medium text-[15px] text-richblack-50'>{additionalData.dateOfBirth !== null ? additionalData.dateOfBirth : "Data Unavilable"}</p>

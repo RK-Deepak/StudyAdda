@@ -16,35 +16,37 @@ const EditCourse = () => {
   console.log(courseId);
 
   useEffect(() => {
-    let isMounted = true;
+    
   
-    (async () => {
+    ;(async () => {
       setloading(true);
       try {
         const details = await getCourseDetails({ courseId: courseId }, token);
+        console.log(details);
         const updateDetails = {
-          ...details[0],
-          tag: JSON.parse(details[0]?.tag),
-          instructions: JSON.parse(details[0].instructions)
+          ...details?.courseDetails,
+          tag: JSON.parse(details?.courseDetails?.tag),
+          instructions: JSON.parse(details?.courseDetails.instructions)
         };
-        if (isMounted) {
+        console.log("this is update",updateDetails,details)
+        dispatch(setEditCourse(true));
           setcourseDetails(updateDetails);
           dispatch(setCourse(updateDetails));
-          dispatch(setEditCourse(true));
-        }
+         
+        
       } catch (error) {
         // Handle error if any
-        console.error("Error fetching course details:", error);
+        console.log("Error fetching course details:", error);
       } finally {
-        if (isMounted) {
+        
           setloading(false);
         }
-      }
+      
     })();
   
     return () => {
       // Cleanup function to cancel any pending tasks
-      isMounted = false;
+    
       // Set course to null when unmounting
       dispatch(setCourse(null));
       dispatch(setEditCourse(false));
@@ -56,7 +58,7 @@ const EditCourse = () => {
   return (
     <div className='flex flex-col gap-4 w-full max-w-[1100px] mx-auto p-5'>
         <div className='flex gap-2 flex-col'>
-                <p className='text-white text-sm'>Home/Dashboard/Edit Course</p>
+        <p className='text-white text-md font-semibold'>Home{" "}/{" "}Dashboard{" "}/{" "}<span className=' text-red-300'>Edit Course</span></p>
                 <h1 className='text-white  text-2xl '>Edit Course</h1>
             </div>
       <CourseCreation/>

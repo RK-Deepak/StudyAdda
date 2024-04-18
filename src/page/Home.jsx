@@ -14,6 +14,7 @@ import Compare_with_others from "../assets/Images/Compare_with_others.png"
 import InstructorSection from '../components/main/HomePage/InstructorSection';
 import ExploreMore from '../components/main/HomePage/ExploreMore';
 import CoursePointerSection from '../components/main/HomePage/CoursePointerSection';
+import ReviewSlider from '../components/main/common/ReviewSlider';
 
 export const Home=()=>
 {
@@ -215,6 +216,11 @@ export const Home=()=>
          <div className='relative mx-auto flex flex-col w-11/12 max-w-maxContent '
           >
            <InstructorSection/>
+         </div>
+         {/* Section-4 */}
+         <div className='relative mx-auto flex flex-col w-11/12 max-w-maxContent '
+          >
+         <ReviewSlider/>
          </div>
        
     </div>)

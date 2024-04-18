@@ -2,25 +2,29 @@ import React, { useEffect, useState,useRef } from 'react'
 import Logo from "../../../assets/Logo/studyadda-high-resolution-logo-transparent.png"
 import { NavbarLinks } from '../../../data/navbar-links'
 import { Link, matchPath } from 'react-router-dom'
-import {  FaCartPlus, FaSearch } from 'react-icons/fa'
+import {  FaCartPlus, FaHamburger, FaSearch } from 'react-icons/fa'
 import { FaSortAlphaDown } from "react-icons/fa";
-import { MdAccountCircle, MdArrowDropDown } from 'react-icons/md'
+import { MdAccountCircle, MdArrowDropDown, MdBook } from 'react-icons/md'
 
 import {GiDiamondsSmile} from "react-icons/gi"
 import { useLocation } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { apiConnector } from '../../../services/apiConnector'
 import { categories } from '../../../services/apis'
 import ProfileDropDown from '../Auth/ProfileDropDown'
 import smalllogo from "../../../assets/Logo/studyadda-favicon-color.png"
 import useOnClickOutside from '../../../hooks/useClickOutside'
+import { setSideBar } from '../../../store/Slices/sideBarSlice'
+
 
 
 const Header = () => {
     
   const location=useLocation();
+  const dispatch=useDispatch();
   const refmenu=useRef(null);
   const refauth=useRef(null);
+  const {viewsideBar}=useSelector((store)=>store.SideBar);
   
   const user=localStorage.getItem("user")?JSON.parse(localStorage.getItem("user")):null;
   const token=localStorage.getItem("token")?JSON.parse(localStorage.getItem("token")):null;
@@ -70,18 +74,27 @@ useOnClickOutside(refmenu,()=>setshowMenu(false))
     
  },[])
 
+ const handleSideMenu=()=>
+ {
+dispatch(setSideBar());
+ }
+
    
 
   return (
-    <div className='w-11/12 h-14 border mx-auto flex items-center justify-between relative z-49'>
+    <div className='w-11/12 h-14  mx-auto flex items-center justify-between relative z-49'>
         {/* left one */}
         <div>
             <Link to={"/"} className='hidden md:block'>
             <img src={Logo} alt='logo' className='w-[100px] ' />
             </Link>
-            <Link to={"/"} className='block md:hidden'>
-            <img src={smalllogo} alt='logo' className="w-[60px]"/>
+            <div className='flex items-center flex-row-reverse'>
+            <Link to={"/"} className=' md:hidden flex flex-row-reverse items-center '>
+            <img src={smalllogo} alt='logo' className="w-[45px]"/>
+           
             </Link>
+           {matchRoute("/dashboard/:variable") && <MdBook className='text-white block md:hidden text-3xl' onClick={handleSideMenu }/>}
+            </div>
             
         </div>
         {/* middle one */}
@@ -112,7 +125,7 @@ useOnClickOutside(refmenu,()=>setshowMenu(false))
                     </div>
                 </div>
             ) : (
-                <p className={`font-inter text-[13px] md:text-[16px] ${matchRoute(option?.path) ? "text-yellow-50" : "text-white"}`} onClick={()=>setshowMenu(false)}>{option?.title}</p>
+                <p className={`font-inter text-[13px] md:text-[16px] ${matchRoute(option?.path) ? "text-yellow-50 pointer-events-auto" : "text-white pointer-events-none"}`} onClick={()=>setshowMenu(false)}>{option?.title}</p>
             )}
         </Link>
     ))
@@ -124,14 +137,14 @@ useOnClickOutside(refmenu,()=>setshowMenu(false))
         <div className='block md:hidden text-white text-2xl'><GiDiamondsSmile onClick={()=>
             {
                 
-            setAuth(prev=>!prev)
+            setAuth(true)
 
         }} /></div>
-        <div className={`flex gap-3 items-center flex-col absolute top-[51px] right-[19px] md:relative md:top-0 md:right-0 md:flex-row z-49  ${auth?"flex":"hidden"} md:flex` } ref={refauth}>
+        <div className={`flex gap-3 items-center flex-col absolute top-[51px] right-[19px] md:relative md:top-0 md:right-0 md:flex-row  z-[20]  ${auth?"flex":"hidden"} md:flex` } ref={refauth}>
            {
              token===null && (
                 <Link to={"/login"} onClick={()=>setAuth(false)}>
-                      <button className='border border-richblack-700 bg-richblack-800 px-[12px] py-[4px] text-richblack-100 rounded-md'>
+                      <button className='border border-richblack-700 bg-richblack-900 px-[12px] py-[4px] text-richblack-100 rounded-md'>
                             Log in
                         </button>
                 </Link>
@@ -140,14 +153,14 @@ useOnClickOutside(refmenu,()=>setshowMenu(false))
             {
              token===null && (
                 <Link to={"/signup"} onClick={()=>setAuth(false)}>
-                      <button className='border border-richblack-700 bg-richblack-800 px-[12px] py-[4px] text-richblack-100 rounded-md'>
+                      <button className='border border-richblack-700 bg-richblack-900 px-[12px] py-[4px] text-richblack-100 rounded-md'>
                             Sign Up
                         </button>
                 </Link>
              )
            }
            {
-            user && user.accountType!=="Instrcutor" && (
+            user && user.accountType!=="Instructor" && (
                 <Link to={"/dashboard/wishlist"} className='realtive text-white'>
                     <FaCartPlus/>
                     {

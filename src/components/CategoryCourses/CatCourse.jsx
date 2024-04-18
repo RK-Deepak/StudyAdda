@@ -63,7 +63,7 @@ const CatCourse = () => {
 
   //ititially on when ever course 
   return (
-    <div className=" box-content bg-richblack-800 px-4">
+    <div className=" box-content bg-richblack-800 md:px-4 p-[40px]">
        {/* Section-1 */}
        <div className="mx-auto flex min-h-[250px] max-w-maxContentTab  bg-richblack-700 p-4 flex-col justify-center gap-4 lg:max-w-maxContent ">
         <p className="text-sm text-richblack-300">{`Home / Catlog /`}
@@ -75,7 +75,7 @@ const CatCourse = () => {
        </div>
        {/* Section-2 */}
        <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
-        <p className="section_heading">Courses to become champ</p>
+        <p className="text-sm sm:text-lg text-white font-inter underline">Courses to become champ</p>
         <div className="my-4 flex border-b border-b-richblack-600 text-sm">
                     <p  className={`px-4 py-2 ${
                   active === 1
@@ -94,19 +94,19 @@ const CatCourse = () => {
        </div>
        {/* Section-3 */}
        <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
-        <p className="section_heading">Other Courses Not Related to {" "}{catalogPageData?.selectedCategory?.name}</p>
+        <p className="text-sm sm:text-lg text-white font-inter underline">Other Courses Not Related to {" "}{catalogPageData?.selectedCategory?.name}</p>
         <div className="py-8">
           <CourseSlider courses={catalogPageData?.differentCategory?.courses}/>
         </div>
        </div>
        {/* {Section-4} */}
-       <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
-        <p className="section_heading">Frequently Subscribed</p>
+       <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent flex flex-col gap-3">
+        <p className="text-sm sm:text-lg text-white font-inter underline">Frequently Subscribed</p>
         <div className='grid grid-cols-1 gap-6 lg:grid-cols-2'>
           {
             catalogPageData?.mostSellingCourses?.slice(0,4).map((course,index)=>
             {
-              return <CourseCard course={course} key={index} />
+              return <CourseCard course={course} key={index} show={true} />
             })
 
           }

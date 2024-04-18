@@ -7,6 +7,7 @@ const {ObjectId, default: mongoose}=require("mongoose");
 const { paymentSuccessEmail } = require("../mail/templates/paymentSuccessEmail.js");
 require("dotenv").config();
 const crypto = require("crypto");
+const CourseProgress=require("../models/CourseProgress.model.js");
 
 //capture the payment and create RazorPay Order
 exports.capturePayment=async(req,res)=>
@@ -42,7 +43,7 @@ exports.capturePayment=async(req,res)=>
             //to check if student is already enrolled or not
           if(course.studentEnrolled.includes(uid))
           {
-            return res.status(200).json({success:false, message:"Student is already Enrolled"});
+            return res.status(400).json({success:false, message:"Student is already Enrolled"});
           }
          
           totalAmount+=course.price
@@ -126,17 +127,25 @@ const enrolledStudents=async(courses,userId,res)=>
         {
             const enrolledCourse=await Course.findOneAndUpdate({_id:courseId},
                 {
-                    $push:{enrolledStudent:userId}
+                    $push:{studentEnrolled:userId}
                     
                 },{new:true})
                 if(!enrolledCourse) {
                     return res.status(500).json({success:false,message:"Course not Found"});
                 }
 
+                const courseProgress=await CourseProgress.create({
+                    courseId: courseId,
+                    userId: userId,
+                    completedVideos:[]
+                })
+
             //if student get enrolled add the course to student enrolledCourses
             const enrolledStudent=await User.findByIdAndUpdate(userId,
                 {
-                    $push:{courses:courseId}
+                    $push:{courses:courseId,
+                        courseProgress:courseProgress._id
+                    }
                 },{new:true})
 
             //if course get added send student a mail tgat u buy the

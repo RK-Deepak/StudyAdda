@@ -8,15 +8,17 @@ require("dotenv").config();
 exports.createRating = async (req, res) => {
   try {
     //get courseid and userid and other details
+   
     const userId = req.user.id;
-
+console.log(req.body)
     const { courseId, rating, review } = req.body;
-
+    console.log(courseId,rating,review)
+    console.log(userId)
     //check if user who is making such request is enrolled in course
     //or not +get course details
     const courseDetails = await Course.findOne({
       _id: courseId, // Search criteria: Find a document with the specified courseId
-      studentsEnrolled: {
+      studentEnrolled: {
         // Look within the studentsEnrolled array
         $elemMatch: {
           // Match elements within the array that meet the following criteria
@@ -24,6 +26,7 @@ exports.createRating = async (req, res) => {
         },
       },
     });
+    console.log(courseDetails)
     if (!courseDetails) {
       return res.status(404).json({
         success: false,

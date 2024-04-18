@@ -8,6 +8,7 @@ import Quote from '../components/main/About/Quote'
 import { website_Info } from '../utils/contants'
 import AboutLearningGrid from '../components/main/About/AboutLearningGrid'
 import ContactForm from '../components/main/common/ContactForm'
+import ReviewSlider from '../components/main/common/ReviewSlider'
 const About = () => {
   return (
     <>
@@ -108,9 +109,11 @@ const About = () => {
    <AboutLearningGrid/>
    {/* section-6 */}
    <ContactForm/>
-   <div>
-
-   </div>
+   <div className='relative mx-auto flex flex-col w-11/12 max-w-maxContent '
+          >
+         <ReviewSlider/>
+         </div>
+   
     </>
    
   )

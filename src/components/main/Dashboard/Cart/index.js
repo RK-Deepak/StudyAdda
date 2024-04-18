@@ -9,12 +9,12 @@ export default function Cart()
 
 
     return (
-       <div className="flex flex-col gap-2 w-[80%] mx-auto">
+       <div className="flex flex-col gap-2 w-[72%] mx-auto mb-5">
             <h1 className="mb-10 text-3xl font-medium text-richblack-5 mt-2"> Your Cart</h1>
             <p className="border-b border-b-richblack-400 pb-2 font-semibold text-richblack-400">{totalItems} Courses in Cart</p>
 
             {total > 0 
-            ? (<div className="mt-8 flex flex-col-reverse items-start gap-x-10 gap-y-6 lg:flex-row ">
+            ? (<div className="mt-8 flex flex-col items-center  lg:items-start gap-x-10 gap-y-6 lg:flex-row ">
           
                 <RenderTotalItems/>
                 <RenderAmount/>

@@ -3,6 +3,7 @@ import {Swiper, SwiperSlide} from "swiper/react"
 import "swiper/css"
 import "swiper/css/free-mode"
 import "swiper/css/pagination"
+import "swiper/css/autoplay"
 
 
 import {Autoplay,Navigation,Pagination,Scrollbar,FreeMode} from "swiper/modules"
@@ -19,13 +20,29 @@ const CourseSlider = ({courses}) => {
             spaceBetween={25}
             pagination={true}
             scrollbar={true}
-            modules={[Pagination,FreeMode]}
-            className='max-h-[30rem]'
+            autoplay={
+                {
+                    delay: 2000,
+                    disableOnInteraction: false,
+                }
+            }
+            modules={[Pagination,FreeMode,Autoplay
+            ]}
+            className='max-h-[30rem] '
          
             navigation={true}
             breakpoints={{
-                1024:
-                {slidesPerView:3}
+                480: {
+                    slidesPerView: 2,
+                    spaceBetween: 20
+                  },
+                  // when window width is >= 480px
+                
+                  // when window width is >= 640px
+                  1080: {
+                    slidesPerView: 3,
+                    spaceBetween: 40
+                  }
             }}
             
 

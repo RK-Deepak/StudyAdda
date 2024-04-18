@@ -4,6 +4,7 @@ import {GiNinjaStar} from "react-icons/gi"
 import {RiDeleteBin6Line} from "react-icons/ri"
 import { removeFromCart } from '../../../../store/Slices/cartSlice'
 import ReactStars from "react-rating-stars-component"
+import GetAvgRating from '../../../../utils/avgRating'
 
 const RenderCartCourses = () => {
 
@@ -15,15 +16,15 @@ const RenderCartCourses = () => {
 
 
   return (
-    <div className="flex flex-1 flex-col border border-richblack-300 rounded-md p-3 ">
+    <div className="flex  w-[80%] lg:w-[70%] flex-col border border-richblack-300 rounded-md p-3 ">
     {cart.map((course, index) => (
       <div
         key={course._id}
-        className={`flex w-full flex-wrap items-start justify-between gap-6 ${
+        className={`flex flex-col md:flex-row flex-wrap items-center md:items-start justify-evenly md:justify-between gap-6 ${
           index !== cart.length - 1 && "border-b border-b-richblack-400 pb-6"
         } ${index !== 0 && "mt-6"} `}
       >
-        <div className="flex flex-1 flex-col gap-4 xl:flex-row">
+        <div className="flex items-center  flex-col gap-4 xl:flex-row md:text-start text-center ">
           <img
             src={course?.thumbnail}
             alt={course?.courseName}
@@ -36,8 +37,9 @@ const RenderCartCourses = () => {
             <p className="text-sm text-richblack-300">
               {course?.category?.name}
             </p>
-            <div className="flex items-center gap-2">
-              <span className="text-yellow-5">4.5</span>
+            <div className="flex  flex-col sm:flex-row items-center gap-2">
+              <div className='flex items-center gap-2'>
+              <span className="text-yellow-5">{GetAvgRating(course?.ratingAndReviews)}</span>
               <ReactStars
                 count={5}
                 value={course?.ratingAndReviews?.length}
@@ -47,6 +49,7 @@ const RenderCartCourses = () => {
                 emptyIcon={<GiNinjaStar/>}
                 fullIcon={<GiNinjaStar/>}
               />
+              </div>
               <span className="text-richblack-400">
                 {course?.ratingAndReviews?.length} Ratings
               </span>
@@ -57,7 +60,7 @@ const RenderCartCourses = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-end space-y-2">
+        <div className="flex flex-col md:items-end space-y-2 items-center  ">
           <button
             onClick={() => dispatch(removeFromCart(course._id))}
             className="flex items-center flex-row-reverse gap-x-1 rounded-md border border-richblack-600 bg-richblack-700 py-3 px-[12px] text-pink-200"

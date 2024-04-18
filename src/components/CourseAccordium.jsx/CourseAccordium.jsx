@@ -66,15 +66,13 @@ const CourseAccordium = ({courseDetails}) => {
   return (
     <div className='w-full flex flex-col gap-3'>
         <div className='flex justify-between  items-center w-full'>
-        <div className='flex gap-2 font-inter text-[12px] font-semibold text-richblack-50'>
+        <div className='flex flex-wrap gap-2 font-inter text-[12px] font-semibold text-richblack-50'>
             <p>{totalSections}{" "}Sections</p>
             <p>.{" "}{totalLectures} lectures</p>
             <p>.{" "}{hours}hrs {minutes}mins {seconds}secs  total length</p>
             
         </div>
-        <div className=' font-inter text-[12px]  text-yellow-25 '>
-               Collapse All Sections
-        </div>
+     
         </div>
         <div className='flex flex-col gap-2'>
             {
@@ -102,9 +100,9 @@ const CourseAccordium = ({courseDetails}) => {
                                   
                                         <details>
                                               <summary className='flex gap-3 items-center'> 
-                                              <div className='flex items-center justify-between w-full '>
+                                              <div className='flex flex-wrap gap-2 items-center justify-between w-full '>
                                    <span className='flex gap-2 items-center'><FaTv/>{subSection.title} </span>
-                                   <span>{formatDuration(parseInt(subSection?.duration))}</span>
+                                   <span className='text-richblack-200 text-sm'>{formatDuration(parseInt(subSection?.duration))}</span>
                                    </div>
                                             </summary>
                                <span className='px-2 underline'> {subSection.description} </span>

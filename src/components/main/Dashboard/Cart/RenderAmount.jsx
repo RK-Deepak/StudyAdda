@@ -21,7 +21,7 @@ const RenderTotalAmount = () => {
          buyCourse(token,courses,user,navigate,dispatch)
     }
   return (
-    <div className="min-w-[280px] rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6">
+    <div className="min-w-[280px] w-[80%] lg:w-[30%] rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6">
 
         <p className="mb-1 text-[16px] font-bold text-richblack-400">Total Amount:</p>
         <p className="mb-6 text-[20px] font-medium text-yellow-50">Rs {total}</p>

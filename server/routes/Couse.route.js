@@ -25,6 +25,10 @@ averageRating,getAllRating}=require("../controllers/RatingAndReview.js")
 const {auth,isStudent,
     isInstructor,isAdmin}=require("../middlewares/auth.js");
 
+const {updateCourseProgress}=require("../controllers/CourseProgress.js");
+
+
+
 //course routes
 router.post("/createCourse",auth,isInstructor,createCourse);
 router.post("/editCourse",auth,isInstructor,editCourse)
@@ -38,6 +42,7 @@ router.post("/deleteCourse",auth,isInstructor,deleteCourse)
 router.post("/getInstructorCourses",auth,isInstructor,getCoursesOfInstructor)
 router.post("/getCourseDetails",getCourseDetails)
 router.get("/getAllCourses",getAllCourse);
+router.post("/updateCourseProgress",auth,isStudent,updateCourseProgress)
 
 
 //category routes

@@ -23,7 +23,7 @@ const ViewCourse = () => {
   const setCourseDetaills=async ()=>
 {
          const courseData=await getCourseDetails({courseId:courseId},token);;
-         console.log(courseData)
+         console.log("hi i m",courseData)
          dispatch(setCourseSectionData(courseData?.courseDetails?.courseContent));
          dispatch(setEntireCourseData(courseData?.courseDetails));
          dispatch(setCompletedLectures(courseData?.completedVideos));
@@ -39,12 +39,14 @@ setCourseDetaills();
 
   return (
     <>
-    <div>
+    <div className="relative flex  min-h-[calc(100vh-3.5rem)] flex-col md:flex-row gap-[10px] md:gap-2">
       {/* Video Side bar */}
       <VideoSideBar setReviewModal={setReviewModal}/>
-          <div>
+          <div className="h-[calc(100vh-3.5rem)] flex-1 overflow-auto">
+            <div className='mx-6'>
             {/* videos */}
             <Outlet/>
+            </div>
           </div>
 
     </div>

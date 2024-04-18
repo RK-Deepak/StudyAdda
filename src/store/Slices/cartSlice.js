@@ -16,6 +16,8 @@ const cartSlice=createSlice({
     reducers:{
       addToCart:(state,action)=>
       {
+        console.log("ITEM ADDED");
+        console.log(action);
         const course=action.payload;
         //checkig if course is already added or not
         const index=state.cart.findIndex((item)=>item._id===course._id);

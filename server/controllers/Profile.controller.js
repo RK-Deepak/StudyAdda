@@ -1,6 +1,12 @@
 const User=require("../models/User.model.js");
 const Profile=require("../models/Profile.model.js");
+const Course=require("../models/Course.model.js");
 const { imageUplaodOnCloud } = require("../utils/imageUploader.js");
+const { convertSecondsToDuration} = require( "../utils/secToDuration.js");
+
+const CourseProgress = require("../models/CourseProgress.model.js");
+
+
 require("dotenv").config();
 exports.createProfile=async(req,res)=>
 {
@@ -174,13 +180,56 @@ exports.getenrolledCourses=async(req,res)=>
         //get user id
         const userId=req.user.id;
         //get user details with enrolled courses
-        const userDetails = await User.findOne({ _id: userId })
+        let userDetails = await User.findOne({ _id: userId })
         .populate({
             path: 'courses',
             populate: { path: 'courseContent',
                    populate:"subSection" }
         })
         .exec();
+
+        //convert user details into object 
+
+           userDetails=userDetails.toObject();
+           var subSectionLength=0;
+           //we go in courses of student enrolled
+           for(var i=0;i<userDetails.courses.length;i++)
+           {
+             let totalDurationInSeconds=0;
+            subSectionLength=0;
+             //we go in each section
+             for(var j=0;j<userDetails.courses[i].courseContent.length;j++)
+             {
+                //calculated total duration
+             totalDurationInSeconds += userDetails.courses[i].courseContent[j].subSection.reduce((acc,curr)=>acc + parseInt(curr.duration),0);
+            
+             userDetails.courses[i].duration=convertSecondsToDuration(totalDurationInSeconds)
+
+             subSectionLength += userDetails.courses[i].courseContent[j].subSection.length;
+             }
+
+             let courseProgressCount=await CourseProgress.findOne({
+                courseId:userDetails.courses[i]._id,
+                userId:userId
+             })
+
+             courseProgressCount=courseProgressCount?.completedVideos?.length 
+             if(subSectionLength===0)
+             {
+                userDetails.courses[i].progressPrecentage=100
+             }
+             else 
+             {
+                    const multiplier=Math.pow(10,2);
+
+                    userDetails.courses[i].progressPrecentage=Math.round(
+                        (courseProgressCount/subSectionLength)*100*multiplier)/multiplier;
+                    
+             }
+           }
+
+
+
         if (!userDetails) {
             return res.status(400).json({
               success: false,
@@ -198,4 +247,41 @@ exports.getenrolledCourses=async(req,res)=>
           message: error.message,
         })
       }
+}
+exports.instructorDashboard=async(req,res)=>
+{
+
+    const userId=req.user.id
+    
+    try 
+    {
+        const userDetails=await Course.find({instructor:userId,
+            status:"Published"
+        }).populate("instructor").exec()
+        console.log("HI IM ",userDetails);
+
+        if (!userDetails) {
+            return res.status(400).json({
+              success: false,
+              message: `Could not find user with id: ${userDetails}`,
+            })
+        }
+        
+        res.status(200).json({
+            success: true,
+            data: userDetails,
+        })
+        
+  
+        }
+      
+    
+    catch(error)
+    {
+       console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        })
+    }
 }

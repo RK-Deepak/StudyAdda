@@ -5,10 +5,10 @@ const {createProfile,
     updatedDisplayPicture,
     deleteAccount,
     getAllUserDetails,
-    getenrolledCourses
+    getenrolledCourses,instructorDashboard
 }=require("../controllers/Profile.controller.js")
 
-const {auth}=require("../middlewares/auth.js")
+const {auth, isInstructor}=require("../middlewares/auth.js")
 //profile routes
 
 //create profile/update
@@ -21,5 +21,7 @@ router.put("/updateDisplayPicture",auth,updatedDisplayPicture);
 router.get("/getUserDetails",auth,getAllUserDetails);
 //get enrolled courses of user
 router.get("/getEnrolledCourses",auth,getenrolledCourses);
+
+router.get("/getInstructorDashboard",auth,isInstructor,instructorDashboard)
 
 module.exports=router

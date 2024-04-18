@@ -67,7 +67,7 @@ exports.createSubSection=async(req,res)=>
                 message:'Sub Section Created Successfully',
                 data:updatedCourse,
             });
-        cons
+        
      }
      catch(error)
      {
@@ -101,7 +101,7 @@ exports.updateSubSection=async(req,res)=>
         return res.status(400).json({
             success:false,
             message:"No Such Subsection",
-            error:error.message,
+            
         })
       }
     //checking for title

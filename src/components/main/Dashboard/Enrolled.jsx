@@ -61,9 +61,9 @@ let addcourses=[];
         <div className="my-8 text-richblack-5">
           {/* Headings */}
           <div className="flex rounded-t-lg bg-richblack-500 ">
-            <p className="w-[45%] px-5 py-3">Course Name</p>
-            <p className="w-1/4 px-2 py-3">Duration</p>
-            <p className="flex-1 px-2 py-3">Progress</p>
+            <p className="w-[45%] px-5 py-3 text-sm md:text-lg" >Course Name</p>
+            <p className="w-1/4 px-2 py-3 text-sm md:text-lg">Duration</p>
+            <p className="flex-1 px-2 py-3 text-sm md:text-lg">Progress</p>
           </div>
           {/* Course Names */}
           {enrolledCourses.map((course, i, arr) => (
@@ -74,7 +74,7 @@ let addcourses=[];
               key={i}
             >
               <div
-                className="flex w-[45%] cursor-pointer items-center gap-4 px-5 py-3"
+                className="flex w-[45%] flex-col md:flex-row items-baseline  cursor-pointer md:items-center gap-2 md:gap-4 px-5 py-3"
                 onClick={() => {
                   navigate(
                     `/view-course/${course?._id}/section/${course.courseContent?.[0]?._id}/sub-section/${course.courseContent?.[0]?.subSection?.[0]?._id}`
@@ -84,7 +84,7 @@ let addcourses=[];
                 <img
                   src={course.thumbnail}
                   alt="course_img"
-                  className="h-14 w-14 rounded-lg object-cover"
+                  className="h-14 w-full md:w-14 rounded-lg object-cover"
                 />
                 <div className="flex max-w-xs flex-col gap-2">
                   <p className="font-semibold">{course.courseName}</p>
@@ -95,11 +95,11 @@ let addcourses=[];
                   </p>
                 </div>
               </div>
-              <div className="w-1/4 px-2 py-3">{course?.totalDuration}</div>
-              <div className="flex w-1/5 flex-col gap-2 px-2 py-3">
-                <p>Progress: {course.progressPercentage || 0}%</p>
+              <div className="w-1/4 px-2 py-3">{course?.duration}</div>
+              <div className="flex w-1/5 flex-col gap-2 px-2 py-3 text-sm md:text-lg">
+                <p>Progress: {course.progressPrecentage || 0}%</p>
                 <ProgressBar
-                  completed={course.progressPercentage || 0}
+                  completed={course.progressPrecentage || 0}
                   height="8px"
                   isLabelVisible={false}
                 />

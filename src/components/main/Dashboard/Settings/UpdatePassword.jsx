@@ -101,7 +101,7 @@ const UpdatePassword = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-end gap-2">
+      <div className="flex justify-center sm:justify-end gap-2">
         <button
           onClick={() => {
             navigate("/dashboard/my-profile")

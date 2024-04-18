@@ -13,7 +13,8 @@ export const endpoints={
 //PROFILE ENDPOINTS
 export const profileEndpoints={
     GET_USER_DETAILS_API:BASE_URL + "/profile/getUserDetails",
-    GET_USER_ENROLLED_COURSES_API:BASE_URL + "/profile/getEnrolledCourses"
+    GET_USER_ENROLLED_COURSES_API:BASE_URL + "/profile/getEnrolledCourses",
+    GET_INSTRUCTOR_DETAILS_API:BASE_URL + "/profile/getInstructorDashboard",
     
 }
 //CATEGORIES ENDPOINTS
@@ -51,7 +52,9 @@ export const courseEndPoints={
     DELETE_SELECTED_COURSE_API:BASE_URL+"/course/deleteCourse",
     GET_COURSE_DETAILS_API:BASE_URL+"/course/getCourseDetails",
     CREATE_RATING_API:BASE_URL+"/course/createRating",
-    LECTURE_COMPLETION_API:BASE_URL+"/course/updateCourseProgress"
+    LECTURE_COMPLETION_API:BASE_URL+"/course/updateCourseProgress",
+    GET_ALL_RATINGS_API:BASE_URL+"/course/getReviews"
+    
 
     
 }

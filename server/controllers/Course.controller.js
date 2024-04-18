@@ -196,7 +196,7 @@ exports.getCourseDetails = async (req, res) => {
       })
       .exec();
 
-      let courseProgressCount=await  CourseProgress.findOne({
+      let courseProgressCount=await  CourseProgress.find({
         courseId:courseId,
         userId:userId
         
@@ -228,8 +228,8 @@ exports.getCourseDetails = async (req, res) => {
       data:{
         courseDetails,
         totalDuration,
-        completedVideos:courseProgressCount?.completeVideos
-        ?courseProgressCount?.completeVideos
+        completedVideos:courseProgressCount?.completedVideos
+        ?courseProgressCount?.completedVideos
         :[],
       }
     });

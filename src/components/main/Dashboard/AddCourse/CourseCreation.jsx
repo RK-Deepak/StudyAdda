@@ -12,7 +12,7 @@ const {step}=useSelector((store)=>store.course);
 
   
   return (
-    <div className='w-[90%] px-2'>
+    <div className=' w-full md:w-[90%] px-2'>
       {/* //render steps */}
       <RenderSteps/>
       {/* //course creation form */}

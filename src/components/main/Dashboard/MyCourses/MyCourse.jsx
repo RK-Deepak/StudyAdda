@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
+
 import { deleteCourse, getAllInstructorCoursesData } from '../../../../services/operations/courseAPI';
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import { formatDate } from '../../../../utils/dateFormatter';
@@ -51,63 +51,61 @@ const MyCourse = () => {
 
 
   return (
-    <div className='flex flex-col gap-2 w-[80%] px-2 mx-auto '>
+    <div className='flex flex-col gap-2 w-full sm:w-[80%] px-2 mx-auto'>
     <div className='flex flex-col gap-3'>
-       <p className='text-white'>Home/dashboard/MYCOURSE</p>
-       <div className='flex justify-between items-center'>
-        <p className='text-white'>My Courses</p>
-        <IconBtn outline={true} onclick={()=>navigate("/dashboard/add-course")} text={"Add Course"}>
+      <p className='text-white text-md font-semibold'>Home / Dashboard / <span className='text-red-300'>My Courses</span></p>
+      <div className='flex flex-col sm:flex-row gap-3 sm:gap-0 justify-between items-center'>
+        <p className='text-white text-xl'>My Courses</p>
+        <IconBtn outline={true} onclick={() => navigate("/dashboard/add-course")} text={"Add Course"}>
           <div className='flex gap-1 items-center text-white'>
             <FaPlusCircle />
-          
-            </div>
-
+          </div>
         </IconBtn>
-       </div>
-
+      </div>
     </div>
-      <Table>
-        <Thead>
-          <Tr className="flex gap-x-10 rounded-t-md border-b border-b-richblack-800 px-6 py-2">
-            <Th className="flex-1 text-left text-sm font-medium uppercase text-richblack-100">
-              Courses
-            </Th>
-            <Th className="text-left text-sm font-medium uppercase text-richblack-100">
-              Duration
-            </Th>
-            <Th className="text-left text-sm font-medium uppercase text-richblack-100">
-              Price
-            </Th>
-            <Th className="text-left text-sm font-medium uppercase text-richblack-100">
-              Actions
-            </Th>
-          </Tr>
-        </Thead>
-        {!loading ?<Tbody>
+    <div>
+      <div>
+        <div className="hidden gap-x-10 text-white rounded-t-md border-b border-b-richblack-800 px-6 py-2 md:flex">
+       
+          <p className="flex-1 text-left text-sm font-medium uppercase md:flex text-white md:text-richblack-100">
+            Courses
+          </p>
+          <p className="text-left text-sm font-medium uppercase text-richblack-100">
+            Duration
+          </p>
+          <p className="text-left text-sm font-medium uppercase text-richblack-100">
+            Price
+          </p>
+          <p className="text-left text-sm font-medium uppercase text-richblack-100">
+            Actions
+          </p>
+        </div>
+        
+      </div>
+      {!loading ?
+        <div>
           {allCourses && allCourses.length === 0 ? (
-            <Tr>
-              <Td className="py-10 text-center text-2xl font-medium text-richblack-100">
+            <div>
+              <p className="py-10 text-center text-2xl font-medium text-richblack-100">
                 No courses found
-              </Td>
-            </Tr>
+              </p>
+            </div>
           ) : (allCourses && allCourses.map((course) => {
             return (
-              <Tr key={course._id} className="flex gap-x-10 border-b border-richblack-800 px-6 py-8">
-                <Td className="flex flex-1 gap-x-4">
+              <div key={course._id} className="flex flex-col sm:flex-row gap-x-10  border-b border-richblack-300 px-6 py-8 w-full">
+                <div className="flex flex-1 gap-x-4 w-full md:flex-row flex-col gap-2">
                   <img
                     src={course.thumbnail}
                     alt="course/thumbnail"
-                    className="h-[148px] w-[220px] rounded-lg object-cover"
+                    className="sm:h-[148px] w-full sm:w-[220px] rounded-lg object-cover"
                   />
-                  <div className="flex flex-col justify-between">
+                  <div className="flex justify-between  flex-col  gap-2">
                     <p className="text-lg font-semibold text-richblack-5">
                       {course.courseName}
                     </p>
                     <p className="text-xs text-richblack-300">
                       {course.courseDescription.split(" ").length > description_length ?
-                        course.courseDescription.split(" ")
-                          .slice(0, description_length)
-                          .join(" ") + "...."
+                        course.courseDescription.split(" ").slice(0, description_length).join(" ") + "...."
                         : course.courseDescription}
                     </p>
                     <p className="text-[12px] text-white">
@@ -130,16 +128,16 @@ const MyCourse = () => {
                       </p>
                     )}
                   </div>
-                </Td>
-                <Td className="text-sm font-medium text-richblack-100">
+                </div>
+                <p className="text-sm font-medium text-richblack-100 my-1">
                   2hr 30min
-                </Td>
-                  <Td className="text-sm font-medium text-richblack-100 ">
-                    <div className='flex gap-1 items-center'>
-                  <FaRupeeSign/><span>{course.price}</span>
+                </p>
+                <p className="text-sm font-medium text-richblack-100 my-1">
+                  <div className='flex gap-1 items-center'>
+                    <FaRupeeSign /><span>{course.price}</span>
                   </div>
-                </Td>
-                <Td className="text-sm font-medium text-richblack-100" >
+                </p>
+                <div className="text-sm font-medium  text-richblack-100 my-1">
                   <button
                     disabled={loading}
                     onClick={() => navigate(`/dashboard/edit-course/${course._id}`)}
@@ -156,7 +154,7 @@ const MyCourse = () => {
                       btn1Text: !loading ? "Delete" : "Loading...  ",
                       btn2Text: "Cancel",
                       btn1Handler: !loading ?
-                        () => handleCourseDelete(course._id,course?.category._id) :
+                        () => handleCourseDelete(course._id, course?.category._id) :
                         () => { },
                       btn2Handler: !loading ?
                         () => setConfirmationModal(null) :
@@ -167,16 +165,17 @@ const MyCourse = () => {
                   >
                     <MdDelete size={20} />
                   </button>
-                </Td>
-              </Tr>
+                </div>
+              </div>
             );
           }))
           }
-        </Tbody>:<div className="loader w-full mx-auto min-h-screen my-auto"></div>}
-      </Table>
-      {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
+        </div> : <div className="loader w-full mx-auto min-h-screen my-auto"></div>}
     </div>
-  );
-};
+    {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
+  </div>
+
+  )
+}
 
 export default MyCourse;
