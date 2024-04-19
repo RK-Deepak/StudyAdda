@@ -22,7 +22,9 @@ export const categories=
 {
     CATEGORIES_API:BASE_URL+"/course/getAllCategories",
     CATEGORIES_DETAILS_API:BASE_URL+"/course/categoryPageDetails",
-    GET_ALL_CATEGORIES_DETAILS_API:BASE_URL+"/course/categoryPageDetails"
+    GET_ALL_CATEGORIES_DETAILS_API:BASE_URL+"/course/categoryPageDetails",
+    CREATE_CATEGORY_API:BASE_URL+"/course/createCategory",
+    DELETE_CATEGORY_API:BASE_URL+"/course/deleteCategory"
 }
 //CONTACT FORM ENDPOINTS
 export const contactAPI={

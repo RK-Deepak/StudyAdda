@@ -64,4 +64,11 @@ export const sidebarLinks = [
     type: [ACCOUNT_TYPE.INSTRUCTOR, ACCOUNT_TYPE.ADMIN, ACCOUNT_TYPE.STUDENT],
     icon: "MdLogout",
   },
+  {
+    id: 10,
+    name: "Category",
+    path: "/category-create",
+    type: [ACCOUNT_TYPE.ADMIN],
+    icon: "MdCategory",
+  },
 ];

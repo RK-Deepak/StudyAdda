@@ -9,7 +9,7 @@ import { contactSubmission } from '../../../services/operations/contactAPI';
 
 //point here what ever u write in register that got store as name in sending data
 //means if we write firstName than it is send as firstName NO RELATION WOITH NAME in input
-const ContactForm = () => {
+const ContactFormx = () => {
     const [loading ,setloading]=useState(false);
     const dispatch=useDispatch();
     const {register,reset,formState:{errors,isSubmitSuccessful},handleSubmit}=useForm();
@@ -189,4 +189,4 @@ const ContactForm = () => {
   )
 }
 
-export default ContactForm
+export default ContactFormx;

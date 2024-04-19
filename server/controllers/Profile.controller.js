@@ -142,6 +142,7 @@ exports.updatedDisplayPicture=async (req,res)=>
     {
         //get new profile pic
           const displayPicture=req.files.displayPicture;
+          console.log(displayPicture);
           //get user id
           const userId=req.user.id;
           console.log(userId)

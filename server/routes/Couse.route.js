@@ -17,7 +17,7 @@ const {createSubSection,
     updateSubSection}=require("../controllers/SubSection.controller.js");
 
 const {createCategory,getAllCategories,
-categoryPageDetails}=require("../controllers/Category.controller.js");
+categoryPageDetails,deleteCategory}=require("../controllers/Category.controller.js");
 
 const {createRating,
 averageRating,getAllRating}=require("../controllers/RatingAndReview.js")
@@ -50,6 +50,7 @@ router.post("/updateCourseProgress",auth,isStudent,updateCourseProgress)
 router.post("/createCategory",auth,isAdmin,createCategory);
 router.get("/getAllCategories",getAllCategories);
 router.post("/categoryPageDetails",categoryPageDetails);
+router.post("/deleteCategory",auth,isAdmin,deleteCategory);
 
 //review And Rating
 router.post("/createRating",auth,isStudent,createRating);

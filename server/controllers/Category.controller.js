@@ -1,5 +1,6 @@
 const Category=require("../models/Category.model.js");
 require("dotenv").config();
+const User=require("../models/User.model.js");
 function getRandomInt(max){
     return Math.floor(Math.random()*max)
 }
@@ -154,4 +155,57 @@ exports.categoryPageDetails=async(req,res)=>
     }
 }
    
+exports.deleteCategory=async(req,res)=>
+{
+
+    try 
+    {   
+ //get the data
+ const userId=req?.user?.id;
+ console.log(userId);
+ console.log(req.body);
+
+ const {categoryId}=req.body;
+ console.log(categoryId);
+
+ //if user exist or valid or not
+ const userDetails = await User.findOne({ _id: userId, accountType: "Admin" });
+
+  console.log(userDetails);
+
+  if(!userDetails)
+  {
+    return res.status(404).json({
+        success:false,
+        message:'User not found',
+    });
+  }
+  //if i delete an id i m also deleting course related to that
+  const selectedCategory=await Category.findByIdAndDelete(categoryId);
+
+  if(!selectedCategory)
+  {
+    return res.status(404).json({
+        success:false,
+        message:'Category not found',
+    });
+}
+
+    return res.status(200).json({
+        success:true,
+        message:"Category Deleted Successfully",
+    })
+  
+
+
+    }
+    catch(error)
+    {
+        console.log("Error While Deleting Category",error);
+      return res.status(500).json({
+          success:false,
+          message:error.message,
+      })
+    }
+}
 

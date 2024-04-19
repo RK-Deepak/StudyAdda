@@ -32,6 +32,8 @@ import CourseDetails from './page/CourseDetails.jsx';
 import ViewCourse from './page/ViewCourse.jsx';
 import VideoDetails from './components/main/VideoCourse/VideoDetails.jsx';
 import InstructorDashboard from './components/main/Dashboard/InstructorDashboard/InstructorDashboard.jsx';
+import CategoryCreate from './components/main/Dashboard/CategoryCreator/CategoryCreate.jsx';
+import InstructorCategory from './page/InstructorCategory.jsx';
 
 
 function App() {
@@ -112,6 +114,10 @@ function App() {
    </Route>
    <Route path="catlog/:catlogName" element={<Catlog/>}/>
    <Route path="/courses/:courseId" element={<CourseDetails/>}/>
+   {
+    user && user.accountType==="Admin" && 
+    <Route path='/category-create' element={<InstructorCategory/>}/>
+  }
 
  <Route element={<ProtectedRoute>
   <ViewCourse/>
@@ -123,6 +129,8 @@ function App() {
     <Route path='view-course/:courseId/section/:sectionId/sub-section/:subSectionId' element={<VideoDetails/>}/>
 
   }
+
+
 
  </Route>
       

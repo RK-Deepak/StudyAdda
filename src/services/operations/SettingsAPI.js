@@ -90,7 +90,7 @@ export const updateProfile=(token,formData)=>
 
                const response=await apiConnector("POST",UPDATE_PROFILE_API,formData,
                {
-                Authorization:`Bearer ${token}`
+                Authorisation:`Bearer ${token}`
                })
 
                console.log("UPDATE_PROFILE_API API RESPONSE............", response)
