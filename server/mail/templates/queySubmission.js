@@ -50,8 +50,8 @@ const querySubmittedTemplate = () => {
 	
 	<body>
 		<div class="container">
-			<a href="https://studynotion-edtech-project.vercel.app"><img class="logo"
-					src="https://i.ibb.co/7Xyj3PC/logo.png" alt="Your Company Logo"></a>
+			<a href=""><img class="logo"
+					src="https://res.cloudinary.com/studyadda/image/upload/v1713631744/StudyAdda/iqqw2jm6mv60ly3czltf.png" alt="Your Company Logo"></a>
 			<div class="message">Query Submitted Confirmation</div>
 			<div class="body">
 				<p>Dear buddy</p>
@@ -60,7 +60,7 @@ const querySubmittedTemplate = () => {
 				<p>Thank you for reaching out to us. We appreciate your patience.</p>
 			</div>
 			<div class="support">If you have any urgent concerns or additional questions, please feel free to reach out
-				to us at <a href="mailto:info@yourcompany.com">info@yourcompany.com</a>.</div>
+				to us at <a href="mailto:studyadda@helpline.com">studyadda@helpline.com</a>.</div>
 		</div>
 	</body>
 	

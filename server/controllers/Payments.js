@@ -1,5 +1,6 @@
 const User=require("../models/User.model.js");
 const Course=require("../models/Course.model.js");
+const Profile=require("../models/Profile.model.js");
 const {instance}=require("../config/razorpay.js");
 const {courseEnrollmentEmail}=require("../mail/templates/courseEnrollmentEmail.js")
 const mailSender=require("../utils/mailSender");
@@ -8,16 +9,17 @@ const { paymentSuccessEmail } = require("../mail/templates/paymentSuccessEmail.j
 require("dotenv").config();
 const crypto = require("crypto");
 const CourseProgress=require("../models/CourseProgress.model.js");
+const Purchase=require("../models/Purchase.model.js");
 
 //capture the payment and create RazorPay Order
 exports.capturePayment=async(req,res)=>
 {
     //which all courses we buyed 
-    const {courses}=req.body;
+    const {courses,actualCost}=req.body;
     //we need userId from which buyed the course
     const userId=req.user.id;
 
-    if(courses.length===0)
+    if(courses?.length===0)
     {
         return res.status(400).json({success:false,message:"Please provide Courses "});
 
@@ -25,7 +27,7 @@ exports.capturePayment=async(req,res)=>
 
     //let calcaulte total amount of all courses which we buy
 
-    let totalAmount=0;
+    let totalAmount=actualCost;
     for(const course_id of courses)
     {
         let course;
@@ -46,7 +48,7 @@ exports.capturePayment=async(req,res)=>
             return res.status(400).json({success:false, message:"Student is already Enrolled"});
           }
          
-          totalAmount+=course.price
+          
         }
         catch(error)
         {
@@ -69,7 +71,8 @@ exports.capturePayment=async(req,res)=>
         return res.json({
             success:true,
             message:"Payment Success",
-            data:paymentResponse
+            data:paymentResponse,
+            
         })
     }
 
@@ -88,6 +91,7 @@ exports.verifyPayment=async(req,res)=>
     const razorpay_signature=req.body?.razorpay_signature;
     const courses=req.body.courses;
     const userId=req.user.id;
+    const checkedValue=req.body.checkedValue;
 
     if(!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !courses ||!userId)
     {
@@ -104,7 +108,16 @@ exports.verifyPayment=async(req,res)=>
     if(expectedSignature===razorpay_signature)
     {
         //enroll student in course
-        await enrolledStudents(courses,userId,res);
+        await enrolledStudents(courses,userId,res,checkedValue);
+
+        const purchaseResult=await Purchase.create({
+            user:userId,
+            razorpay_order_id:razorpay_order_id,
+            razorpay_payment_id:razorpay_payment_id,
+            razorpay_signature:razorpay_signature,
+            courses:courses
+        })
+        console.log("hi i m",purchaseResult);
         //return res
         return res.status(200).json({success:true, message:"Payment Verified"});
     }
@@ -113,7 +126,7 @@ exports.verifyPayment=async(req,res)=>
 
 }
 //enrolling the students
-const enrolledStudents=async(courses,userId,res)=>
+const enrolledStudents=async(courses,userId,res,checkedValue)=>
 {
     console.log("i m in")
     if(!courses || !userId)
@@ -150,11 +163,26 @@ const enrolledStudents=async(courses,userId,res)=>
 
             //if course get added send student a mail tgat u buy the
             //course
-         console.log("its done")
+         console.log("its done");
+
+
             await mailSender(enrolledStudent.email,
                 `Successfully Enrolled into ${enrolledCourse.courseName} `,
             courseEnrollmentEmail(enrolledCourse.courseName,`${enrolledStudent.firstName} ${enrolledStudent.lastName}`))
-        
+            const user = await User.findById(userId);
+//coupan point deduction
+            if (checkedValue && user.coupanPoints !== 0 ) {
+              const newCoupanPoints =enrolledCourse.price>user.coupanPoints?enrolledCourse.price-user.coupanPoints:user.coupanPoints-enrolledCourse.price;
+              
+              await User.findByIdAndUpdate(userId, { $set: { coupanPoints: newCoupanPoints } });
+            }
+              
+            //coupan point addition
+              await User.findByIdAndUpdate(userId,{
+                    $inc:{coupanPoints:200}
+              })
+
+           
         }
         catch(error)
         {

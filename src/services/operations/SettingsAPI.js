@@ -80,7 +80,7 @@ export const changePassword=(token,formData)=>
 
 }
 
-export const updateProfile=(token,formData)=>
+export const updateProfile=(formData,token)=>
 {
     return async(dispatch)=>
     {
@@ -117,17 +117,19 @@ export const updateProfile=(token,formData)=>
     
 }
 
-export const updateDisplayPicture=(token,formData)=>
+export const updateDisplayPicture=(formData,token)=>
 {
     return async(dispatch)=>
     {
+        console.log("hi",formData?.displayPicture);
         const toastId=toast.loading("Updating Profile Image")
         try 
         {
+            
             const response=await apiConnector("PUT",UPDATE_DISPLAY_PICTURE_API,formData,
             {
                 "Content-Type":"multipart/form-data",
-                Authorization:`Bearer ${token}`
+                Authorisation:`Bearer ${token}`
             })
             console.log(
                 "UPDATE_DISPLAY_PICTURE_API API RESPONSE............",
@@ -138,7 +140,7 @@ export const updateDisplayPicture=(token,formData)=>
                 throw new Error(response.data.message)
             }
             toast.success("Display Picture Updated Successfully")
-            dispatch(setUser({...response.data.data}))
+            dispatch(setUser({...response?.data?.data}))
         }
         catch(error)
         {

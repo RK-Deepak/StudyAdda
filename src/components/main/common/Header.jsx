@@ -1,7 +1,7 @@
 import React, { useEffect, useState,useRef } from 'react'
 import Logo from "../../../assets/Logo/studyadda-high-resolution-logo-transparent.png"
 import { NavbarLinks } from '../../../data/navbar-links'
-import { Link, matchPath } from 'react-router-dom'
+import { Link, matchPath, useNavigate } from 'react-router-dom'
 import {  FaCartPlus, FaHamburger, FaSearch } from 'react-icons/fa'
 import { FaSortAlphaDown } from "react-icons/fa";
 import { MdAccountCircle, MdArrowDropDown, MdBook } from 'react-icons/md'
@@ -15,6 +15,7 @@ import ProfileDropDown from '../Auth/ProfileDropDown'
 import smalllogo from "../../../assets/Logo/studyadda-favicon-color.png"
 import useOnClickOutside from '../../../hooks/useClickOutside'
 import { setSideBar } from '../../../store/Slices/sideBarSlice'
+import { FcVideoCall } from "react-icons/fc"
 
 
 
@@ -24,9 +25,10 @@ const Header = () => {
   const dispatch=useDispatch();
   const refmenu=useRef(null);
   const refauth=useRef(null);
-  const {viewsideBar}=useSelector((store)=>store.SideBar);
+  const navigate=useNavigate();
+
   
-  const user=localStorage.getItem("user")?JSON.parse(localStorage.getItem("user")):null;
+  const {user}=useSelector((store)=>store.profile)
   const token=localStorage.getItem("token")?JSON.parse(localStorage.getItem("token")):null;
   const totalItems=useSelector((store)=>store.cart.totalItems);
 
@@ -37,18 +39,7 @@ const Header = () => {
   const matchRoute = (route) => {
     return matchPath({ path: route }, location.pathname)
   }
-//   const subLinks=[
-//     {
-//        title:"Web Dev",
-//        path:"/webdev"
-//     },
-    
-//         {
-//             title:"Python",
-//             path:"/python"
-//          },
-    
-//   ]
+
 
 const fetchCatlog=async ()=>
 {
@@ -104,32 +95,36 @@ dispatch(setSideBar());
 
         }}/></div>
         <div className={`flex gap-6 md:gap-3 items-center  flex-col absolute top-12 left-[30%] sm:left-[40%]   min-w-[150px]  p-[20px] md:p-0 rounded-xl  md:rounded-none md:w-auto bg-richblack-800 border border-richblack-25 md:border-none z-50 md:z-1  md:relative md:bg-transparent md:left-0 md:top-0  md:flex-row  ${showmenu?"flex":"hidden"} md:flex  `} ref={refmenu}>
-            
+          {/* please check if catalog button is clickable in phone or not   */}
         {
-    NavbarLinks.map((option, index) => (
-        <Link to={option?.path} key={index}>
-            {option.title === "Catalog" ? (
-                <div className={`flex items-center gap-1 relative $ group text-[13px] md:text-[16px] z-49`}>
-                    <span className={matchRoute("/catlog/:catlogName") ? "text-yellow-50" : "text-white"}>{option.title}</span>
-                    <MdArrowDropDown className='text-[20px] text-white' />
-                    <div className='absolute z-50 invisible opacity-0 group-hover:visible group-hover:opacity-100 '>
-                        <div className='w-[20px] aspect-square bg-white -right-[83px] top-4 absolute rotate-45 z-50'></div>
-                        <div className='p-4 bg-richblack-50 -left-[33px] top-[22px] absolute flex flex-col  w-[200px] text-black gap-2 rounded-md z-50 '>
+NavbarLinks.map((option, index) => (
+    <div key={index}>
+        {option.title === "Catalog" ? (
+            <div className={`flex items-center gap-1 relative $ group text-[13px] md:text-[16px] z-49 `}>
+                <span className={matchRoute("/catlog/:catlogName") ? "text-yellow-50" : "text-white"}>{option.title}</span>
+                <MdArrowDropDown className='text-[20px] text-white' />
+                <div className='absolute z-50 invisible opacity-0 group-hover:visible group-hover:opacity-100 '>
+                    <div className='w-[20px] aspect-square bg-white -right-[83px] top-4 absolute rotate-45 z-50'></div>
+                    <div className='p-4 bg-richblack-50 -left-[33px] top-[22px] absolute flex flex-col  w-[200px] text-black gap-2 rounded-md z-50 '>
+                        {
+                            subLinks?.map((sublink,index)=>
                             {
-                                subLinks?.map((sublink,index)=>
-                                {
-                                   return <Link to={`catlog/${sublink?.name}`}  key={index} onClick={()=>setshowMenu(false)} className='font-inter font-bold ' >{sublink.name}</Link>
-                                })
-                            }
-                        </div>
+                               return <Link to={`catlog/${sublink?.name}`}  key={index} onClick={()=>setshowMenu(false)} className='font-inter font-bold ' >{sublink.name}</Link>
+                            })
+                        }
                     </div>
                 </div>
-            ) : (
-                <p className={`font-inter text-[13px] md:text-[16px] ${matchRoute(option?.path) ? "text-yellow-50 pointer-events-auto" : "text-white pointer-events-none"}`} onClick={()=>setshowMenu(false)}>{option?.title}</p>
-            )}
-        </Link>
-    ))
-}
+            </div>
+        ) : (
+            <Link to={option?.path} onClick={()=>setshowMenu(false)} className='flex flex-col items-center gap-2'>
+           {option.title==="Peer Call" && user?.accountType==="Student" && <FcVideoCall className='text-2xl' onClick={()=>navigate("/peerToPeer/videoCall")}/>}
+           {option.title!=="Peer Call" &&  <p className={`font-inter text-[13px] md:text-[16px] ${matchRoute(option?.path) ? "text-yellow-50" : "text-white"}`}>{option?.title}</p>}
+            </Link>
+        )}
+    </div>
+))
+
+}    
 
 
         </div>
@@ -140,7 +135,10 @@ dispatch(setSideBar());
             setAuth(true)
 
         }} /></div>
+     
         <div className={`flex gap-3 items-center flex-col absolute top-[51px] right-[19px] md:relative md:top-0 md:right-0 md:flex-row  z-[20]  ${auth?"flex":"hidden"} md:flex` } ref={refauth}>
+    
+           
            {
              token===null && (
                 <Link to={"/login"} onClick={()=>setAuth(false)}>
@@ -176,9 +174,14 @@ dispatch(setSideBar());
                 </Link>
             )
            }
+              {token && user?.accountType==="Student"  && <div className='flex  font-inter justify-center my-3'>
+                    
+                    <div className='flex gap-2 items-center text-yellow-25 font-semibold'>💰{""}{Math.round(user?.coupanPoints)}</div>
+                </div>}
            {
             user && <ProfileDropDown/>
            }
+
           
         </div>
     </div>

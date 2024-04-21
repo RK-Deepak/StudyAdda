@@ -5,7 +5,7 @@ import {setPaymentloading} from "../../store/Slices/courseSlice.js"
 import { studentCourseBuyEndpoints } from "../apis.js";
 import { resetCart } from "../../store/Slices/cartSlice.js";
 
-const {COURSE_PAYMENT_API,COURSE_VERIFY_API,SEND_PAYMENT_SUCCESS_EMAIL_API}=studentCourseBuyEndpoints
+const {COURSE_PAYMENT_API,COURSE_VERIFY_API,SEND_PAYMENT_SUCCESS_EMAIL_API,GET_PURCHASE_DETAILS_API}=studentCourseBuyEndpoints
 
 //first of all as mention we have to load the razorpayScript
 
@@ -27,11 +27,12 @@ function loadinScript(src)
         document.body.appendChild(script)
      })
 }
-
-export async function buyCourse(token,courses,userDetails,navigate,dispatch)
+let checkedValue=false;
+export async function buyCourse(token,courses,userDetails,navigate,dispatch,actualCost,checkedcoins)
 {
     const toastId=toast.loading("Loading...");
-
+    checkedValue=checkedcoins;
+    console.log("im buying with coins",checkedValue);
     try 
     {
           const res=await loadinScript("https://checkout.razorpay.com/v1/checkout.js");
@@ -43,7 +44,7 @@ export async function buyCourse(token,courses,userDetails,navigate,dispatch)
           }
 
           //validaign the order and create the order
-          const orderResponse=await apiConnector("POST",COURSE_PAYMENT_API,{courses},{
+          const orderResponse=await apiConnector("POST",COURSE_PAYMENT_API,{courses,actualCost},{
             Authorisation:`Bearer ${token}`
           })
 
@@ -72,7 +73,7 @@ export async function buyCourse(token,courses,userDetails,navigate,dispatch)
                 //send successful wala email
                 sendPaymentSuccessEmail(response,orderResponse.data.data.amount,token);
                 //verify payment
-                verifyPayment({...response,courses},token,navigate,dispatch)
+                verifyPayment({...response,courses,checkedValue},token,navigate,dispatch)
 
                 
             }
@@ -132,7 +133,7 @@ async function verifyPayment(bodyData,token,navigate,dispatch)
         if(!response.data.success) {
             throw new Error(response.data.message);
         }
-        toast.success("payment Successful, ypou are addded to the course");
+        toast.success("Payment Successful, You are Subscribed to this course");
         navigate("/dashboard/enrolled-courses");
         
         dispatch(resetCart())
@@ -146,4 +147,34 @@ async function verifyPayment(bodyData,token,navigate,dispatch)
     dispatch(setPaymentloading(false));
     
     
+}
+
+export async function purchaseDetails(token)
+{
+   let result=null;
+   const toastId=toast.loading("Loading...");
+
+    try 
+    {
+              const purchaseDetails = await apiConnector("GET",GET_PURCHASE_DETAILS_API,null,{
+                Authorisation:`Bearer ${token}`
+              })
+
+              console.log("Purchase Details API response",purchaseDetails)
+
+              if(!purchaseDetails?.data?.success) {
+                throw new Error(purchaseDetails.data.message);
+
+
+            }
+            toast.dismiss(toastId);
+result=purchaseDetails?.data?.data;
+            return result;
+            
+    }
+    catch(error) {
+           
+        console.log("PURCHASE DETAILS ERROR....", error);
+        toast.error("Could not get Purchase Details");
+    }
 }

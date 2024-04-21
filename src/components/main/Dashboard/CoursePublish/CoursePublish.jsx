@@ -91,7 +91,7 @@ const CoursePublish = () => {
       </div>
 
       {/* Next Prev Button */}
-      <div className="ml-auto flex max-w-max items-center gap-x-4">
+      <div className="mx-auto sm:ml-auto flex max-w-max items-center gap-[10px] sm:gap-x-4 flex-col  sm:flex-row">
      
         <button
           disabled={loading}

@@ -297,7 +297,7 @@ export const getAllInstructorCoursesData=async(data,token)=>
     }
 
     result=response?.data?.data
-    
+    console.log("COURSE_INSTRUCTOR API RESPONSE",result);
   }
   catch(error)
   {

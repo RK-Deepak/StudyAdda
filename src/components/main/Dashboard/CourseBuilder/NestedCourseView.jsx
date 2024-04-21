@@ -53,7 +53,7 @@ const NestedCourseView = ({handleChangeEditSectionName}) => {
             {
                 //i choose details because of dropdown effect
                 return <details key={section._id} open>
-                    <summary className="flex cursor-pointer items-center justify-between border-b-2 border-b-richblack-600 py-2">
+                    <summary className="flex flex-col  sm:flex-row cursor-pointer items-center gap-3 sm:justify-between border-b-2 border-b-richblack-600 py-2">
                       <div className='flex items-center gap-x-3'>
                         <RxDropdownMenu className="text-2xl text-richblack-50"/>
                         <p className="font-semibold text-richblack-50">{section.sectionName}</p>

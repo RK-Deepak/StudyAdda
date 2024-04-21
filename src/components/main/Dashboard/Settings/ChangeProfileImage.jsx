@@ -4,6 +4,7 @@ import { updateDisplayPicture } from '../../../../services/operations/SettingsAP
 import IconBtn from '../../common/IconBtn';
 import {FiUpload} from "react-icons/fi"
 
+
 const ChangeProfileImage = () => {
   const {user}=useSelector((store)=>store.profile);
   const {token}=useSelector((store)=>store.auth);
@@ -54,10 +55,10 @@ const ChangeProfileImage = () => {
        console.log("Uploading....");
        setLoading(true);
        const formData=new FormData();
-       console.log(imageFile)
-       formData.append("displayPiture",imageFile);
-       console.log(formData)
-       dispatch(updateDisplayPicture(token,formData)).then(()=>
+       console.log("hi imageFile",imageFile)
+       formData.append("displayPicture",imageFile);
+       console.log(formData?.displayPicture)
+       dispatch(updateDisplayPicture(formData,token)).then(()=>
        {
         setLoading(false)
        })
@@ -84,7 +85,7 @@ const ChangeProfileImage = () => {
           <img
             src={previewSource || user?.profileImage}
             alt={`profile-${user?.firstName}`}
-            className="aspect-square w-[60px] sm:w-[78px] rounded-full object-cover"
+            className="aspect-square w-[60px] sm:w-[78px] rounded-full object-cover object-top"
           />
           <div className="space-y-2">
             <p>Change Profile Picture</p>

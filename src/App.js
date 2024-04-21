@@ -20,7 +20,7 @@ import MyCourse from "./components/main/Dashboard/MyCourses/MyCourse.jsx"
 import  { CourseCreationProcess } from './components/main/Dashboard/AddCourse';
 import Enrolled from './components/main/Dashboard/Enrolled';
 import Cart from './components/main/Dashboard/Cart';
-import Purchase from './components/main/Dashboard/Purchase';
+
 import ConfirmationModel from './components/main/Dashboard/ConfirmationModel';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -34,6 +34,10 @@ import VideoDetails from './components/main/VideoCourse/VideoDetails.jsx';
 import InstructorDashboard from './components/main/Dashboard/InstructorDashboard/InstructorDashboard.jsx';
 import CategoryCreate from './components/main/Dashboard/CategoryCreator/CategoryCreate.jsx';
 import InstructorCategory from './page/InstructorCategory.jsx';
+import PurchaseDetails from './components/main/Dashboard/PurchaseDetails/PurchaseDetails.jsx';
+import VideoCallPage from './page/VideoCallPage.jsx';
+import VideoCallRoom from './components/main/common/VideoCall/VideoCallRoom.jsx';
+import VIdeoCall from './components/main/common/VideoCall/VIdeoCall.jsx';
 
 
 function App() {
@@ -101,7 +105,7 @@ function App() {
       <Route path="dashboard/settings" element={<Settings/> }/>
       <Route path="dashboard/enrolled-courses" element={<Enrolled/>}/>
       <Route path="dashboard/wishlist" element={<Cart/>}/>
-      <Route path="dashboard/purchase-history" element={<Purchase/>}/>
+      <Route path="dashboard/purchase-history" element={<PurchaseDetails/>}/>
       <Route path="dashboard/instructor" element={ <InstructorDashboard/>}/>
   
 
@@ -133,6 +137,14 @@ function App() {
 
 
  </Route>
+
+<Route element={<VideoCallPage/>}>
+<Route path="peerToPeer/videoCall" element={<VIdeoCall/>}/>
+ 
+  <Route path="/peerToPeer/videoCall/:userId/:roomId" element={<VideoCallRoom/>}/>
+  </Route>
+  
+
       
      </Routes>
      <Footer/>

@@ -14,6 +14,7 @@ import ConfirmationModal from '../components/main/common/ConfirmationModal2'
 import toast from 'react-hot-toast'
 import { addToCart } from '../store/Slices/cartSlice'
 import copy from 'copy-to-clipboard'
+import { setCourse } from '../store/Slices/courseSlice'
 
 
 const CourseDetails = () => {
@@ -55,7 +56,7 @@ const handleAddToCart=()=>
   {
     if(token && !user.courses.includes(courseId))
     {
-      buyCourse(token,[courseId],user,navigate,dispatch);
+      buyCourse(token,[courseId],user,navigate,dispatch,course?.courseDetails?.price);
        
       return;
     }
@@ -94,6 +95,7 @@ const handleAddToCart=()=>
       const response=await getCourseDetails({courseId},token);
       setcourseDetails(response);
       console.log(response);
+      dispatch(setCourse(response))
 
       const avg_rating_value=GetAvgRating(response?.courseDetails?.ratingAndReviews);
          setavgRating(avg_rating_value)

@@ -5,8 +5,10 @@ const {capturePayment,verifyPayment,sendPaymentSuccessEmail} =require("../contro
 
 const {auth,isStudent,isInstructor,isAdmin}=require("../middlewares/auth.js");
 
+const {PurchaseDetails}=require("../controllers/Purchase.controller.js");
 router.post("/capturePayment",auth,isStudent,capturePayment);
 router.post("/verifyPayment",auth,isStudent,verifyPayment);
-router.post("/sendPaymentSuccessEmail",auth,isStudent,sendPaymentSuccessEmail)
+router.post("/sendPaymentSuccessEmail",auth,isStudent,sendPaymentSuccessEmail);
+router.get("/getPurchases",auth,isStudent,PurchaseDetails);
 
 module.exports=router

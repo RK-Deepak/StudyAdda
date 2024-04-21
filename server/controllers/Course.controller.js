@@ -366,16 +366,47 @@ try
       }
 
    
-      const allCourses=await Course.find({instructor:instructorId})
-      .select('courseName price thumbnail category  language status courseDescription createdAt').populate("instructor").
-      populate("category")
+      const courseDetails = await Course.find({ instructor:instructorId })
+      .populate({
+        path: "instructor",
+        populate: {
+          path: "additionalData",
+        },
+      })
+      .populate("category")
+     .populate("ratingAndReviews")
+      .populate({
+        path: "courseContent",
+        populate: {
+          path: "subSection",
+        },
+      })
       .exec();
+      console.log("/////////////////////////////")
+      console.log("courseDetails nnnnnnnnnnnnnnn",Array.isArray(courseDetails) )
+   
+      
+      if (!courseDetails) {
+        return res.status(400).json({
+          success: false,
+          message: `Could not find the course with ${instructorId}`,
+        });
+      }
+    
+
   
       return res.status(200).json({
         success: true,
-        message: "Data for all courses fetched successfully",
-        data: allCourses,
+        message: "Course Details fetched successfully",
+        data:{
+          courseDetails,
+         
+        
+          
+        }
       });
+  
+   
     }
      catch (error) {
       console.log(error);

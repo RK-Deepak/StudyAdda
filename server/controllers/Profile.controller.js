@@ -141,8 +141,11 @@ exports.updatedDisplayPicture=async (req,res)=>
     try 
     {
         //get new profile pic
-          const displayPicture=req.files.displayPicture;
-          console.log(displayPicture);
+        console.log(req?.files);
+          const {displayPicture}=req?.files;
+          console.log("hi mujhe me issue"
+          ,displayPicture);
+
           //get user id
           const userId=req.user.id;
           console.log(userId)

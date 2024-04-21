@@ -22,7 +22,7 @@ const ProfileDropDown = () => {
     <div className="relative" onClick={() => setOpen(true)}>
        <div className="flex items-center gap-x-1">
          <img src={user.profileImage} alt={`profile-${user.firstName}`}
-          className="aspect-square w-[30px] rounded-full object-cover"
+          className="aspect-square w-[30px] rounded-full object-cover object-top"
           />
        </div>
        {open && 

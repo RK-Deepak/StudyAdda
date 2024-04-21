@@ -262,7 +262,7 @@ exports.login=async(req,res)=>
         const token=jwt.sign(payload,process.env.JWT_SECRET,{
             expiresIn:"2h"
         })
-         userexisted.token=token,
+         userexisted.token=token
          userexisted.password=undefined
 
          //now create cookie and send it to client
@@ -307,7 +307,7 @@ exports.changePassword=async(req,res)=>
 const {oldPassword,newPassword,confirmNewPassword}=req.body
 
 //validation 
-if(!oldPassword || !newPassword || !confirmNewPassword || !email)
+if(!oldPassword || !newPassword || !confirmNewPassword )
 {
     return res.status(402).json({
         status:"false",

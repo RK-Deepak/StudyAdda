@@ -3,16 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { deleteCourse, getAllInstructorCoursesData } from '../../../../services/operations/courseAPI';
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
-import { formatDate } from '../../../../utils/dateFormatter';
-import { COURSE_STATUS } from "../../../../utils/contants.js";
-import { HiClock } from "react-icons/hi";
-import { FiEdit, FiEdit3 } from "react-icons/fi";
-import {MdDelete} from "react-icons/md"
+
 import { useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../../common/ConfirmationModal2.jsx';
 import { FaCheck,FaPlusCircle,FaRupeeSign } from "react-icons/fa";
 import IconBtn from '../../common/IconBtn.jsx';
-import { setEditCourse } from '../../../../store/Slices/courseSlice.js';
+
+import MyCourseCard from './MyCourseCard.jsx';
+
+
 
 
 const MyCourse = () => {
@@ -21,16 +20,20 @@ const MyCourse = () => {
   const { user } = useSelector((store) => store.profile);
   const [loading, setLoading] = useState();
   const [confirmationModal, setConfirmationModal] = useState(null);
-  const [categoryId,setCategoryId]=useState(null)
-  const description_length = 35;
+
   const navigate = useNavigate();
   const dispatch=useDispatch();
+  const [courseSearchText,setcourseSearchText] = useState("");
+  const [filteredCourse,setfilteredCourse] = useState(null)
+
+  
   
   const fetchingInstructorCourses = async () => {
     setLoading(true);
     let result = await getAllInstructorCoursesData({ instructorId: user._id }, token);
     console.log(result);
-    setAllCourses(result);
+    setAllCourses(result?.courseDetails);
+    
     setLoading(false);
   };
 
@@ -47,6 +50,22 @@ const MyCourse = () => {
 
     fetchingInstructorCourses();
   };
+
+  const handleCourseSearchHandler = (e)=>
+  {
+       console.log(e.target.value);
+       setcourseSearchText(e.target.value);
+       const filteringdata=[...allCourses]
+       const filteredCourse=filteringdata && filteringdata.filter((course)=>course.courseName.toLowerCase().includes(e.target.value.toLowerCase()));
+       console.log(filteredCourse);
+       setfilteredCourse(filteredCourse);
+  
+     
+  }
+//FOR DECIDIDING WHAT TO CHOOSE WHEN RENDER COURSE FILTER ONE OR TOTAL COURSES
+
+const showCourselist=courseSearchText===""?allCourses:filteredCourse;
+ 
   
 
 
@@ -56,6 +75,23 @@ const MyCourse = () => {
       <p className='text-white text-md font-semibold'>Home / Dashboard / <span className='text-red-300'>My Courses</span></p>
       <div className='flex flex-col sm:flex-row gap-3 sm:gap-0 justify-between items-center'>
         <p className='text-white text-xl'>My Courses</p>
+        <form>
+        
+     
+        <input
+          required
+          type="text"
+          name="course"
+          value={courseSearchText}
+          onChange={handleCourseSearchHandler}
+          placeholder="Search for Courses"
+          style={{
+            boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+          }}
+          className="w-full rounded-[0.5rem] bg-yellow-800 p-[12px] text-richblack-5 text-[14px] sm:placeholder:text-[16px]"
+        />
+     
+      </form>
         <IconBtn outline={true} onclick={() => navigate("/dashboard/add-course")} text={"Add Course"}>
           <div className='flex gap-1 items-center text-white'>
             <FaPlusCircle />
@@ -90,83 +126,14 @@ const MyCourse = () => {
                 No courses found
               </p>
             </div>
-          ) : (allCourses && allCourses.map((course) => {
+          ) : 
+          (
+            
+           showCourselist && showCourselist?.map((course) => {
             return (
-              <div key={course._id} className="flex flex-col sm:flex-row gap-x-10  border-b border-richblack-300 px-6 py-8 w-full">
-                <div className="flex flex-1 gap-x-4 w-full md:flex-row flex-col gap-2">
-                  <img
-                    src={course.thumbnail}
-                    alt="course/thumbnail"
-                    className="sm:h-[148px] w-full sm:w-[220px] rounded-lg object-cover"
-                  />
-                  <div className="flex justify-between  flex-col  gap-2">
-                    <p className="text-lg font-semibold text-richblack-5">
-                      {course.courseName}
-                    </p>
-                    <p className="text-xs text-richblack-300">
-                      {course.courseDescription.split(" ").length > description_length ?
-                        course.courseDescription.split(" ").slice(0, description_length).join(" ") + "...."
-                        : course.courseDescription}
-                    </p>
-                    <p className="text-[12px] text-white">
-                      Created At: {formatDate(course.createdAt)}
-                    </p>
-                    <p className="text-[12px] text-white">
-                      Language: {course.language}
-                    </p>
-                    {course.status === COURSE_STATUS.DRAFT ? (
-                      <p className="flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-pink-100">
-                        <HiClock size={14} />
-                        Drafted
-                      </p>
-                    ) : (
-                      <p className="flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-yellow-100">
-                        <div className="flex h-3 w-3 items-center justify-center rounded-full bg-yellow-100 text-richblack-700">
-                          <FaCheck size={8} />
-                        </div>
-                        Published
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <p className="text-sm font-medium text-richblack-100 my-1">
-                  2hr 30min
-                </p>
-                <p className="text-sm font-medium text-richblack-100 my-1">
-                  <div className='flex gap-1 items-center'>
-                    <FaRupeeSign /><span>{course.price}</span>
-                  </div>
-                </p>
-                <div className="text-sm font-medium  text-richblack-100 my-1">
-                  <button
-                    disabled={loading}
-                    onClick={() => navigate(`/dashboard/edit-course/${course._id}`)}
-                    title='Edit'
-                    className="px-2 transition-all duration-200 hover:scale-110 hover:text-pink-300"
-                  >
-                    <FiEdit3 size={20} />
-                  </button>
-                  <button
-                    disabled={loading}
-                    onClick={() => setConfirmationModal({
-                      text1: "Do you want to delete this course?",
-                      text2: "All the data related to this course will be deleted",
-                      btn1Text: !loading ? "Delete" : "Loading...  ",
-                      btn2Text: "Cancel",
-                      btn1Handler: !loading ?
-                        () => handleCourseDelete(course._id, course?.category._id) :
-                        () => { },
-                      btn2Handler: !loading ?
-                        () => setConfirmationModal(null) :
-                        () => { },
-                    })}
-                    title='delete'
-                    className="px-1 transition-all duration-200 hover:scale-110 hover:text-[#ff0000]"
-                  >
-                    <MdDelete size={20} />
-                  </button>
-                </div>
-              </div>
+             <div>
+              <MyCourseCard course={course} confirmationModal={confirmationModal} setConfirmationModal={setConfirmationModal} handleCourseDelete={handleCourseDelete}/>
+             </div>
             );
           }))
           }
