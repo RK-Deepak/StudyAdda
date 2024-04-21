@@ -10,7 +10,7 @@ const VideoCallRoom = () => {
     const {user}=useSelector((store)=>store.profile);
 
     const myMeeting=async (element) => {
-        const appID = 410631810
+        const appID =410631810
  const serverSecret = "7d58fef8d2c1e46e57a20997ecd77afc"
  const kitToken =  ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomId, Date.now().toString(), (user?.firstName +" " +user?.lastName))
 //creating instacce of kit token
