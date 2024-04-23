@@ -42,6 +42,7 @@ import Error from './page/Error.jsx';
 
 
 
+
 function App() {
   const [showConfirmationModel,setShowConfirmationModel]=useState(false);
   const {user}=useSelector((store)=>store.profile);  
@@ -49,6 +50,7 @@ function App() {
   return (
     <>
     {showConfirmationModel &&  <ConfirmationModel setShowConfirmationModel={setShowConfirmationModel}/>}
+   
     <div className="App w-screen min-h-screen flex flex-col font-inter bg-richblack-900 ">
       
       <Header/>

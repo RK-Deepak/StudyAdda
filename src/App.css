@@ -160,4 +160,40 @@ html, body {
   }
 }
 
-  
+
+/* review shimmer effect */
+
+
+
+@keyframes enhance-color {
+  0% {
+    filter: brightness(0.7); /* Dim at start */
+  }
+  50% {
+    filter: brightness(1.5); /* Enhanced at midpoint */
+  }
+  100% {
+    filter: brightness(0.7); /* Dim at end */
+  }
+}
+
+.animated-div {
+  animation: enhance-color 2s linear infinite;
+}
+
+/* //fetching categories home page text shimmer */
+
+
+
+.text-effect {
+  animation: color-effect 1s infinite alternate;
+}
+
+@keyframes color-effect {
+  0% {
+    color: rgba(0, 34, 255, 0.5); /* Start with a dim color */
+  }
+  100% {
+    color: rgba(0, 0, 0, 1); /* End with a bright color */
+  }
+}

@@ -10,6 +10,7 @@ import { Toaster } from 'react-hot-toast';
 import LogoStart from './components/main/common/logoStart';
 
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // Render LogoStart first
@@ -24,7 +25,9 @@ root.render(
 // Replace LogoStart with App after 2 seconds
 setTimeout(() => {
   root.render(
+    
     <Provider store={Store}>
+    
       <BrowserRouter>
         <App />
         <Toaster toastOptions={{

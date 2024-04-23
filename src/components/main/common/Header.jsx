@@ -35,6 +35,7 @@ const Header = () => {
   const [subLinks,setsublinks]=useState(null);
   const [showmenu,setshowMenu]=useState(false);
   const [auth,setAuth]=useState(false);
+  const [loading,setloading]=useState(false);
 
   const matchRoute = (route) => {
     return matchPath({ path: route }, location.pathname)
@@ -45,9 +46,11 @@ const fetchCatlog=async ()=>
 {
     try 
     {
+        setloading(true);
         const result=await apiConnector("GET",categories.CATEGORIES_API);;
         console.log(result?.data?.data);
         setsublinks(result?.data.data)
+        setloading(false);
     }
     catch(error)
     {
@@ -103,17 +106,22 @@ NavbarLinks.map((option, index) => (
             <div className={`flex items-center gap-1 relative $ group text-[13px] md:text-[16px] z-49 `}>
                 <span className={matchRoute("/catlog/:catlogName") ? "text-yellow-50" : "text-white"}>{option.title}</span>
                 <MdArrowDropDown className='text-[20px] text-white' />
-                <div className='absolute z-50 invisible opacity-0 group-hover:visible group-hover:opacity-100 '>
+                 <div className='absolute z-50 invisible opacity-0 group-hover:visible group-hover:opacity-100 '>
                     <div className='w-[20px] aspect-square bg-white -right-[83px] top-4 absolute rotate-45 z-50'></div>
-                    <div className='p-4 bg-richblack-50 -left-[33px] top-[22px] absolute flex flex-col  w-[200px] text-black gap-2 rounded-md z-50 '>
+                    {!loading ?<div className='p-4 bg-richblack-50 -left-[33px] top-[22px] absolute flex flex-col  w-[200px] text-black gap-2 rounded-md z-50 '>
                         {
                             subLinks?.map((sublink,index)=>
                             {
                                return <Link to={`catlog/${sublink?.name}`}  key={index} onClick={()=>setshowMenu(false)} className='font-inter font-bold ' >{sublink.name}</Link>
                             })
                         }
-                    </div>
+                    </div>:<p className='p-4 bg-richblack-50 -left-[33px] top-[22px] absolute w-[200px] text-black font-inter font-bold gap-2 rounded-md z-50 text-effect'>
+  Fetching Catalog
+</p>}
+                    
                 </div>
+                
+                
             </div>
         ) : (
             <Link to={option?.path} onClick={()=>setshowMenu(false)} className='flex flex-col items-center gap-2'>

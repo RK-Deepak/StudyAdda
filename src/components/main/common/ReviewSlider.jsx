@@ -10,30 +10,38 @@ import "swiper/css"
 import "swiper/css/free-mode"
 import "swiper/css/pagination"
 import "../../../App.css"
+import ReviewShimmer from '../../../Shimmers/ReviewShimmer.jsx'
 
 
 const ReviewSlider = () => {
 
     const{GET_ALL_RATINGS_API}=courseEndPoints;
     const [reviews,setReviews]=useState([]);
+    const [loading,setloading]=useState(false);
     const truncateLength=15
     useEffect(()=>
 {
 
     const fetchAllRatings = async () => {
+      setloading(true);
         const response=await apiConnector("GET",GET_ALL_RATINGS_API);
         console.log(response);
         if(response?.data?.success)
         {
             setReviews(response?.data?.data)
         }
+        setloading(false);
     }
       fetchAllRatings();
 },[])
+
+
+
+
   return (
     <div className="text-white my-3">
       <p className='text-center text-white text-xl underline font-inter'>Reviews</p>  
-       <div className="my-[50px] h-[190px]">
+     {!loading? <div className="my-[50px] h-[190px]">
         <Swiper
         slidesPerView={1} 
         spaceBetween={20}
@@ -64,6 +72,8 @@ const ReviewSlider = () => {
         className='w-full'
 
         >
+
+          
              {reviews?.map((review,i)=>
             {
                 return (
@@ -117,7 +127,7 @@ const ReviewSlider = () => {
           
 
         </Swiper>
-        </div> 
+        </div> :<ReviewShimmer/>}
     </div>
   )
 }
