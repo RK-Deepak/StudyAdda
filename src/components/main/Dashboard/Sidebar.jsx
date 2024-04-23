@@ -1,7 +1,7 @@
 import React from 'react'
 import { sidebarLinks } from '../../../data/dashboard-links'
 import SideBarLink from './SideBarLink'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 
 

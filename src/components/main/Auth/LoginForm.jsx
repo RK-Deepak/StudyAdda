@@ -5,6 +5,7 @@ import { useNavigate,Link } from 'react-router-dom';
 import {AiOutlineEye,AiOutlineEyeInvisible} from "react-icons/ai"
 import { login } from '../../../services/operations/authAPI';
 import ButtonAuth from './ButtonAuth';
+import { validateEmail ,validatePassword} from '../../../utils/Validation';
 
 
 const LoginForm = () => {
@@ -14,6 +15,7 @@ const LoginForm = () => {
     const dispatch=useDispatch();
     //when user corrrectly entr credentials or not for redirection
     const navigate=useNavigate();
+    const [errorMessage,setError]=useState(null);
     const [showPassword,setShowPassword]=useState(false);
     const [formData,setFormData]=useState({
         email:"",
@@ -26,7 +28,22 @@ const LoginForm = () => {
     const handleOnSubmit=(e)=>
     {
         e.preventDefault();
-        dispatch(login(email,password,navigate))
+        if(validateEmail(email) && validatePassword(password)){
+          
+            dispatch(login(email,password,navigate));
+            
+            setError(null);
+          
+        }
+          else 
+          {
+            setError("Email or Password Validation Failed..");
+          }
+
+          setTimeout(() => {
+            setError(null);
+          }, 1000);
+        
 
     }
     const handleOnChange=(e)=>{
@@ -37,6 +54,7 @@ const LoginForm = () => {
           ))
     }
   return (
+    <>
   <form onSubmit={handleOnSubmit} className="mt-6 flex w-full flex-col gap-y-4">
  {/* //email */}
  <label className="w-full">
@@ -91,7 +109,10 @@ const LoginForm = () => {
         </Link>
       </label>
      <ButtonAuth title="Login"/>
+    
   </form>
+   {errorMessage && <span className='text-red-500  font-inter my-2 text-xs flex justify-center'>Email or Password is Invaild</span>}
+   </>
   )
 }
 

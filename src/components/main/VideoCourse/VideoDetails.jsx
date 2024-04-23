@@ -1,10 +1,10 @@
 import React ,{useEffect, useRef,useState}from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { markLectureAsComplete } from '../../../services/operations/courseAPI';
+import {  markLectureAsComplete } from '../../../services/operations/courseAPI';
 import { updateCompletedLectures } from '../../../store/Slices/viewCourseSlice';
 import { Player,BigPlayButton } from 'video-react';
-import { AiFillPlayCircle } from 'react-icons/ai';
+
 import IconBtn from '../common/IconBtn';
 
 
@@ -162,23 +162,9 @@ const handleLectureComplete=async()=>
   setLoading(false);
 }
 
-// useEffect(()=>
-// {
-//   const intitalMarking=async()=>
-//   {
-//     const result=await markLectureAsComplete({courseId: courseId, sectionId: sectionId, subSectionId:subSectionId},token);
-    
-//   if(result)
-//   {
-//     dispatch(updateCompletedLectures(subSectionId));
 
-//   } 
-//   }
-  
 
-//   intitalMarking();
 
-// },[])
 
 
   

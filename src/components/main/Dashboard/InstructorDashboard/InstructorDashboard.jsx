@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { apiConnector } from '../../../../services/apiConnector'
+
 import { useSelector } from 'react-redux'
 import { getInstructorDashboardDetails } from '../../../../services/operations/profileAPI';
 import { MdAdd } from 'react-icons/md';
@@ -11,7 +11,7 @@ const InstructorDashboard = () => {
 
     const {token}=useSelector((store)=>store.auth);
     const navigate=useNavigate();
-    const [selectedGraph,setSelectedGraph] =useState("Students");
+   
     const [allCourse,setallCourse]=useState([]);
     const {user}=useSelector((store)=>store.profile);
 
@@ -53,7 +53,7 @@ function handleViewCourse()
             <p className=' text-richblack-300 font-semibold '>{user.firstName} {user.lastName}  </p>
             </div>
             <div>
-                <img src={user.profileImage} alt='Profile Image'
+                <img src={user.profileImage} alt='Profile'
                  className='hidden md:block w-[60px] aspect-square rounded-full'/>
             </div>
         </div>

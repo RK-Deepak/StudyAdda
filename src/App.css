@@ -1,3 +1,4 @@
+
 html, body {
     overflow-x: hidden;
 }
@@ -94,5 +95,69 @@ html, body {
     margin: 10px 0px;
     text-decoration: underline;
   }
-      
+  
+
+
+
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 12px; /* Set the width of the scrollbar */
+   
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: black; /* Set the color of the track */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: blue; /* Set the color of the scrollbar thumb (button) */
+    border-radius: 3px; /* Set the border radius of the thumb */
+  
+   
+}
+
+/* Button on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(227, 227, 33); /* Change the color of the thumb on hover */
+}
+  
+
+/* //start logo */
+/* Logo.css */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #ffffff;
+
+  /* Linear gradient with three layers */
+  background-image: linear-gradient(135deg, #000000 0%, #020039 50%, #ffffff 100%);
+}
+
+.logo {
+  width: 200px; /* Initial width of the logo */
+  height: auto;
+  transition: transform 2s ease-in-out; /* Add transition for smooth animation */
+}
+
+.enlarged .logo {
+  transform: scale(2000) ; /* Enlarge the logo */
+  
+}
+
+
+/* instructor image css */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
   

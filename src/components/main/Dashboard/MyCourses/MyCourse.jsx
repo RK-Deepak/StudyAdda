@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { deleteCourse, getAllInstructorCoursesData } from '../../../../services/operations/courseAPI';
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 
 import { useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../../common/ConfirmationModal2.jsx';
-import { FaCheck,FaPlusCircle,FaRupeeSign } from "react-icons/fa";
+import { FaPlusCircle} from "react-icons/fa";
 import IconBtn from '../../common/IconBtn.jsx';
 
 import MyCourseCard from './MyCourseCard.jsx';
@@ -22,7 +22,7 @@ const MyCourse = () => {
   const [confirmationModal, setConfirmationModal] = useState(null);
 
   const navigate = useNavigate();
-  const dispatch=useDispatch();
+ 
   const [courseSearchText,setcourseSearchText] = useState("");
   const [filteredCourse,setfilteredCourse] = useState(null)
 

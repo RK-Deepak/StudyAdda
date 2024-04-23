@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux';
-import { addCourseDetails, editCourseDetails, fetchCourseCategories } from '../../../../../services/operations/courseAPI';
-import { resetCourseState, setCourse, setEditCourse, setStep } from '../../../../../store/Slices/courseSlice';
+import { addCourseDetails, editCourseDetails} from '../../../../../services/operations/courseAPI';
+import {  setCourse, setStep } from '../../../../../store/Slices/courseSlice';
 import { COURSE_STATUS } from '../../../../../utils/contants';
 import { FaRupeeSign } from "react-icons/fa";
 

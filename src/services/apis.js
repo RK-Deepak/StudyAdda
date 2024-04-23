@@ -55,7 +55,8 @@ export const courseEndPoints={
     GET_COURSE_DETAILS_API:BASE_URL+"/course/getCourseDetails",
     CREATE_RATING_API:BASE_URL+"/course/createRating",
     LECTURE_COMPLETION_API:BASE_URL+"/course/updateCourseProgress",
-    GET_ALL_RATINGS_API:BASE_URL+"/course/getReviews"
+    GET_ALL_RATINGS_API:BASE_URL+"/course/getReviews",
+    GET_COMPLETED_VIDEOS_COURSE_DETAILS:BASE_URL+"/course/getCompletedVideos"
     
 
     

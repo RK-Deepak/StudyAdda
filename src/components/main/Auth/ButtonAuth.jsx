@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import Countdown from 'react-countdown'
+import React from 'react'
+
 import { MdPlusOne } from 'react-icons/md'
 
 const ButtonAuth = ({title,categorySpecific}) => {

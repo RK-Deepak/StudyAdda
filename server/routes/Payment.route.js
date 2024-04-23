@@ -3,7 +3,7 @@ const router=express.Router();
 
 const {capturePayment,verifyPayment,sendPaymentSuccessEmail} =require("../controllers/Payments.js");
 
-const {auth,isStudent,isInstructor,isAdmin}=require("../middlewares/auth.js");
+const {auth,isStudent}=require("../middlewares/auth.js");
 
 const {PurchaseDetails}=require("../controllers/Purchase.controller.js");
 router.post("/capturePayment",auth,isStudent,capturePayment);

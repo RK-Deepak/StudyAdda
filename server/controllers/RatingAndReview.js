@@ -1,8 +1,7 @@
 const ReviewAndRating = require("../models/RatingAndReview.model.js");
-const User = require("../models/User.model.js");
+
 const Course = require("../models/Course.model.js");
 
-const { default: mongoose } = require("mongoose");
 require("dotenv").config();
 //creae Rating
 exports.createRating = async (req, res) => {
@@ -127,26 +126,33 @@ exports.averageRating = async (req, res) => {
 //getAllRatingAndReview
 exports.getAllRating = async (req, res) => {
   try {
+    // Fetch all reviews and ratings, sorted by rating in descending order
     const allReviews = await ReviewAndRating.find({})
-      .sort({ rating: "desc" })
+      .sort({ rating: -1 })
       .populate({
-        path: "user",
-        select: "firstName lastName email profileImage",
+        path: 'course',
+        select: 'courseName',
       })
-      .populate({
-        path: "course",
-        select: "courseName",
-      });
+      .populate('user')
+      .exec();
+
+    // Log fetched reviews and ratings to the console for debugging
+    console.log(allReviews);
+
+    // Send JSON response with fetched data
     return res.status(200).json({
       success: true,
-      message: "All reviews fetched successfully",
+      message: 'All reviews fetched successfully',
       data: allReviews,
     });
   } catch (error) {
-    console.log(error);
+    // Handle errors
+    console.error(error);
     return res.status(500).json({
       success: false,
-      message: error.message,
+      message: 'Failed to fetch reviews',
+      error: error.message,
     });
   }
 };
+

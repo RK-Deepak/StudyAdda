@@ -6,13 +6,13 @@ import { useNavigate } from 'react-router-dom'
 import { MdArrowBack } from 'react-icons/md'
 import IconBtn from '../../common/IconBtn'
 import { COURSE_STATUS } from '../../../../utils/contants'
-import toast from 'react-hot-toast'
+
 import { editCourseDetails } from '../../../../services/operations/courseAPI'
 
 const CoursePublish = () => {
-    const {course,editcourse}=useSelector((store)=>store.course)
+    const {course}=useSelector((store)=>store.course)
     const dispatch=useDispatch();
-    const {register,handleSubmit,formState:{errors},setValue,getValues}=useForm();
+    const {register,handleSubmit,setValue,getValues}=useForm();
     const navigate=useNavigate();
     const [loading,setloading]=useState(false);
    

@@ -4,15 +4,15 @@ import { useForm } from 'react-hook-form';
 import ButtonAuth from '../Auth/ButtonAuth';
 import countrycode from "../../../data/countrycode.json"
 import { useDispatch } from 'react-redux';
-import toast from 'react-hot-toast';
+
 import { contactSubmission } from '../../../services/operations/contactAPI';
 
 //point here what ever u write in register that got store as name in sending data
 //means if we write firstName than it is send as firstName NO RELATION WOITH NAME in input
 const ContactFormx = () => {
-    const [loading ,setloading]=useState(false);
+   
     const dispatch=useDispatch();
-    const {register,reset,formState:{errors,isSubmitSuccessful},handleSubmit}=useForm();
+    const {register,reset,formState:{isSubmitSuccessful,errors},handleSubmit}=useForm();
 
     const handleFormSubmit=(data)=>
     {
@@ -70,7 +70,7 @@ const ContactFormx = () => {
               
             />
             {
-                errors.firstName &&  (<span>"Please Enter First Name"</span>)
+                errors.firstName &&  <span>Please Enter First Name</span>
             }
           </label>
           <label>
@@ -117,7 +117,7 @@ const ContactFormx = () => {
               
             />
             {
-                errors.email &&  (<span>"Please Enter Your Email"</span>)
+                errors.email &&  (<span>Please Enter Your Email</span>)
             }
           </label>
             <label className='w-full' >
@@ -153,7 +153,7 @@ const ContactFormx = () => {
               
             />
             {
-                errors.phonenumber &&  (<span>"Please Add Your Number.."</span>)
+                errors.phonenumber &&  <span>Please Add Your Number..</span>
             }
 
             </div>
@@ -179,7 +179,7 @@ const ContactFormx = () => {
               
             />
             {
-                errors.message &&  (<span>"Please Add Your Message.."</span>)
+                errors.message &&  <span>Please Add Your Message..</span>
             }
           </label>
         <ButtonAuth title={"Send Message"} />

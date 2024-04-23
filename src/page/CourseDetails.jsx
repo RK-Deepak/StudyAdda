@@ -6,7 +6,7 @@ import { buyCourse } from '../services/operations/studentPoints'
 import { getCourseDetails } from '../services/operations/courseAPI'
 import RatingStars from '../components/main/common/RatingsStarCalc'
 import GetAvgRating from '../utils/avgRating'
-import { FiClock, FiGlobe, FiMousePointer, FiShare, FiShare2, FiTv } from 'react-icons/fi'
+import { FiClock, FiGlobe, FiMousePointer,  FiShare2, FiTv } from 'react-icons/fi'
 import { FaCertificate } from "react-icons/fa";
 import { formatDate } from '../utils/dateFormatter'
 import CourseAccordium from '../components/CourseAccordium.jsx/CourseAccordium'

@@ -8,6 +8,9 @@ import Tab from '../common/Tab';
 import {AiOutlineEye,AiOutlineEyeInvisible} from "react-icons/ai"
 import { sendOtp } from '../../../services/operations/authAPI';
 import ButtonAuth from './ButtonAuth';
+import PasswordChecklist from "react-password-checklist"
+
+
 
 
 const SignupForm = () => {
@@ -88,6 +91,8 @@ const SignupForm = () => {
         type: ACCOUNT_TYPE.INSTRUCTOR,
     }
   ]
+
+  
 
   return (
     <div>
@@ -207,7 +212,21 @@ const SignupForm = () => {
         </div>
       <ButtonAuth title="Sign Up"/>
       </form>
-    </div>
+      <PasswordChecklist
+				rules={["minLength","specialChar","number","match","notEmpty"]}
+				minLength={6}
+				value={password}
+				valueAgain={confirmPassword}
+				onChange={(isValid) => {}}
+        iconSize={10}
+       
+
+        style={{color: "white",margin:"15px 0px " ,display:"flex",alignItems: "start",flexDirection:"column", }}
+			/>
+     
+      </div>
+    
+    
   )
 }
 

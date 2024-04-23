@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react'
+
 import { useNavigate } from 'react-router-dom';
 
 const VIdeoCall = () => {
 
     const [roomId,setroomId]=useState("");
     const navigate=useNavigate();
-    const {user}=useSelector((store)=>store.profile)
+ 
 
     const submitHandler=(e)=>
     {
@@ -16,6 +16,7 @@ const VIdeoCall = () => {
 
     }
 
+  
   return (
     <div className='text-white mx-auto font-inter my-7 flex flex-col gap-2  p-4 items-center border border-richblack-100 w-[80%] max-w-[600px] rounded-md bg-richblack-800'>
         <h1 className=' text-richblack-100 text-center text-2xl md:text-3xl underline underline-offset-1 font-bold'>Grow Together With Your Peer</h1>

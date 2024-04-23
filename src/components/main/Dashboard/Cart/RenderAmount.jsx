@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { buyCourse } from '../../../../services/operations/studentPoints';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import CourseDetails from '../../../../page/CourseDetails';
+
 
 const RenderTotalAmount = () => {
   const { total, cart } = useSelector((state) => state.cart);

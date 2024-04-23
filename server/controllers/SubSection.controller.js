@@ -8,7 +8,7 @@ exports.createSubSection=async(req,res)=>
      try 
      {
           //get data 
-          const {title,description,sectionId,duration,courseId}=req.body;
+          const {title,description,sectionId,courseId}=req.body;
 
           //get video from files
           const video=req.files && req?.files?.videoURL;

@@ -1,5 +1,5 @@
 import React from 'react'
-import frameImg from "../../../assets/Images/frame.png"
+import frameImg from "../../../assets/Images/final.jpg"
 import LoginForm from './LoginForm'
 import SignupForm from './SignupForm'
 import { useSelector } from 'react-redux'

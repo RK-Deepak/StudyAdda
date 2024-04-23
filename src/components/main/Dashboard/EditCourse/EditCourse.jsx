@@ -1,15 +1,15 @@
 import React, { useState,useEffect } from 'react'
-import RenderSteps from "../../../main/Dashboard/AddCourse/RenderSteps.jsx"
+
 import { useParams } from 'react-router-dom';
 import { getCourseDetails } from '../../../../services/operations/courseAPI.js';
 import { useDispatch, useSelector } from 'react-redux';
 import CourseCreation from '../AddCourse/CourseCreation.jsx';
-import { setCourse,setEditCourse,resetCourseState } from '../../../../store/Slices/courseSlice.js';
+import { setCourse,setEditCourse} from '../../../../store/Slices/courseSlice.js';
 
 const EditCourse = () => {
   
   const {courseId}=useParams();
-  const [courseDetails,setcourseDetails]=useState(null);
+  const [setcourseDetails]=useState(null);
   const {token}=useSelector((store)=>store.auth)
   const dispatch=useDispatch();
   const [loading,setloading]=useState(false)

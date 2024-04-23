@@ -1,10 +1,10 @@
 import toast from "react-hot-toast";
 import { apiConnector } from "../apiConnector";
 import { categories, courseEndPoints } from "../apis";
-import { useDispatch } from "react-redux";
+
 
 const {CATEGORIES_API}=categories;
-const {CREATE_COURSE_API,EDIT_COURSE_API,CREATE_SECTION_API,DELETE_SECTION_API,EDIT_SECTION_API,CREATE_SUBSECTION_API,UPDATE_SUBSECTION_API,DELETE_SUBSECTION_API,GET_ALL_COURSE_API,GET_ALL_COURSE_INSTRUCTOR_API,DELETE_SELECTED_COURSE_API,GET_COURSE_DETAILS_API,CREATE_RATING_API,LECTURE_COMPLETION_API}=courseEndPoints
+const {CREATE_COURSE_API,EDIT_COURSE_API,CREATE_SECTION_API,DELETE_SECTION_API,EDIT_SECTION_API,CREATE_SUBSECTION_API,UPDATE_SUBSECTION_API,DELETE_SUBSECTION_API,GET_ALL_COURSE_API,GET_ALL_COURSE_INSTRUCTOR_API,DELETE_SELECTED_COURSE_API,GET_COURSE_DETAILS_API,CREATE_RATING_API,LECTURE_COMPLETION_API,GET_COMPLETED_VIDEOS_COURSE_DETAILS}=courseEndPoints
 export const fetchCourseCategories=async ()=>
 {
       let result=[];
@@ -428,4 +428,33 @@ export const markLectureAsComplete=async(data,token)=>
   toast.dismiss(toastId);
   return result;
 
+}
+
+export const completedVideosdata=async(courseId,token)=>
+{
+  let result=null;
+  console.log("fetch realted coursID",courseId);
+
+  try 
+  {
+    const response = await apiConnector("POST",GET_COMPLETED_VIDEOS_COURSE_DETAILS,{courseId:courseId}, {
+      Authorisation: `Bearer ${token}`,
+  })
+  console.log( "Updated completed videos details............",response
+  )
+
+  if (!response.data.message) {
+    throw new Error(response.data.error)
+  }
+ 
+  result=response;
+}
+  catch(error)
+  {
+    console.log("completed videos details fetch error ............", error)
+   
+   
+  }
+
+  return result;
 }

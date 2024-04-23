@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 const MyCourseCard = ({course,setConfirmationModal,handleCourseDelete}) => {
    
-    const [loading, setLoading] = useState();
+    const [loading, setLoading] = useState(false);
     const navigate=useNavigate();
     const description_length = 35;
 

@@ -5,12 +5,14 @@ import RatingStars from '../main/common/RatingsStarCalc';
 const CourseCard = ({course,show}) => {
 
     const [avgRating,setavgRating]=useState(0);
+    console.log(course);
     
     useEffect(()=>
     {
        const countStars=GetAvgRating(course?.ratingAndReviews);
        console.log("counting starrs",countStars)
        setavgRating(countStars);
+       console.log(avgRating);
 
     },[course?.ratingAndReviews])
   return (
@@ -19,7 +21,7 @@ const CourseCard = ({course,show}) => {
             <div >
                 <img src={course?.thumbnail}
                 alt='course thumbnail'
-                className='h-[250px] max-w-[400px] w-full rounded-lg object-cover'/>
+                className='h-[250px] max-w-[400px] w-full rounded-lg object-cover object-center'/>
             </div>
             <div className="flex flex-col gap-2 px-1 py-3">
                 <p className="text-xl text-richblack-5">{course?.courseName}</p>

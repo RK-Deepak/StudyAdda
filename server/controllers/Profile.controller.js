@@ -1,6 +1,7 @@
 const User=require("../models/User.model.js");
 const Profile=require("../models/Profile.model.js");
 const Course=require("../models/Course.model.js");
+
 const { imageUplaodOnCloud } = require("../utils/imageUploader.js");
 const { convertSecondsToDuration} = require( "../utils/secToDuration.js");
 
@@ -85,10 +86,17 @@ exports.deleteAccount=async(req,res)=>
          message:'User not found',
      });
  } 
+ //delete its rating and also decrease the student enrolled in course of instructor
+//  await ReviewAndRating.findByIdAndDelete({_id:id})
+
+ 
+ //delete profile first and after that user
+ await Profile.findByIdAndDelete({_id:userDetails.additionalData});
  //delete profile first and after that user
  await Profile.findByIdAndDelete({_id:userDetails.additionalData});
 // same as above await Profile.findByIdAndDelete(userDetails.additionalData);
  await User.findByIdAndDelete({_id:id});
+
 
  return res.status(200).json({
      success:true,

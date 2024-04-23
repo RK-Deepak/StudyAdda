@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { MdEditNote } from 'react-icons/md';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUserDetails } from '../../../services/operations/authAPI';
+import {  useSelector } from 'react-redux';
+
 import { useNavigate } from 'react-router-dom';
 
 
 const Myprofile = () => {
-    const dispatch = useDispatch();
+  
     const navigate = useNavigate();
     
     const {user,loading:profileloading}=useSelector((store)=>store.profile);

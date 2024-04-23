@@ -109,16 +109,23 @@ exports.categoryPageDetails=async(req,res)=>
         categoriesExceptSelected[getRandomInt(categoriesExceptSelected.length)]._id
     ).populate({
         path:"courses",
-        match:{status:"Published"}
-    }).exec();
-        
-    const allCategories = await Category.find({}).populate({
-        path:"courses",
         match:{status:"Published"},
         populate:{
-            path:"instructor"
+            path:"ratingAndReviews"
         }
-    });
+    }).exec();
+        
+    const allCategories = await Category.find({})
+    .populate({
+        path: "courses",
+        match: { status: "Published" },
+        populate: [
+            { path: "ratingAndReviews" },
+            { path: "instructor" }
+        ]
+    })
+    .exec();
+
     //get all coursces 
     //const allCategories = [
 //   { name: 'Math', courses: ['Algebra', 'Calculus', 'Geometry'] },

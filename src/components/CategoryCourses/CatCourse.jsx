@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from 'react'
-import { useLocation } from 'react-router-dom';
+
 import { useParams } from 'react-router-dom';
 import { getAllCategories, getCatalogaPageData } from '../../services/operations/categoriesAPI';
 import CourseSlider from './CourseSlider';

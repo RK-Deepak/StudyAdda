@@ -25,7 +25,9 @@ averageRating,getAllRating}=require("../controllers/RatingAndReview.js")
 const {auth,isStudent,
     isInstructor,isAdmin}=require("../middlewares/auth.js");
 
-const {updateCourseProgress}=require("../controllers/CourseProgress.js");
+const {updateCourseProgress,fetchCompletedVideosInfo}=require("../controllers/CourseProgress.js");
+
+
 
 
 
@@ -57,6 +59,7 @@ router.post("/createRating",auth,isStudent,createRating);
 router.get("/getAverageRating",averageRating);
 router.get("/getReviews",getAllRating)
 
-
+//fetch completed videos
+router.post("/getCompletedVideos",auth,isStudent,fetchCompletedVideosInfo)
 
 module.exports=router;

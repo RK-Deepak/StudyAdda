@@ -5,6 +5,7 @@ import { getCourseDetails } from './../services/operations/courseAPI';
 import {setCompletedLectures,setEntireCourseData,setCourseSectionData,setTotalNoOfLectures} from "../store/Slices/viewCourseSlice"
 import VideoSideBar from '../components/main/VideoCourse/VideoSideBar ';
 import CourseReviewModal from '../components/main/VideoCourse/CourseReviewModal';
+import { completedVideosdata } from './../services/operations/courseAPI';
 
 
 const ViewCourse = () => {
@@ -22,11 +23,12 @@ const ViewCourse = () => {
 {
   const setCourseDetaills=async ()=>
 {
-         const courseData=await getCourseDetails({courseId:courseId},token);;
+         const courseData=await getCourseDetails({courseId:courseId},token);
+         const response =await completedVideosdata(courseId,token);
          console.log("hi i m",courseData)
          dispatch(setCourseSectionData(courseData?.courseDetails?.courseContent));
          dispatch(setEntireCourseData(courseData?.courseDetails));
-         dispatch(setCompletedLectures(courseData?.completedVideos));
+         dispatch(setCompletedLectures(response?.data?.data));
          let lectures=0;
          courseData?.courseDetails?.courseContent?.map((sec)=>lectures+=sec.subSection.length);
          dispatch(setTotalNoOfLectures(lectures))
@@ -34,7 +36,21 @@ const ViewCourse = () => {
 }
 
 setCourseDetaills();
-},[])
+},[]);
+// useEffect(()=>
+// {
+//   async function fetchCompletedVideos()
+//   {
+    
+//     console.log("hi i m again ",response);
+//     dispatch(setCompletedLectures(response?.data?.data?.length));
+
+//   }
+      
+//         fetchCompletedVideos();
+// },[courseId,token])
+
+
 
 
   return (

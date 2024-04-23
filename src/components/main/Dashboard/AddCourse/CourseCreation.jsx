@@ -1,7 +1,7 @@
 import React from 'react'
 import RenderSteps from './RenderSteps'
 import { useSelector } from 'react-redux'
-import { useForm } from 'react-hook-form'
+
 import CourseInformation from './CourseInformation/CourseInformation'
 import CourseBuilderForm from '../CourseBuilder/CourseBuilderForm'
 import CoursePublish from '../CoursePublish/CoursePublish'

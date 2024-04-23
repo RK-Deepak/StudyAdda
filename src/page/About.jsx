@@ -1,8 +1,8 @@
 import React from 'react'
 import HighlightText from "../components/main/HomePage/HighlightText"
-import img1 from "../assets/Images/aboutus1.webp"
-import img2 from "../assets/Images/aboutus2.webp"
-import img3 from "../assets/Images/aboutus3.webp"
+import img1 from "../assets/Images/code3.jpg"
+import img2 from "../assets/Images/coder1.jpg"
+import img3 from "../assets/Images/coder1.webp"
 import boxoffice from "../assets/Images/boxoffice.png"
 import Quote from '../components/main/About/Quote'
 import { website_Info } from '../utils/contants'
@@ -31,9 +31,9 @@ const About = () => {
          </div>
          <div className=' p-5 min-h-[150px] w-full z-10 '>
          <div className='flex flex-row  gap-3 relative bottom-0   xl:absolute xl:-bottom-[14rem] left-0 justify-evenly flex-wrap '>
-            <img src={img2} className=' rounded-sm'/>
-            <img src={img1} className=' rounded-sm'/>
-            <img src={img3} className=' rounded-sm'/>
+            <img src={img2}  alt="img" className=' rounded-sm w-[400px] h-[320px] aspect-video'/>
+            <img src={img1} alt="img" className=' rounded-sm w-[400px] h-[320px] aspect-square'/>
+            <img src={img3} alt="img" className=' rounded-sm w-[400px] h-[320px] aspect-square'/>
          </div>
          </div> 
           
@@ -70,7 +70,7 @@ const About = () => {
             <img src={boxoffice} alt='boxoffice'/>
          </div>
        </div>
-       //bottom div
+       {/* //bottom div */}
     
     <div className='flex w-full justify-between items-center my-4 flex-wrap gap-4 '>
          <div className='flex flex-col gap-3 w-full xl:max-w-[400px]'>

@@ -50,7 +50,7 @@ const VideoSideBar  = ({setReviewModal}) => {
 
          
             })();
-        },[courseSectionData,courseEntireData,location.pathname])
+        },[courseSectionData,courseEntireData,location.pathname,completedLectures])
     
   return(
     <>
@@ -128,7 +128,7 @@ const VideoSideBar  = ({setReviewModal}) => {
                     >
                       <input
                         type="checkbox"
-                        checked={completedLectures.includes(topic?._id)}
+                        checked={completedLectures?.includes(topic?._id)}
                         onChange={() => {}}
                       />
                       {topic.title}

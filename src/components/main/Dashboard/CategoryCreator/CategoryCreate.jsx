@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { MdCancel, MdPlusOne, MdSmartButton } from 'react-icons/md';
+import { MdCancel } from 'react-icons/md';
 import ButtonAuth from '../../Auth/ButtonAuth';
 import { fetchCourseCategories } from '../../../../services/operations/courseAPI';
 import { useDispatch, useSelector } from 'react-redux';

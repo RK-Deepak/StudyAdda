@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux';
 import { setCourse } from '../../../../store/Slices/courseSlice';
 
-import { FaCross } from 'react-icons/fa';
+
 import Upload from '../AddCourse/Upload';
 import IconBtn from '../../common/IconBtn';
 import { createSubSectionData,updateSubSectionData} from '../../../../services/operations/courseAPI';
@@ -15,7 +15,7 @@ const SubSectionModal = ({modalData,setModalData,add=false,view=false,edit=false
 
     const {register,handleSubmit,setValue,getValues,formState:{errors}}=useForm();
 
-    const {course,editcourse}=useSelector((store)=>store.course);
+    const {course}=useSelector((store)=>store.course);
     const dispatch=useDispatch();
     const [loading,setloading]=useState(false);
     const {token}=useSelector((store)=>store.auth);

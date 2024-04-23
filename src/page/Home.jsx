@@ -16,10 +16,12 @@ import ExploreMore from '../components/main/HomePage/ExploreMore';
 import CoursePointerSection from '../components/main/HomePage/CoursePointerSection';
 import ReviewSlider from '../components/main/common/ReviewSlider';
 
+
 export const Home=()=>
 {
    
     return (
+        
     <div>
         
         {/* Section-1 */}
@@ -223,5 +225,8 @@ export const Home=()=>
          <ReviewSlider/>
          </div>
        
-    </div>)
+    </div>
+  
+    
+    )
 }

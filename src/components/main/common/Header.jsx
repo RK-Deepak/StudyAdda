@@ -2,9 +2,9 @@ import React, { useEffect, useState,useRef } from 'react'
 import Logo from "../../../assets/Logo/studyadda-high-resolution-logo-transparent.png"
 import { NavbarLinks } from '../../../data/navbar-links'
 import { Link, matchPath, useNavigate } from 'react-router-dom'
-import {  FaCartPlus, FaHamburger, FaSearch } from 'react-icons/fa'
+import {  FaCartPlus} from 'react-icons/fa'
 import { FaSortAlphaDown } from "react-icons/fa";
-import { MdAccountCircle, MdArrowDropDown, MdBook } from 'react-icons/md'
+import {  MdArrowDropDown, MdBook } from 'react-icons/md'
 
 import {GiDiamondsSmile} from "react-icons/gi"
 import { useLocation } from 'react-router-dom'
@@ -136,7 +136,7 @@ NavbarLinks.map((option, index) => (
 
         }} /></div>
      
-        <div className={`flex gap-3 items-center flex-col absolute top-[51px] right-[19px] md:relative md:top-0 md:right-0 md:flex-row  z-[20]  ${auth?"flex":"hidden"} md:flex` } ref={refauth}>
+        <div className={`flex gap-3 items-center flex-col absolute top-[51px] right-[19px] md:relative md:top-0 md:right-0 md:flex-row  z-[20]  ${auth?"flex":"hidden"} md:flex md:bg-transparent bg-richblack-800 p-7 rounded-md md:border-none md:p-0 border border-richblack-50 ` } ref={refauth} >
     
            
            {

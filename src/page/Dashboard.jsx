@@ -2,7 +2,6 @@ import React from 'react'
 import Sidebar from '../components/main/Dashboard/Sidebar'
 import { Outlet } from 'react-router-dom'
 
-import { useState } from 'react';
 
 const Dashboard = ({setShowConfirmationModel}) => {
   

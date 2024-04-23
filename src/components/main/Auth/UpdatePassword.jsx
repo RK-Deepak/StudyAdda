@@ -4,7 +4,7 @@ import { AiOutlineEye,AiOutlineEyeInvisible } from 'react-icons/ai'
 
 import ButtonAuth from './ButtonAuth'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate,Link, useLocation } from 'react-router-dom'
 
 import { setSignUpData } from '../../../store/Slices/authSlice'

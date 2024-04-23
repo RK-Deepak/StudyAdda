@@ -24,43 +24,54 @@ import Cart from './components/main/Dashboard/Cart';
 import ConfirmationModel from './components/main/Dashboard/ConfirmationModel';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { ACCOUNT_TYPE } from './utils/contants';
+
 import EditCourse from './components/main/Dashboard/EditCourse/EditCourse.jsx';
-import CatCourse from './components/CategoryCourses/CatCourse.jsx';
+
 import Catlog from './page/Catlog.jsx';
 import CourseDetails from './page/CourseDetails.jsx';
 import ViewCourse from './page/ViewCourse.jsx';
 import VideoDetails from './components/main/VideoCourse/VideoDetails.jsx';
 import InstructorDashboard from './components/main/Dashboard/InstructorDashboard/InstructorDashboard.jsx';
-import CategoryCreate from './components/main/Dashboard/CategoryCreator/CategoryCreate.jsx';
+
 import InstructorCategory from './page/InstructorCategory.jsx';
 import PurchaseDetails from './components/main/Dashboard/PurchaseDetails/PurchaseDetails.jsx';
 import VideoCallPage from './page/VideoCallPage.jsx';
 import VideoCallRoom from './components/main/common/VideoCall/VideoCallRoom.jsx';
 import VIdeoCall from './components/main/common/VideoCall/VIdeoCall.jsx';
+import Error from './page/Error.jsx';
+
 
 
 function App() {
   const [showConfirmationModel,setShowConfirmationModel]=useState(false);
-  const {user}=useSelector((store)=>store.profile)
- 
+  const {user}=useSelector((store)=>store.profile);  
+
   return (
     <>
     {showConfirmationModel &&  <ConfirmationModel setShowConfirmationModel={setShowConfirmationModel}/>}
     <div className="App w-screen min-h-screen flex flex-col font-inter bg-richblack-900 ">
+      
       <Header/>
      <Routes>
+      {/* home path */}
       <Route path='/' element={<Home/>}/>
+
+      {/* error path */}
+      <Route path='*' element={<Error/>}/>
+
+      {/* auth path */}
       <Route path='login' element={
         <OpenRoute>
       <Login/>
       </OpenRoute>
       }/>
+
       <Route path='signup' element={
         <OpenRoute>
       <Signup/>
       </OpenRoute>
       }/>
+
       <Route path="verify-email" element={
         <OpenRoute>
           <VerifyEmail/>
@@ -81,18 +92,24 @@ function App() {
         </OpenRoute>
       }
         />
+
+    {/* About page */}
         <Route path="about" element={
         <OpenRoute>
           <About/>
         </OpenRoute>
       }
         />
+
+    {/* contact page */}
          <Route path="contact" element={
         <OpenRoute>
           <Contactinfo/>
         </OpenRoute>
       }
         />
+
+        {/* Dashboard path */}
    <Route element={
     <ProtectedRoute>
    <Dashboard setShowConfirmationModel={setShowConfirmationModel}/>
@@ -123,6 +140,7 @@ function App() {
     <Route path='/category-create' element={<InstructorCategory/>}/>
   }
 
+{/* Video Watch Path */}
  <Route element={<ProtectedRoute>
   <ViewCourse/>
  </ProtectedRoute>}>
@@ -138,11 +156,13 @@ function App() {
 
  </Route>
 
+ {/* Video Call Route */}
+{user ? user.accountType==="Student" && 
 <Route element={<VideoCallPage/>}>
 <Route path="peerToPeer/videoCall" element={<VIdeoCall/>}/>
  
   <Route path="/peerToPeer/videoCall/:userId/:roomId" element={<VideoCallRoom/>}/>
-  </Route>
+  </Route>:<Route path='*' element={<Error/>}/>}
   
 
       
