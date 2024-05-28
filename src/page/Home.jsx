@@ -59,7 +59,7 @@ export const Home=()=>
             </div>
          </Link>
          <div className='mx-3 my-12 shadow-blue-200 relative z-10 w-[80%] h-full'>
-         <ReactPlayer url={banner} muted playing loop width="100%" height="100%" className="react-layer"/>
+         <ReactPlayer url={banner} muted playing loop width="100%" height="100%" className="react-layer" />
            <div className='absolute w-[100%] h-[100%] p-3 gap-5 justify-between bg-richblack-700 top-2 flex flex-row flex-wrap left-2 -z-10 text-white rounded-md overflow-clip shadow shadow-richblack-200'>
             {
                 programmingLanguages.map((language,index)=>
@@ -197,15 +197,15 @@ export const Home=()=>
                 {/* part-4-2-bottom */}
                 <div className='flex my-4 relative w-full h-[470px] items-center p-10'>
                     <div className='absolute left-0 sm:left-[16%]'>
-                    <img src={Compare_with_others} alt='compare' className='w-[341px]  '/>
+                    <img src={Compare_with_others} alt='compare' className='w-[341px]  ' loading='lazy'/>
                    
                     </div>
                     <div className='absolute left-0 sm:left-[50%]'>
-                    <img src={Know_your_progress} alt='know' className='w-[341px] '/>
+                    <img src={Know_your_progress} alt='know' className='w-[341px] ' loading='lazy'/>
                   
                     </div>
                     <div className='absolute left-0 sm:left-[32%]'>
-                    <img src={Plan_your_lesson} alt='plan' className='w-[341px] '/>
+                    <img src={Plan_your_lesson} alt='plan' className='w-[341px] ' loading='lazy'/>
                     
                     </div>
                 </div>

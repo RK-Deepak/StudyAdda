@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import ConfirmationModal from '../common/ConfirmationModal2';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../../services/operations/authAPI';
+import { setSideBar } from '../../../store/Slices/sideBarSlice';
 
 const SideBarLink = ({ linkdata}) => {
    const location = useLocation();
@@ -72,7 +73,7 @@ const SideBarLink = ({ linkdata}) => {
          to={path}
          className={`relative px-8 py-2 text-sm font-semibold ${matchRoute(path) ? "bg-richblack-800 text-white" : "bg-opacity-0 text-yellow-25"
             } `}
-      >
+     onClick={()=>dispatch(setSideBar())} >
          <span className={`absolute left-0 top-0 h-full w-[0.2rem] bg-red-700 ${matchRoute(path) ? "opacity-100" : "opactity-0"}`} />
          <div className='flex item-center gap-x-2'>
             <Icon className="text-lg" />

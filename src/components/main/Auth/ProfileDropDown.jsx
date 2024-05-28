@@ -6,7 +6,7 @@ import { logout } from '../../../services/operations/authAPI';
 import useOnClickOutside from '../../../hooks/useClickOutside';
 
 
-const ProfileDropDown = () => {
+const ProfileDropDown = ({setAuth}) => {
   const user=localStorage.getItem("user")?JSON.parse(localStorage.getItem("user")):null;
     const [open,setOpen]=useState(false);
     const ref=useRef(null);
@@ -46,6 +46,9 @@ const ProfileDropDown = () => {
           onClick={() => {
            
             setOpen(false)
+            
+            setAuth(false);
+            
             dispatch(logout(navigate));
           }}
           className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100

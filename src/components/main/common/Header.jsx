@@ -70,7 +70,9 @@ useOnClickOutside(refmenu,()=>setshowMenu(false))
 
  const handleSideMenu=()=>
  {
+   
 dispatch(setSideBar());
+
  }
 
    
@@ -94,17 +96,17 @@ dispatch(setSideBar());
         {/* middle one */}
         <div className='block md:hidden text-white text-2xl' ><FaSortAlphaDown onClick={()=>{
             
-            setshowMenu(true);
+            setshowMenu(prev=>!prev);
 
         }}/></div>
-        <div className={`flex gap-6 md:gap-3 items-center  flex-col absolute top-12 left-[30%] sm:left-[40%]   min-w-[150px]  p-[20px] md:p-0 rounded-xl  md:rounded-none md:w-auto bg-richblack-800 border border-richblack-25 md:border-none z-50 md:z-1  md:relative md:bg-transparent md:left-0 md:top-0  md:flex-row  ${showmenu?"flex":"hidden"} md:flex  `} ref={refmenu}>
+        <div className={` gap-6 md:gap-3 items-center  flex-col absolute top-12 left-[30%] sm:left-[40%]   min-w-[150px]  p-[20px] md:p-0 rounded-xl  md:rounded-none md:w-auto bg-richblack-800 border border-richblack-25 md:border-none z-50 md:z-1  md:relative md:bg-transparent md:left-0 md:top-0  md:flex-row  ${showmenu?"flex":"hidden"} md:flex  `} ref={refmenu}>
           {/* please check if catalog button is clickable in phone or not   */}
         {
 NavbarLinks.map((option, index) => (
     <div key={index}>
         {option.title === "Catalog" ? (
             <div className={`flex items-center gap-1 relative $ group text-[13px] md:text-[16px] z-49 `}>
-                <span className={matchRoute("/catlog/:catlogName") ? "text-yellow-50" : "text-white"}>{option.title}</span>
+                <span className={matchRoute("/catlog/:catlogName") ? "text-yellow-50" : "text-white"} onClick={()=>dispatch(setSideBar())}>{option.title}</span>
                 <MdArrowDropDown className='text-[20px] text-white' />
                  <div className='absolute z-50 invisible opacity-0 group-hover:visible group-hover:opacity-100 '>
                     <div className='w-[20px] aspect-square bg-white -right-[83px] top-4 absolute rotate-45 z-50'></div>
@@ -140,7 +142,7 @@ NavbarLinks.map((option, index) => (
         <div className='block md:hidden text-white text-2xl'><GiDiamondsSmile onClick={()=>
             {
                 
-            setAuth(true)
+            setAuth(prev=>!prev);
 
         }} /></div>
      
@@ -149,7 +151,10 @@ NavbarLinks.map((option, index) => (
            
            {
              token===null && (
-                <Link to={"/login"} onClick={()=>setAuth(false)}>
+                <Link to={"/login"}  onClick={() => {
+                    setAuth(false);
+                    setshowMenu(false);
+                }}>
                       <button className='border border-richblack-700 bg-richblack-900 px-[12px] py-[4px] text-richblack-100 rounded-md'>
                             Log in
                         </button>
@@ -158,10 +163,13 @@ NavbarLinks.map((option, index) => (
            }
             {
              token===null && (
-                <Link to={"/signup"} onClick={()=>setAuth(false)}>
-                      <button className='border border-richblack-700 bg-richblack-900 px-[12px] py-[4px] text-richblack-100 rounded-md'>
-                            Sign Up
-                        </button>
+                <Link to={"/signup"} onClick={() => {
+                    setAuth(false);
+                    setshowMenu(false);
+                }}>
+                    <button className='border border-richblack-700 bg-richblack-900 px-[12px] py-[4px] text-richblack-100 rounded-md'>
+                        Sign Up
+                    </button>
                 </Link>
              )
            }
@@ -187,7 +195,7 @@ NavbarLinks.map((option, index) => (
                     <div className='flex gap-2 items-center text-yellow-25 font-semibold'>💰{""}{Math.round(user?.coupanPoints)}</div>
                 </div>}
            {
-            user && <ProfileDropDown/>
+            user && <ProfileDropDown setAuth={setAuth}/>
            }
 
           

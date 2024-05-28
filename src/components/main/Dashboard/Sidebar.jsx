@@ -12,14 +12,14 @@ const Sidebar = () => {
     console.log(sidebarLinks);
      return (
     
-     <div className={`flex-col gap-2 w-[100%] rounded-sm max-w-[230px] border bg-[#2C333F]  py-4   ${viewsideBar?"flex absolute sm:relative":"hidden  relative"} md:flex`}  >
+     <div className={`flex-col gap-2 w-[100%] rounded-md max-w-[230px] border bg-[#2C333F]  py-4   ${viewsideBar?"flex absolute sm:relative":"hidden  relative"} md:flex`}  >
         {
            sidebarLinks.map((linkdata,index)=>
            {
             
          
             
-              return <SideBarLink linkdata={linkdata} key={linkdata.id} />
+              return <SideBarLink linkdata={linkdata} key={linkdata.id}  />
             
      
             
